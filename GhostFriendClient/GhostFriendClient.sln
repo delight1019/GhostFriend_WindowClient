@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GhostFriendClient", "GhostFriendClient\GhostFriendClient.csproj", "{EE6F04C0-A8A1-4BF2-93F1-C6932AFB4766}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE6F04C0-A8A1-4BF2-93F1-C6932AFB4766}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE6F04C0-A8A1-4BF2-93F1-C6932AFB4766}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE6F04C0-A8A1-4BF2-93F1-C6932AFB4766}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE6F04C0-A8A1-4BF2-93F1-C6932AFB4766}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8BC7E4E3-CA84-4D1B-989A-8DC2685570D9}
+	EndGlobalSection
+EndGlobal
