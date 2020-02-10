@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
+using System.Net.Sockets;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GhostFriendClient
 {
@@ -23,6 +12,12 @@ namespace GhostFriendClient
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void OnClickStartPlaying(object sender, RoutedEventArgs e)
+        {
+            SocketClient client = new SocketClient();
+            client.StartConnection();
         }
     }
 }
