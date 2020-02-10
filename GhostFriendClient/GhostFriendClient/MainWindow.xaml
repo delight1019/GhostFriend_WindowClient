@@ -6,8 +6,13 @@
         xmlns:local="clr-namespace:GhostFriendClient"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1050
-        " Background="DarkGreen">
+        " Background="White">
+
+    <Window.Resources>
+        <ResourceDictionary Source="ResourceDictionary.xaml" />
+    </Window.Resources>
+    
     <Grid>
-        <Button Width="100" Height="30" Content="Start Playing" Click="OnClickStartPlaying"></Button>
+        <Button Style="{DynamicResource defaultButtonStyle}" Content="Start Playing" Click="OnClickStartPlaying"></Button>
     </Grid>
 </Window>
