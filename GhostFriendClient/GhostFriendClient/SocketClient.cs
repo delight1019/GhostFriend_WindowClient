@@ -11,13 +11,23 @@ namespace GhostFriendClient
     class SocketClient
     {
         private const int PORT = 9000;
+        private bool isConnected = false;
 
         private Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
         public void StartConnection()
         {
-            var ep = new IPEndPoint(IPAddress.Parse(GetLocalIP()), PORT);
-            socket.Connect(ep);
+            try
+            {
+                var ep = new IPEndPoint(IPAddress.Parse(GetLocalIP()), PORT);
+                socket.Connect(ep);
+
+                isConnected = true;
+            } catch
+            {
+                isConnected = false;
+            }
+            
         }
 
         private string GetLocalIP()

@@ -50,3 +50,6 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+/GhostFriendClient/GhostFriendClient/obj/Debug
+/GhostFriendClient/GhostFriendClient/bin/Debug
+/GhostFriendClient/.vs/GhostFriendClient/v15
