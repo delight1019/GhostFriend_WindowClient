@@ -10,6 +10,8 @@ namespace GhostFriendClient
 {
     class SocketClient
     {
+        private static SocketClient instance;
+
         private const int PORT = 9000;
         private bool isConnected = false;
 
@@ -48,6 +50,19 @@ namespace GhostFriendClient
             }
 
             return localIP;
+        }
+
+        public static SocketClient Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new SocketClient();
+                }
+
+                return instance;
+            }
         }
     }
 }

@@ -15,9 +15,8 @@ namespace GhostFriendClient
         }
 
         private void OnClickJoinGame(object sender, RoutedEventArgs e)
-        {
-            SocketClient client = new SocketClient();
-            client.StartConnection();
+        {            
+            SocketClient.Instance.StartConnection();
         }
     }
 }
