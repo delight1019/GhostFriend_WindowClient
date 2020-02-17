@@ -34,6 +34,12 @@ namespace GhostFriendClient
             }                    
         }
 
+        public void SendData(string data)
+        {
+            byte[] dataBuffer = Encoding.ASCII.GetBytes(data + "\r\n");
+            socket.Send(dataBuffer);
+        }
+
         private string GetLocalIP()
         {
             string localIP = "Not available, please check your network seetings!";
