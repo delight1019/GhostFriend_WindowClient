@@ -17,17 +17,19 @@ namespace GhostFriendClient
 
         public void StartConnection()
         {
-            try
+            var ep = new IPEndPoint(IPAddress.Parse(GetLocalIP()), PORT);
+            while (!isConnected)
             {
-                var ep = new IPEndPoint(IPAddress.Parse(GetLocalIP()), PORT);
-                socket.Connect(ep);
-
-                isConnected = true;
-            } catch
-            {
-                isConnected = false;
-            }
-            
+                try
+                {
+                    socket.Connect(ep);
+                    isConnected = true;
+                }
+                catch
+                {
+                    isConnected = false;
+                }
+            }                    
         }
 
         private string GetLocalIP()
