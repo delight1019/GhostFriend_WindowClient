@@ -17,7 +17,7 @@ namespace GhostFriendClient
         private void OnClickJoinGame(object sender, RoutedEventArgs e)
         {            
             SocketClient.Instance.StartConnection();
-            GameControl.Join(PlayerName.Text);
+            GameControl.Instance.Join(PlayerName.Text);            
         }
     }
 }

@@ -36,13 +36,22 @@ namespace GhostFriendClient
 
         public void SendData(string data)
         {
-            byte[] dataBuffer = Encoding.ASCII.GetBytes(data + "\r\n");
+            byte[] dataBuffer = Encoding.UTF8.GetBytes(data + "\r\n");
             socket.Send(dataBuffer);
+        }
+
+        public String ReceiveData()
+        {
+            byte[] dataBuffer = new byte[8192];
+            int n = socket.Receive(dataBuffer);
+            string data = Encoding.UTF8.GetString(dataBuffer, 0, n);
+
+            return data;
         }
 
         private string GetLocalIP()
         {
-            string localIP = "Not available, please check your network seetings!";
+            string localIP = "Not available, please check your network settings!";
 
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
 
