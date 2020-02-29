@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GhostFriendClient.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -10,60 +11,84 @@ namespace GhostFriendClient.ViewModel
 {
     class MainWindowViewModel : INotifyPropertyChanged
     {
-        private string _player1Name;
+        private string player1Name;
         public string Player1Name {
-            get { return _player1Name; }
+            get { return player1Name; }
             set
             {
-                _player1Name = value;
+                player1Name = value;
                 NotifyPropertyChanged("Player1Name");
             }
         }
 
-        private string _player2Name;
+        private string player2Name;
         public string Player2Name
         {
-            get { return _player2Name; }
+            get { return player2Name; }
             set
             {
-                _player2Name = value;
+                player2Name = value;
                 NotifyPropertyChanged("Player2Name");
             }
         }
 
-        private string _player3Name;
+        private string player3Name;
         public string Player3Name
         {
-            get { return _player3Name; }
+            get { return player3Name; }
             set
             {
-                _player3Name = value;
+                player3Name = value;
                 NotifyPropertyChanged("Player3Name");
             }
         }
 
-        private string _player4Name;
+        private string player4Name;
         public string Player4Name
         {
-            get { return _player4Name; }
+            get { return player4Name; }
             set
             {
-                _player4Name = value;
+                player4Name = value;
                 NotifyPropertyChanged("Player4Name");
             }
         }
 
-        private string _player5Name;
+        private string player5Name;
         public string Player5Name
         {
-            get { return _player5Name; }
+            get { return player5Name; }
             set
             {
-                _player5Name = value;
+                player5Name = value;
                 NotifyPropertyChanged("Player5Name");
             }
         }
 
+        private string playerName;
+        public string PlayerName
+        {
+            get { return playerName; }
+            set
+            {
+                playerName = value;
+                NotifyPropertyChanged("PlayerName");
+            }
+        }
+
+        private ICommand joinGameCommand;
+        public ICommand JoinGameCommand
+        {
+            get { return (this.joinGameCommand) ?? (this.joinGameCommand = new DelegateCommand(JoinGame)); }
+        }
+
+        private void JoinGame()
+        {
+            SocketClient.Instance.StartConnection();
+            GameControl.Instance.Join(PlayerName);
+        }
+
+        #region NotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged(string propertyName)
@@ -72,6 +97,7 @@ namespace GhostFriendClient.ViewModel
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
-        }        
+        }
+        #endregion
     }
 }

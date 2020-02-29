@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using GhostFriendClient.ViewModel;
+using System.Net;
 using System.Net.Sockets;
 using System.Windows;
 
@@ -12,12 +13,7 @@ namespace GhostFriendClient
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void OnClickJoinGame(object sender, RoutedEventArgs e)
-        {            
-            SocketClient.Instance.StartConnection();
-            GameControl.Instance.Join(PlayerName.Text);            
+            this.DataContext = new MainWindowViewModel();
         }
     }
 }
