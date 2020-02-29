@@ -11,6 +11,7 @@ namespace GhostFriendClient.ViewModel
 {
     class MainWindowViewModel : INotifyPropertyChanged
     {
+        #region Proeprties
         private string player1Name;
         public string Player1Name {
             get { return player1Name; }
@@ -75,6 +76,7 @@ namespace GhostFriendClient.ViewModel
                 NotifyPropertyChanged("PlayerName");
             }
         }
+        #endregion
 
         private ICommand joinGameCommand;
         public ICommand JoinGameCommand
@@ -86,6 +88,45 @@ namespace GhostFriendClient.ViewModel
         {
             SocketClient.Instance.StartConnection();
             GameControl.Instance.Join(PlayerName);
+
+            WaitOtherPlayers();
+        }
+
+        private void WaitOtherPlayers()
+        {
+            if (!GameControl.Instance.IsAllPlayersParticipatedIn())
+            {
+                String[] playersInfo = GameControl.Instance.ReceivePlayersInfo();
+
+                for (int i = 0; i < playersInfo.Length; i++)
+                {
+                    SetPlayerName(i + 1, playersInfo[i]);
+                }
+            }
+        }
+
+        private void SetPlayerName(int index, String name)
+        {
+            if (index == 1)
+            {
+                Player1Name = name;
+            }
+            else if (index == 2)
+            {
+                Player2Name = name;
+            }
+            else if (index == 3)
+            {
+                Player3Name = name;
+            }
+            else if (index == 4)
+            {
+                Player4Name = name;
+            }
+            else if (index == 5)
+            {
+                Player5Name = name;
+            }
         }
 
         #region NotifyPropertyChanged
