@@ -34,6 +34,12 @@ namespace GhostFriendClient
             }                    
         }
 
+        public void CloseConnection(bool isReused)
+        {
+            socket.Disconnect(isReused);
+            socket.Close();
+        }
+
         public void SendData(string data)
         {
             byte[] dataBuffer = Encoding.UTF8.GetBytes(data + "\r\n");

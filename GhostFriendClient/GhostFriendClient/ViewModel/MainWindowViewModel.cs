@@ -92,6 +92,17 @@ namespace GhostFriendClient.ViewModel
             WaitOtherPlayers();
         }
 
+        private ICommand closeWindowCommand;
+        public ICommand CloseWindowCommand
+        {
+            get { return (this.closeWindowCommand) ?? (this.closeWindowCommand = new DelegateCommand(CloseWindow)); }
+        }
+
+        private void CloseWindow()
+        {
+            SocketClient.Instance.CloseConnection(false);
+        }
+
         private void WaitOtherPlayers()
         {
             if (!GameControl.Instance.IsAllPlayersParticipatedIn())
