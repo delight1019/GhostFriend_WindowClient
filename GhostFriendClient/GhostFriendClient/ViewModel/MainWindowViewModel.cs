@@ -1,4 +1,5 @@
 ﻿using GhostFriendClient.Common;
+using GhostFriendClient.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -105,7 +106,7 @@ namespace GhostFriendClient.ViewModel
 
         private void WaitOtherPlayers()
         {
-            if (!GameControl.Instance.IsAllPlayersParticipatedIn())
+            while (!GameControl.Instance.IsAllPlayersParticipatedIn())
             {
                 String[] playersInfo = GameControl.Instance.ReceivePlayersInfo();
 

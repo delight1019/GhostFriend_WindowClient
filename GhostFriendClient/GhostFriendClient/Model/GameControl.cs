@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GhostFriendClient
+namespace GhostFriendClient.Model
 {
     public class GameControl
     {
@@ -16,13 +16,19 @@ namespace GhostFriendClient
         private static GameControl instance;
 
         public void Join(string playerName)
-        {            
+        {
+            SocketClient.Instance.SendData(GameParams.JOIN_GAME);
             SocketClient.Instance.SendData(playerName);
         }                
 
         public String[] ReceivePlayersInfo()
         {
+            SocketClient.Instance.SendData(GameParams.ASK_PLAYERS_INFO);
+
             String playersInfoData = SocketClient.Instance.ReceiveData();
+            String tempPlayersInfoData = playersInfoData.Replace("\n", "");
+            playersInfoData = tempPlayersInfoData.Replace("\r", "");
+
             this.playersInfo = playersInfoData.Split(PLAYER_INFO_DELIMITER);
 
             return playersInfo;

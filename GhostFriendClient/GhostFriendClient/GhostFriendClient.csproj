@@ -55,7 +55,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Common\DelegateCommand.cs" />
-    <Compile Include="GameControl.cs" />
+    <Compile Include="Model\GameControl.cs" />
+    <Compile Include="Model\GameParams.cs" />
     <Compile Include="SocketClient.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Page Include="MainWindow.xaml">
