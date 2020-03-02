@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -82,10 +83,10 @@ namespace GhostFriendClient.ViewModel
         private ICommand joinGameCommand;
         public ICommand JoinGameCommand
         {
-            get { return (this.joinGameCommand) ?? (this.joinGameCommand = new DelegateCommand(JoinGame)); }
+            get { return (this.joinGameCommand) ?? (this.joinGameCommand = new DelegateCommand(() => ThreadPool.QueueUserWorkItem(JoinGame))); }
         }
 
-        private void JoinGame()
+        private void JoinGame(object state)
         {
             SocketClient.Instance.StartConnection();
             GameControl.Instance.Join(PlayerName);
