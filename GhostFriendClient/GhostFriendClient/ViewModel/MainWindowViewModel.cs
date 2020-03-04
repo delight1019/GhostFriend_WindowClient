@@ -78,6 +78,17 @@ namespace GhostFriendClient.ViewModel
                 NotifyPropertyChanged("PlayerName");
             }
         }
+
+        private string messageAnnounced;
+        public string MessageAnnounced
+        {
+            get { return messageAnnounced; }
+            set
+            {
+                messageAnnounced = value;
+                NotifyPropertyChanged("MessageAnnounced");
+            }
+        }
         #endregion
 
         private ICommand joinGameCommand;
@@ -91,7 +102,16 @@ namespace GhostFriendClient.ViewModel
             SocketClient.Instance.StartConnection();
             GameControl.Instance.Join(PlayerName);
 
-            WaitOtherPlayers();
+            String joinResult = SocketClient.Instance.ReceiveData();
+
+            if (joinResult.Equals(GameParams.JOIN_SUCCESS))
+            {
+                WaitOtherPlayers();
+            }
+            else if (joinResult.Equals(GameParams.JOIN_FAIL))
+            {
+                AnnounceMessage("You cannot join the game");
+            }            
         }
 
         private ICommand closeWindowCommand;
@@ -140,6 +160,11 @@ namespace GhostFriendClient.ViewModel
             {
                 Player5Name = name;
             }
+        }
+
+        private void AnnounceMessage(string text)
+        {
+            MessageAnnounced = text;
         }
 
         #region NotifyPropertyChanged

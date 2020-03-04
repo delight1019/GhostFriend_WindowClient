@@ -26,9 +26,6 @@ namespace GhostFriendClient.Model
             SocketClient.Instance.SendData(GameParams.ASK_PLAYERS_INFO);
 
             String playersInfoData = SocketClient.Instance.ReceiveData();
-            String tempPlayersInfoData = playersInfoData.Replace("\n", "");
-            playersInfoData = tempPlayersInfoData.Replace("\r", "");
-
             this.playersInfo = playersInfoData.Split(PLAYER_INFO_DELIMITER);
 
             return playersInfo;

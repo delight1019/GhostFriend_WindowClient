@@ -52,6 +52,9 @@ namespace GhostFriendClient
             int n = socket.Receive(dataBuffer);
             string data = Encoding.UTF8.GetString(dataBuffer, 0, n);
 
+            string tempData = data.Replace("\n", "");
+            data = tempData.Replace("\r", "");
+
             return data;
         }
 

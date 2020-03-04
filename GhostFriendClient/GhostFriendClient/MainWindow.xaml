@@ -10,7 +10,7 @@
     <Window.Resources>
         <ResourceDictionary Source="ResourceDictionary.xaml" />
     </Window.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
@@ -51,13 +51,14 @@
                 <RowDefinition Height="200" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
+                <Label Height="30" Content="{Binding MessageAnnounced}" Margin="585,10,10,429"/>
                 <TextBox Width="400" Height="30" Margin="131,220,311,219" Text="{Binding PlayerName}"></TextBox>
                 <Button Style="{StaticResource defaultButtonStyle}" Content="Join Game" Margin="560,220,182,219"
                         Command="{Binding JoinGameCommand}"></Button>
             </Grid>
             <Grid Grid.Row="1">
-                
+
             </Grid>
-        </Grid>        
+        </Grid>
     </Grid>
 </Window>
