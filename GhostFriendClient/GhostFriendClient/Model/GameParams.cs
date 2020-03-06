@@ -11,6 +11,9 @@ namespace GhostFriendClient.Model
         // Send Parameters
         public static string JOIN_GAME = "JoinGame";
         public static string ASK_PLAYERS_INFO = "AskPlayersInfo";
+        public static string JOIN_NEW_PLAYER = "JoinNewPlayer";
+        public static string EXIT_PLAYER = "ExitPlayer";
+        public static string ALL_PLAYERS_ENTERED = "AllPlayersJoin";
 
         // Receive Parameters
         public static string JOIN_SUCCESS = "JoinSuccess";

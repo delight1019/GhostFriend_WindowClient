@@ -127,14 +127,20 @@ namespace GhostFriendClient.ViewModel
 
         private void WaitOtherPlayers()
         {
-            while (!GameControl.Instance.IsAllPlayersParticipatedIn())
-            {
-                String[] playersInfo = GameControl.Instance.ReceivePlayersInfo();
+            String serverCommand = SocketClient.Instance.ReceiveData();
 
-                for (int i = 0; i < playersInfo.Length; i++)
-                {
-                    SetPlayerName(i + 1, playersInfo[i]);
+            while (!serverCommand.Equals(GameParams.ALL_PLAYERS_ENTERED))
+            {
+                if (serverCommand.Equals(GameParams.JOIN_NEW_PLAYER) || serverCommand.Equals(GameParams.EXIT_PLAYER)) {
+                    String[] playersInfo = GameControl.Instance.ReceivePlayersInfo();
+
+                    for (int i = 0; i < playersInfo.Length; i++)
+                    {
+                        SetPlayerName(i + 1, playersInfo[i]);
+                    }
                 }
+
+                serverCommand = SocketClient.Instance.ReceiveData();
             }
         }
 

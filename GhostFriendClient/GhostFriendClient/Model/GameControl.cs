@@ -35,7 +35,7 @@ namespace GhostFriendClient.Model
         {
             if (this.playersInfo == null)
             {
-                ReceivePlayersInfo();
+                return false;
             }
 
             return (this.playersInfo.Length == MAX_PLAYERS_NUM);
