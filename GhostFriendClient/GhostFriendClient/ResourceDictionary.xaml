@@ -43,5 +43,9 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
+
+    <Style x:Key="announcementBoardStyle" TargetType="Grid">
+        <Setter Property="Background" Value="{StaticResource blackBrush}" />
+    </Style>
     
 </ResourceDictionary>

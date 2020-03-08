@@ -23,6 +23,7 @@
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="1*" />
+                <RowDefinition Height="2*" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
                 <Label Content="Player1"></Label>
@@ -43,6 +44,9 @@
             <Grid Grid.Row="4">
                 <Label Content="Player5"></Label>
                 <Label Content="{Binding Player5Name}" Style="{StaticResource playerLabelStyle}"></Label>
+            </Grid>
+            <Grid Grid.Row="5" Style="{StaticResource announcementBoardStyle}">
+                
             </Grid>
         </Grid>
         <Grid Grid.Column="1" Background="{StaticResource deepGreenBrush}">
