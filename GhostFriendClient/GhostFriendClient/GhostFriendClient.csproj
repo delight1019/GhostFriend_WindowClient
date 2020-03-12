@@ -36,6 +36,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -58,6 +60,9 @@
     <Compile Include="Model\GameControl.cs" />
     <Compile Include="Model\GameParams.cs" />
     <Compile Include="SocketClient.cs" />
+    <Compile Include="UserControls\TrumpCard.xaml.cs">
+      <DependentUpon>TrumpCard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -72,6 +77,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ResourceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\TrumpCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

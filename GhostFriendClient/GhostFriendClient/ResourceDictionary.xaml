@@ -47,5 +47,9 @@
     <Style x:Key="announcementBoardStyle" TargetType="Grid">
         <Setter Property="Background" Value="{StaticResource blackBrush}" />
     </Style>
+
+    <Style x:Key="TrumpCardTextStyle" TargetType="Label">
+        
+    </Style>
     
 </ResourceDictionary>
