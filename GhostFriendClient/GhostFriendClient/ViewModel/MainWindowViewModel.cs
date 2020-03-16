@@ -91,6 +91,17 @@ namespace GhostFriendClient.ViewModel
         }
         #endregion
 
+        private string cardValue;
+        public string CardValue
+        {
+            get { return cardValue; }
+            set
+            {
+                cardValue = value;
+                NotifyPropertyChanged("CardValue");
+            }
+        }
+
         private ICommand joinGameCommand;
         public ICommand JoinGameCommand
         {
@@ -99,6 +110,8 @@ namespace GhostFriendClient.ViewModel
 
         private void JoinGame(object state)
         {
+            CardValue = "3";
+
             SocketClient.Instance.StartConnection();
             GameControl.Instance.Join(PlayerName);
 

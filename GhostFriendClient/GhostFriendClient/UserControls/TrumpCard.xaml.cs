@@ -24,5 +24,14 @@ namespace GhostFriendClient.UserControls
         {
             InitializeComponent();
         }
+
+        public string CardValue
+        {
+            get { return (string)GetValue(CardValueProperty); }
+            set { SetValue(CardValueProperty, value); }
+        }
+
+        public static readonly DependencyProperty CardValueProperty
+            = DependencyProperty.Register("CardValue", typeof(string), typeof(TrumpCard), new FrameworkPropertyMetadata(default(string)));
     }
 }
