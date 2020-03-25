@@ -145,15 +145,22 @@ namespace GhostFriendClient.ViewModel
             while (!serverCommand.Equals(GameParams.ALL_PLAYERS_ENTERED))
             {
                 if (serverCommand.Equals(GameParams.JOIN_NEW_PLAYER) || serverCommand.Equals(GameParams.EXIT_PLAYER)) {
-                    String[] playersInfo = GameControl.Instance.ReceivePlayersInfo();
-
-                    for (int i = 0; i < playersInfo.Length; i++)
-                    {
-                        SetPlayerName(i + 1, playersInfo[i]);
-                    }
+                    UpdatePlayersInfo();
                 }
 
                 serverCommand = SocketClient.Instance.ReceiveData();
+            }
+
+            UpdatePlayersInfo();
+        }
+
+        private void UpdatePlayersInfo()
+        {
+            String[] playersInfo = GameControl.Instance.ReceivePlayersInfo();
+
+            for (int i = 0; i < playersInfo.Length; i++)
+            {
+                SetPlayerName(i + 1, playersInfo[i]);
             }
         }
 

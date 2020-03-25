@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
+using GhostFriendClient.Model;
 
 namespace GhostFriendClient
 {
@@ -55,7 +56,14 @@ namespace GhostFriendClient
             string tempData = data.Replace("\n", "");
             data = tempData.Replace("\r", "");
 
+            CompleteResponse();
+
             return data;
+        }
+
+        private void CompleteResponse()
+        {
+            SendData(GameParams.COMPLETE_REQUEST);
         }
 
         private string GetLocalIP()

@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 namespace GhostFriendClient.Model
 {
     public class GameControl
-    {
-        private const char PLAYER_INFO_DELIMITER = '/';
+    {        
         private const int MAX_PLAYERS_NUM = 5;
         private String[] playersInfo;
 
@@ -26,7 +25,7 @@ namespace GhostFriendClient.Model
             SocketClient.Instance.SendData(GameParams.ASK_PLAYERS_INFO);
 
             String playersInfoData = SocketClient.Instance.ReceiveData();
-            this.playersInfo = playersInfoData.Split(PLAYER_INFO_DELIMITER);
+            this.playersInfo = playersInfoData.Split(GameParams.PLAYER_INFO_DELIMITER);
 
             return playersInfo;
         }
