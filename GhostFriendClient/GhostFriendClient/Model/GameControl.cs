@@ -40,6 +40,28 @@ namespace GhostFriendClient.Model
             return (this.playersInfo.Length == MAX_PLAYERS_NUM);
         }
 
+        private void ListenToServer()
+        {
+            while (SocketClient.Instance.IsConnected)
+            {
+                String serverCommand = SocketClient.Instance.ReceiveData();
+                String[] commandList = serverCommand.Split(GameParams.COMMAND_DELIMITER);
+
+                for (int i = 0; i < commandList.Length; i++)
+                {
+                    HandleCommand(commandList[i]);
+                }
+            }
+        }
+
+        private void HandleCommand(String command)
+        {
+            switch (command)
+            {
+                
+            }
+        }
+
         public static GameControl Instance
         {
             get

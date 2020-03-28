@@ -13,33 +13,31 @@ namespace GhostFriendClient
     {
         private static SocketClient instance;
 
+        public bool IsConnected { get; private set; } = false;
         private const int PORT = 9000;
-        private bool isConnected = false;
-
         private Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
         public void StartConnection()
         {
             var ep = new IPEndPoint(IPAddress.Parse(GetLocalIP()), PORT);
-            while (!isConnected)
+            while (!IsConnected)
             {
                 try
                 {
                     socket.Connect(ep);
-                    isConnected = true;
+                    IsConnected = true;
                 }
                 catch
                 {
-                    isConnected = false;
+                    IsConnected = false;
                 }
             }                    
         }
-
         public void CloseConnection(bool isReused)
         {
             socket.Disconnect(isReused);
             socket.Close();
-        }
+        }        
 
         public void SendData(string data)
         {
