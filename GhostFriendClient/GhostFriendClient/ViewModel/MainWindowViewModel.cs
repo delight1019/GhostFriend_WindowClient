@@ -113,18 +113,19 @@ namespace GhostFriendClient.ViewModel
             CardValue = "3";
 
             SocketClient.Instance.StartConnection();
+            GameControl.Instance.Start();
             GameControl.Instance.Join(PlayerName);
 
             String joinResult = SocketClient.Instance.ReceiveData();
 
-            if (joinResult.Equals(GameParams.JOIN_SUCCESS))
-            {
-                WaitOtherPlayers();
-            }
-            else if (joinResult.Equals(GameParams.JOIN_FAIL))
-            {
-                AnnounceMessage("You cannot join the game");
-            }            
+            //if (joinResult.Equals(GameParams.JOIN_SUCCESS))
+            //{
+            //    WaitOtherPlayers();
+            //}
+            //else if (joinResult.Equals(GameParams.JOIN_FAIL))
+            //{
+            //    AnnounceMessage("You cannot join the game");
+            //}
         }
 
         private ICommand closeWindowCommand;
@@ -191,6 +192,16 @@ namespace GhostFriendClient.ViewModel
         private void AnnounceMessage(string text)
         {
             MessageAnnounced = text;
+        }
+
+        private void _JoiningGameFailedHandler(object sender, EventArgs e)
+        {
+            AnnounceMessage("You cannot join the game");
+        }
+
+        public MainWindowViewModel()
+        {
+            EventController.Instance.JoiningGameFailed += _JoiningGameFailedHandler;
         }
 
         #region NotifyPropertyChanged

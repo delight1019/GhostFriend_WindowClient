@@ -1,8 +1,10 @@
-﻿using GhostFriendClient.ViewModel;
+﻿using GhostFriendClient.Common;
+using GhostFriendClient.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GhostFriendClient.Model
@@ -13,6 +15,11 @@ namespace GhostFriendClient.Model
         private String[] playersInfo;
 
         private static GameControl instance;
+
+        public void Start()
+        {
+            ThreadPool.QueueUserWorkItem(ListenToServer);
+        }
 
         public void Join(string playerName)
         {
@@ -40,7 +47,7 @@ namespace GhostFriendClient.Model
             return (this.playersInfo.Length == MAX_PLAYERS_NUM);
         }
 
-        private void ListenToServer()
+        private void ListenToServer(object state)
         {
             while (SocketClient.Instance.IsConnected)
             {
@@ -56,10 +63,10 @@ namespace GhostFriendClient.Model
 
         private void HandleCommand(String command)
         {
-            switch (command)
+            if (command.Equals(GameParams.JOIN_FAIL))
             {
-                
-            }
+                EventController.Instance.OnJoiningGameFailed(new EventArgs());
+            }            
         }
 
         public static GameControl Instance
