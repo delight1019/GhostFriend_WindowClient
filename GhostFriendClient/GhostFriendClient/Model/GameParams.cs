@@ -10,6 +10,7 @@ namespace GhostFriendClient.Model
     {
         public static char PLAYER_INFO_DELIMITER = '/';
         public static char COMMAND_DELIMITER = '+';
+        public static char DATA_DELIMITER = '-';
 
         // Send Parameters
         public static string COMPLETE_REQUEST = "CompleteRequest";

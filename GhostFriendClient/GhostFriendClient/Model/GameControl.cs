@@ -61,12 +61,38 @@ namespace GhostFriendClient.Model
             }
         }
 
-        private void HandleCommand(String command)
+        private void HandleCommand(String inputCommand)
         {
+            String[] commandStructure = inputCommand.Split(GameParams.DATA_DELIMITER);
+            String command, data;
+
+            if (commandStructure.Length == 1)
+            {
+                command = commandStructure[0];
+                data = "";
+            }
+            else if (commandStructure.Length == 2)
+            {
+                command = commandStructure[0];
+                data = commandStructure[1];
+            }
+            else
+            {
+                command = "";
+                data = "";
+            }
+
             if (command.Equals(GameParams.JOIN_FAIL))
             {
                 EventController.Instance.OnJoiningGameFailed(new EventArgs());
-            }            
+            }
+            else if (command.Equals(GameParams.JOIN_NEW_PLAYER) || command.Equals(GameParams.EXIT_PLAYER))
+            {
+                StringEventArgs eventArgs = new StringEventArgs();
+                eventArgs.param = data;
+
+                EventController.Instance.OnPlayerUpdated(eventArgs);
+            }
         }
 
         public static GameControl Instance

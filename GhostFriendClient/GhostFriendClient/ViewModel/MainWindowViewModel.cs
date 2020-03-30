@@ -116,7 +116,7 @@ namespace GhostFriendClient.ViewModel
             GameControl.Instance.Start();
             GameControl.Instance.Join(PlayerName);
 
-            String joinResult = SocketClient.Instance.ReceiveData();
+            //String joinResult = SocketClient.Instance.ReceiveData();
 
             //if (joinResult.Equals(GameParams.JOIN_SUCCESS))
             //{
@@ -199,9 +199,20 @@ namespace GhostFriendClient.ViewModel
             AnnounceMessage("You cannot join the game");
         }
 
+        private void _PlayerUpdatedHandler(object sender, StringEventArgs e)
+        {
+            String[] playersInfo = e.param.Split(GameParams.PLAYER_INFO_DELIMITER);
+
+            for (int i = 0; i < playersInfo.Length; i++)
+            {
+                SetPlayerName(i + 1, playersInfo[i]);
+            }
+        }
+
         public MainWindowViewModel()
         {
             EventController.Instance.JoiningGameFailed += _JoiningGameFailedHandler;
+            EventController.Instance.PlayerUpdated += _PlayerUpdatedHandler;
         }
 
         #region NotifyPropertyChanged
