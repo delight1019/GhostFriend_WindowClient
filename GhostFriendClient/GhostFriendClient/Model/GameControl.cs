@@ -20,9 +20,13 @@ namespace GhostFriendClient.Model
 
         public void Join(string playerName)
         {
-            SocketClient.Instance.SendData(GameParams.JOIN_GAME);
-            SocketClient.Instance.SendData(playerName);
-        }                        
+            SendCommand(GameParams.JOIN_GAME, playerName);
+        }
+
+        private void SendCommand(string command, string data)
+        {
+            SocketClient.Instance.SendData(command + GameParams.DATA_DELIMITER + data + GameParams.COMMAND_DELIMITER);
+        }
 
         private void ListenToServer(object state)
         {
