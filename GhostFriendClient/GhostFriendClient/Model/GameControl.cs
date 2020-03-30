@@ -11,9 +11,6 @@ namespace GhostFriendClient.Model
 {
     public class GameControl
     {        
-        private const int MAX_PLAYERS_NUM = 5;
-        private String[] playersInfo;
-
         private static GameControl instance;
 
         public void Start()
@@ -25,27 +22,7 @@ namespace GhostFriendClient.Model
         {
             SocketClient.Instance.SendData(GameParams.JOIN_GAME);
             SocketClient.Instance.SendData(playerName);
-        }                
-
-        public String[] ReceivePlayersInfo()
-        {
-            SocketClient.Instance.SendData(GameParams.ASK_PLAYERS_INFO);
-
-            String playersInfoData = SocketClient.Instance.ReceiveData();
-            this.playersInfo = playersInfoData.Split(GameParams.PLAYER_INFO_DELIMITER);
-
-            return playersInfo;
-        }
-
-        public Boolean IsAllPlayersParticipatedIn()
-        {
-            if (this.playersInfo == null)
-            {
-                return false;
-            }
-
-            return (this.playersInfo.Length == MAX_PLAYERS_NUM);
-        }
+        }                        
 
         private void ListenToServer(object state)
         {

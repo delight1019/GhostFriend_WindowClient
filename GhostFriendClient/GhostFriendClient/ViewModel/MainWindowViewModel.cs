@@ -114,18 +114,7 @@ namespace GhostFriendClient.ViewModel
 
             SocketClient.Instance.StartConnection();
             GameControl.Instance.Start();
-            GameControl.Instance.Join(PlayerName);
-
-            //String joinResult = SocketClient.Instance.ReceiveData();
-
-            //if (joinResult.Equals(GameParams.JOIN_SUCCESS))
-            //{
-            //    WaitOtherPlayers();
-            //}
-            //else if (joinResult.Equals(GameParams.JOIN_FAIL))
-            //{
-            //    AnnounceMessage("You cannot join the game");
-            //}
+            GameControl.Instance.Join(PlayerName);            
         }
 
         private ICommand closeWindowCommand;
@@ -137,33 +126,7 @@ namespace GhostFriendClient.ViewModel
         private void CloseWindow()
         {
             SocketClient.Instance.CloseConnection(false);
-        }
-
-        private void WaitOtherPlayers()
-        {
-            String serverCommand = SocketClient.Instance.ReceiveData();
-
-            while (!serverCommand.Equals(GameParams.ALL_PLAYERS_ENTERED))
-            {
-                if (serverCommand.Equals(GameParams.JOIN_NEW_PLAYER) || serverCommand.Equals(GameParams.EXIT_PLAYER)) {
-                    UpdatePlayersInfo();
-                }
-
-                serverCommand = SocketClient.Instance.ReceiveData();
-            }
-
-            UpdatePlayersInfo();
-        }
-
-        private void UpdatePlayersInfo()
-        {
-            String[] playersInfo = GameControl.Instance.ReceivePlayersInfo();
-
-            for (int i = 0; i < playersInfo.Length; i++)
-            {
-                SetPlayerName(i + 1, playersInfo[i]);
-            }
-        }
+        }        
 
         private void SetPlayerName(int index, String name)
         {
