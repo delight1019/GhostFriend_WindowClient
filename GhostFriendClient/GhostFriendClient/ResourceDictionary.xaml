@@ -48,6 +48,10 @@
         <Setter Property="Background" Value="{StaticResource blackBrush}" />
     </Style>
 
+    <Style x:Key="announcementMessageStyle" TargetType="Label">
+        <Setter Property="Foreground" Value="{StaticResource whiteBrush}" />
+    </Style>
+
     <Style x:Key="TrumpCardTextStyle" TargetType="Label">
         
     </Style>

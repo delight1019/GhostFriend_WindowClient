@@ -47,7 +47,7 @@
                 <Label Content="{Binding Player5Name}" Style="{StaticResource playerLabelStyle}"></Label>
             </Grid>
             <Grid Grid.Row="5" Style="{StaticResource announcementBoardStyle}">
-                
+                <Label Content="{Binding MessageAnnounced}" Margin="10" Style="{StaticResource announcementMessageStyle}"/>
             </Grid>
         </Grid>
         <Grid Grid.Column="1" Background="{StaticResource deepGreenBrush}">
@@ -56,7 +56,6 @@
                 <RowDefinition Height="200" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
-                <Label Height="30" Content="{Binding MessageAnnounced}" Margin="585,10,10,429"/>
                 <TextBox Width="400" Height="30" Margin="131,220,311,219" Text="{Binding PlayerName}"></TextBox>
                 <Button Style="{StaticResource defaultButtonStyle}" Content="Join Game" Margin="560,220,182,219"
                         Command="{Binding JoinGameCommand}"></Button>
