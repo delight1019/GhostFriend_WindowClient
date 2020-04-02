@@ -74,6 +74,11 @@ namespace GhostFriendClient.Model
 
                 EventController.Instance.OnPlayerUpdated(eventArgs);
             }
+            else if (command.Equals(GameParams.DISTRIBUTE_CARDS))
+            {
+                StringEventArgs eventArgs = new StringEventArgs();
+                eventArgs.param = data;
+            }
         }
 
         public static GameControl Instance
