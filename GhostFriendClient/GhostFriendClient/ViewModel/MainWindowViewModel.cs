@@ -2,6 +2,7 @@
 using GhostFriendClient.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -99,6 +100,17 @@ namespace GhostFriendClient.ViewModel
             {
                 cardValue = value;
                 NotifyPropertyChanged("CardValue");
+            }
+        }
+
+        private ObservableCollection<Card> cardList;
+        public ObservableCollection<Card> CardList
+        {
+            get { return cardList; }
+            set
+            {
+                cardList = value;
+                NotifyPropertyChanged("CardList");
             }
         }
 
