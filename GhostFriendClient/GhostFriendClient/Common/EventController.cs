@@ -40,5 +40,12 @@ namespace GhostFriendClient.Common
             EventHandler<StringEventArgs> handler = PlayerUpdated;
             handler?.Invoke(this, e);
         }
+
+        public event EventHandler<StringEventArgs> CardDistributed;
+        public void OnCardDistributed(StringEventArgs e)
+        {
+            EventHandler<StringEventArgs> handler = CardDistributed;
+            handler?.Invoke(this, e);
+        }
     }
 }

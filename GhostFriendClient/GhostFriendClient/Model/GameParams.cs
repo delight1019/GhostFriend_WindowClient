@@ -8,9 +8,9 @@ namespace GhostFriendClient.Model
 {
     public class GameParams
     {
-        public static char PLAYER_INFO_DELIMITER = '/';
+        public static char DATA_DELIMITER = '/';
         public static char COMMAND_DELIMITER = '-';
-        public static char DATA_DELIMITER = '_';
+        public static char COMMAND_DATA_DELIMITER = '_';
 
         // Send Parameters
         public static string COMPLETE_REQUEST = "CompleteRequest";

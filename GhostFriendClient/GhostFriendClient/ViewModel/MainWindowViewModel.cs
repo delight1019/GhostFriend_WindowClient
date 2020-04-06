@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace GhostFriendClient.ViewModel
 {
@@ -176,7 +177,7 @@ namespace GhostFriendClient.ViewModel
 
         private void _PlayerUpdatedHandler(object sender, StringEventArgs e)
         {
-            String[] playersInfo = e.param.Split(GameParams.PLAYER_INFO_DELIMITER);
+            String[] playersInfo = e.param.Split(GameParams.DATA_DELIMITER);
 
             for (int i = 0; i < playersInfo.Length; i++)
             {
@@ -184,10 +185,36 @@ namespace GhostFriendClient.ViewModel
             }
         }
 
+        private void _CardDistributedHandler(object sender, StringEventArgs e)
+        {
+            String[] cardInfoList = e.param.Split(GameParams.DATA_DELIMITER);
+
+            foreach (String cardInfo in cardInfoList)
+            {
+                if (Card.IsValidCard(cardInfo))
+                {
+                    AddCard(cardInfo);
+                }                
+            }
+        }
+
+        private void AddCard(String cardInfo)
+        {
+            Card card = new Card(cardInfo);
+            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                CardList.Add(card);
+            }
+            ));            
+        }
+
         public MainWindowViewModel()
         {
+            CardList = new ObservableCollection<Card>();
+
             EventController.Instance.JoiningGameFailed += _JoiningGameFailedHandler;
             EventController.Instance.PlayerUpdated += _PlayerUpdatedHandler;
+            EventController.Instance.CardDistributed += _CardDistributedHandler;
         }
 
         #region NotifyPropertyChanged

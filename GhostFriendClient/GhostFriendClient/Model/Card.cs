@@ -12,7 +12,8 @@ namespace GhostFriendClient.Model
         SPADE,
         CLUB,
         HEART,
-        JOKER
+        JOKER,
+        INVALID
     }
     public enum CardValue
     {
@@ -29,15 +30,32 @@ namespace GhostFriendClient.Model
         JACK,
         QUEEN,
         KING,
-        JOKER
-    }    
+        JOKER,
+        INVALID
+    }
 
     public class Card
     {
-        private CardSuit suit;
-        private CardValue value;        
+        private CardSuit cardSuit;
+        public CardSuit CardSuit
+        {
+            get { return cardSuit; }
+            set
+            {
+                cardSuit = value;
+            }
+        }
+        private CardValue cardValue;
+        public CardValue CardValue
+        {
+            get { return cardValue; }
+            set
+            {
+                cardValue = value;
+            }
+        }
 
-        private CardSuit convertCardSuit(String value)
+        static public CardSuit ConvertCardSuit(String value)
         {
             switch (value)
             {
@@ -52,11 +70,11 @@ namespace GhostFriendClient.Model
                 case "JOKER":
                     return CardSuit.JOKER;
                 default:
-                    return CardSuit.JOKER;
+                    return CardSuit.INVALID;
             }
 
         }
-        private CardValue convertCardValue(String value)
+        static public CardValue ConvertCardValue(String value)
         {
             switch (value)
             {
@@ -89,7 +107,24 @@ namespace GhostFriendClient.Model
                 case "JOKER":
                     return CardValue.JOKER;
                 default:
-                    return CardValue.JOKER;
+                    return CardValue.INVALID;
+            }
+        }
+        static public bool IsValidCard(String cardData)
+        {
+            String[] cardInfo = cardData.Split(' ');
+
+            if ((cardInfo.Length == 1) && (ConvertCardSuit(cardInfo[0]) == CardSuit.JOKER))
+            {
+                return true;
+            }
+            else if ((cardInfo.Length == 2) &&
+                    (ConvertCardSuit(cardInfo[0]) != CardSuit.INVALID) && (ConvertCardValue(cardInfo[1]) != CardValue.INVALID))
+            {
+                return true;
+            } else
+            {
+                return false;
             }
         }
 
@@ -97,14 +132,14 @@ namespace GhostFriendClient.Model
         {
             String[] cardInfo = cardData.Split(' ');
 
-            this.suit = convertCardSuit(cardInfo[0]);
-            this.value = convertCardValue(cardInfo[1]);
+            this.cardSuit = ConvertCardSuit(cardInfo[0]);
+            this.cardValue = ConvertCardValue(cardInfo[1]);
         }
 
         public Card(CardSuit suit, CardValue value)
         {
-            this.suit = suit;
-            this.value = value;
+            this.cardSuit = suit;
+            this.cardValue = value;
         }
     }
 }

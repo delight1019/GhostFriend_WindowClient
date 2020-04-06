@@ -25,7 +25,7 @@ namespace GhostFriendClient.Model
 
         private void SendCommand(string command, string data)
         {
-            SocketClient.Instance.SendData(command + GameParams.DATA_DELIMITER + data + GameParams.COMMAND_DELIMITER);
+            SocketClient.Instance.SendData(command + GameParams.COMMAND_DATA_DELIMITER + data + GameParams.COMMAND_DELIMITER);
         }
 
         private void ListenToServer(object state)
@@ -44,7 +44,7 @@ namespace GhostFriendClient.Model
 
         private void HandleCommand(String inputCommand)
         {
-            String[] commandStructure = inputCommand.Split(GameParams.DATA_DELIMITER);
+            String[] commandStructure = inputCommand.Split(GameParams.COMMAND_DATA_DELIMITER);
             String command, data;
 
             if (commandStructure.Length == 1)
@@ -78,6 +78,8 @@ namespace GhostFriendClient.Model
             {
                 StringEventArgs eventArgs = new StringEventArgs();
                 eventArgs.param = data;
+
+                EventController.Instance.OnCardDistributed(eventArgs);
             }
         }
 
