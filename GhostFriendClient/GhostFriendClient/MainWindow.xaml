@@ -64,12 +64,12 @@
             <Grid Grid.Row="1">
                 <ItemsControl ItemsSource="{Binding Path=CardList}">
                     <ItemsControl.Resources>
-                        <cvts:CardSuitConverter x:Key="CardSuitConverter" />
+                        <cvts:CardValueConverter x:Key="CardValueConverter" />
                     </ItemsControl.Resources>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Grid>
-                                <TextBlock Text="{Binding CardValue, Converter={StaticResource CardSuitConverter}}" />
+                                <TextBlock Text="{Binding CardValue, Converter={StaticResource CardValueConverter}}" />
                                 <!--<userControl:TrumpCard CardValue="{Binding CardValue, Converter={StaticResource CardSuitConverter}}"></userCon>-->
                             </Grid>
                         </DataTemplate>

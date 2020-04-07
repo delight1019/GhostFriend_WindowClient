@@ -9,11 +9,11 @@ using System.Windows.Data;
 
 namespace GhostFriendClient.Converters
 {
-    public class CardSuitConverter: IValueConverter
+    public class CardValueConverter: IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            CardSuit cardSuit = (CardSuit)value;
+            CardValue cardSuit = (CardValue)value;
             return cardSuit.ToString();
         }
 
