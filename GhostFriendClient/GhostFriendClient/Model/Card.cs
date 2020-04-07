@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,13 +46,13 @@ namespace GhostFriendClient.Model
                 cardSuit = value;
             }
         }
-        private CardValue cardValue;
-        public CardValue CardValue
+        private CardValue valueData;
+        public CardValue ValueData
         {
-            get { return cardValue; }
+            get { return valueData; }
             set
             {
-                cardValue = value;
+                valueData = value;
             }
         }
 
@@ -132,14 +133,21 @@ namespace GhostFriendClient.Model
         {
             String[] cardInfo = cardData.Split(' ');
 
-            this.cardSuit = ConvertCardSuit(cardInfo[0]);
-            this.cardValue = ConvertCardValue(cardInfo[1]);
+            if (cardInfo.Length == 1)
+            {
+                CardSuit = ConvertCardSuit(cardInfo[0]);
+                ValueData = ConvertCardValue(cardInfo[0]);
+            } else
+            {
+                CardSuit = ConvertCardSuit(cardInfo[0]);
+                ValueData = ConvertCardValue(cardInfo[1]);
+            }            
         }
 
         public Card(CardSuit suit, CardValue value)
         {
-            this.cardSuit = suit;
-            this.cardValue = value;
+            CardSuit = suit;
+            ValueData = value;
         }
     }
 }

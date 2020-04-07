@@ -35,9 +35,9 @@ namespace GhostFriendClient.Model
                 String serverCommand = SocketClient.Instance.ReceiveData();
                 String[] commandList = serverCommand.Split(GameParams.COMMAND_DELIMITER);
 
-                for (int i = 0; i < commandList.Length; i++)
+                foreach (string command in commandList)
                 {
-                    HandleCommand(commandList[i]);
+                    HandleCommand(command);
                 }
             }
         }

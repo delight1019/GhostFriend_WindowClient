@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -93,26 +94,9 @@ namespace GhostFriendClient.ViewModel
         }
         #endregion
 
-        private string cardValue;
-        public string CardValue
-        {
-            get { return cardValue; }
-            set
-            {
-                cardValue = value;
-                NotifyPropertyChanged("CardValue");
-            }
-        }
-
-        private ObservableCollection<Card> cardList;
         public ObservableCollection<Card> CardList
         {
-            get { return cardList; }
-            set
-            {
-                cardList = value;
-                NotifyPropertyChanged("CardList");
-            }
+            get; set;
         }
 
         private ICommand joinGameCommand;
@@ -123,8 +107,6 @@ namespace GhostFriendClient.ViewModel
 
         private void JoinGame(object state)
         {
-            CardValue = "3";
-
             SocketClient.Instance.StartConnection();
             GameControl.Instance.Start();
             GameControl.Instance.Join(PlayerName);            
@@ -198,14 +180,13 @@ namespace GhostFriendClient.ViewModel
             }
         }
 
-        private void AddCard(String cardInfo)
+        private void AddCard(String cardData)
         {
-            Card card = new Card(cardInfo);
-            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
             {
-                CardList.Add(card);
+                CardList.Add(new Card(cardData));
             }
-            ));            
+            ));
         }
 
         public MainWindowViewModel()

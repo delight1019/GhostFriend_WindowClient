@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GhostFriendClient"
-        xmlns:userControl="clr-namespace:GhostFriendClient.UserControls"
+        xmlns:userControl="clr-namespace:GhostFriendClient.UserControls"       
+        xmlns:cvts="clr-namespace:GhostFriendClient.Converters"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1050">
 
@@ -61,7 +62,19 @@
                         Command="{Binding JoinGameCommand}"></Button>
             </Grid>
             <Grid Grid.Row="1">
-                <userControl:TrumpCard CardValue="{Binding CardValue}"></userControl:TrumpCard>
+                <ItemsControl ItemsSource="{Binding Path=CardList}">
+                    <ItemsControl.Resources>
+                        <cvts:CardSuitConverter x:Key="CardSuitConverter" />
+                    </ItemsControl.Resources>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock Text="{Binding ValueData, Converter={StaticResource CardSuitConverter}}" />
+                                <!--<userControl:TrumpCard CardValue="{Binding CardValue, Converter={StaticResource CardSuitConverter}}"></userCon>-->
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
         </Grid>
     </Grid>
