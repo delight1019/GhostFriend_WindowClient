@@ -46,13 +46,13 @@ namespace GhostFriendClient.Model
                 cardSuit = value;
             }
         }
-        private CardValue valueData;
-        public CardValue ValueData
+        private CardValue cardValue;
+        public CardValue CardValue
         {
-            get { return valueData; }
+            get { return cardValue; }
             set
             {
-                valueData = value;
+                cardValue = value;
             }
         }
 
@@ -136,18 +136,18 @@ namespace GhostFriendClient.Model
             if (cardInfo.Length == 1)
             {
                 CardSuit = ConvertCardSuit(cardInfo[0]);
-                ValueData = ConvertCardValue(cardInfo[0]);
+                CardValue = ConvertCardValue(cardInfo[0]);
             } else
             {
                 CardSuit = ConvertCardSuit(cardInfo[0]);
-                ValueData = ConvertCardValue(cardInfo[1]);
+                CardValue = ConvertCardValue(cardInfo[1]);
             }            
         }
 
         public Card(CardSuit suit, CardValue value)
         {
             CardSuit = suit;
-            ValueData = value;
+            CardValue = value;
         }
     }
 }

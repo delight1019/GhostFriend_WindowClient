@@ -69,7 +69,7 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Grid>
-                                <TextBlock Text="{Binding ValueData, Converter={StaticResource CardSuitConverter}}" />
+                                <TextBlock Text="{Binding CardValue, Converter={StaticResource CardSuitConverter}}" />
                                 <!--<userControl:TrumpCard CardValue="{Binding CardValue, Converter={StaticResource CardSuitConverter}}"></userCon>-->
                             </Grid>
                         </DataTemplate>
