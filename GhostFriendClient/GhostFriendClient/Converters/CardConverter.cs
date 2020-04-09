@@ -19,7 +19,7 @@ namespace GhostFriendClient.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return Card.ConvertCardSuit(value as string);
+            return Card.ConvertCardValue(value as string);
         }
     }
 }
