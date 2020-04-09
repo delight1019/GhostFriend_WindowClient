@@ -62,19 +62,34 @@
                         Command="{Binding JoinGameCommand}"></Button>
             </Grid>
             <Grid Grid.Row="1">
-                <ItemsControl ItemsSource="{Binding Path=CardList}">
+                <ListBox ItemsSource="{Binding Path=CardList}">
                     <ItemsControl.Resources>
                         <cvts:CardValueConverter x:Key="CardValueConverter" />
+                        <cvts:CardSuitConverter x:Key="CardSuitConverter" />
                     </ItemsControl.Resources>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Grid>
-                                <TextBlock Text="{Binding CardValue, Converter={StaticResource CardValueConverter}}" />
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0" Margin="5">
+                                    <TextBlock Text="{Binding CardSuit, Converter={StaticResource CardSuitConverter}}" HorizontalAlignment="Center"/>
+                                </Grid>
+                                <Grid Grid.Row="1" Margin="5">
+                                    <TextBlock Text="{Binding CardValue, Converter={StaticResource CardValueConverter}}" HorizontalAlignment="Center"/>
+                                </Grid>                                
                                 <!--<userControl:TrumpCard CardValue="{Binding CardValue, Converter={StaticResource CardSuitConverter}}"></userCon>-->
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                </ListBox>
             </Grid>
         </Grid>
     </Grid>
