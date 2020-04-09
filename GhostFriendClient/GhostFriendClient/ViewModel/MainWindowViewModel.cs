@@ -169,6 +169,8 @@ namespace GhostFriendClient.ViewModel
 
         private void _CardDistributedHandler(object sender, StringEventArgs e)
         {
+            AnnounceMessage("Distribute cards...");
+
             String[] cardInfoList = e.param.Split(GameParams.DATA_DELIMITER);
 
             foreach (String cardInfo in cardInfoList)
