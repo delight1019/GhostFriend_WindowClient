@@ -14,7 +14,7 @@ namespace GhostFriendClient.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             CardValue cardValue = (CardValue)value;
-            return cardValue.ToString();
+            return Card.getCardValueString(cardValue);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -28,7 +28,7 @@ namespace GhostFriendClient.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             CardSuit cardSuit = (CardSuit)value;
-            return cardSuit.ToString();
+            return Card.getCardSuitString(cardSuit);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

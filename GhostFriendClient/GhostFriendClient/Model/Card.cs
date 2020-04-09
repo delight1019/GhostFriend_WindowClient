@@ -75,6 +75,25 @@ namespace GhostFriendClient.Model
             }
 
         }
+        static public String getCardSuitString(CardSuit value)
+        {
+            switch (value)
+            {
+                case CardSuit.DIAMOND:
+                    return "Diamond";
+                case CardSuit.SPADE:
+                    return "Spade";
+                case CardSuit.CLUB:
+                    return "Club";
+                case CardSuit.HEART:
+                    return "Heart";
+                case CardSuit.JOKER:
+                    return "Joker";
+                default:
+                    return "Invalid";
+            }
+
+        }
         static public CardValue ConvertCardValue(String value)
         {
             switch (value)
@@ -109,6 +128,42 @@ namespace GhostFriendClient.Model
                     return CardValue.JOKER;
                 default:
                     return CardValue.INVALID;
+            }
+        }
+        static public String getCardValueString(CardValue value)
+        {
+            switch (value)
+            {
+                case CardValue.ACE:
+                    return "A";
+                case CardValue.TWO:
+                    return "2";
+                case CardValue.THREE:
+                    return "3";
+                case CardValue.FOUR:
+                    return "4";
+                case CardValue.FIVE:
+                    return "5";
+                case CardValue.SIX:
+                    return "6";
+                case CardValue.SEVEN:
+                    return "7";
+                case CardValue.EIGHT:
+                    return "8";
+                case CardValue.NINE:
+                    return "9";
+                case CardValue.TEN:
+                    return "10";
+                case CardValue.JACK:
+                    return "J";
+                case CardValue.QUEEN:
+                    return "Q";
+                case CardValue.KING:
+                    return "K";
+                case CardValue.JOKER:
+                    return "Joker";
+                default:
+                    return "Invalid";
             }
         }
         static public bool IsValidCard(String cardData)
