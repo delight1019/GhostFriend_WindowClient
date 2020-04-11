@@ -14,6 +14,13 @@ using System.Windows.Threading;
 
 namespace GhostFriendClient.ViewModel
 {
+    enum MainGridStatus
+    {
+        INVISIBLE,
+        JOIN_GAME,
+        DECLARE_GIRU
+    }
+
     class MainWindowViewModel : INotifyPropertyChanged
     {
         #region Proeprties
@@ -92,11 +99,58 @@ namespace GhostFriendClient.ViewModel
                 NotifyPropertyChanged("MessageAnnounced");
             }
         }
+
+        private Boolean joinGameVisible;
+        public Boolean JoinGameVisible
+        {
+            get { return joinGameVisible; }
+            set
+            {
+                joinGameVisible = value;
+                NotifyPropertyChanged("JoinGameVisible");
+            }
+        }
+
+        private Boolean declareGiruVisible;
+        public Boolean DeclareGiruVisible
+        {
+            get { return declareGiruVisible; }
+            set
+            {
+                declareGiruVisible = value;
+                NotifyPropertyChanged("DeclareGiruVisible");
+            }
+        }
         #endregion
 
         public ObservableCollection<Card> CardList
         {
             get; set;
+        }
+
+        private void SetMainGridStatus(MainGridStatus gridStatus)
+        {
+            switch (gridStatus)
+            {
+                case MainGridStatus.INVISIBLE:
+                    {
+                        JoinGameVisible = false;
+                        DeclareGiruVisible = false;
+                        break;
+                    }
+                case MainGridStatus.JOIN_GAME:
+                    {
+                        JoinGameVisible = true;
+                        DeclareGiruVisible = false;
+                        break;
+                    }
+                case MainGridStatus.DECLARE_GIRU:
+                    {
+                        JoinGameVisible = false;
+                        DeclareGiruVisible = true;
+                        break;
+                    }
+            }
         }
 
         private ICommand joinGameCommand;
@@ -109,7 +163,9 @@ namespace GhostFriendClient.ViewModel
         {
             SocketClient.Instance.StartConnection();
             GameControl.Instance.Start();
-            GameControl.Instance.Join(PlayerName);            
+            GameControl.Instance.Join(PlayerName);
+
+            SetMainGridStatus(MainGridStatus.INVISIBLE);
         }
 
         private ICommand closeWindowCommand;
@@ -198,6 +254,8 @@ namespace GhostFriendClient.ViewModel
             EventController.Instance.JoiningGameFailed += _JoiningGameFailedHandler;
             EventController.Instance.PlayerUpdated += _PlayerUpdatedHandler;
             EventController.Instance.CardDistributed += _CardDistributedHandler;
+
+            SetMainGridStatus(MainGridStatus.JOIN_GAME);
         }
 
         #region NotifyPropertyChanged
