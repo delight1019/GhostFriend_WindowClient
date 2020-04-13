@@ -23,9 +23,19 @@ namespace GhostFriendClient.Model
             SendCommand(GameParams.JOIN_GAME, playerName);
         }
 
+        public void ReplyDealMiss(Boolean reply)
+        {
+            SendCommand(GameParams.REPLY_DEAL_MISS, reply.ToString());
+        }
+
         private void SendCommand(string command, string data)
         {
             SocketClient.Instance.SendData(command + GameParams.COMMAND_DATA_DELIMITER + data + GameParams.COMMAND_DELIMITER);
+        }
+
+        private void SendCommand(string command)
+        {
+            SocketClient.Instance.SendData(command + GameParams.COMMAND_DELIMITER);
         }
 
         private void ListenToServer(object state)
@@ -80,6 +90,17 @@ namespace GhostFriendClient.Model
                 eventArgs.param = data;
 
                 EventController.Instance.OnCardDistributed(eventArgs);
+            }
+            else if (command.Equals(GameParams.CHECK_DEAL_MISS))
+            {
+                BoolEventArgs eventArgs = new BoolEventArgs();
+                eventArgs.param = Convert.ToBoolean(data);
+
+                EventController.Instance.OnDealMissChecking(eventArgs);
+            }
+            else if (command.Equals(GameParams.RESTART_GAME))
+            {
+                EventController.Instance.OnGameRestarted(new EventArgs());
             }
         }
 

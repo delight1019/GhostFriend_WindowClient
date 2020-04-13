@@ -19,10 +19,13 @@ namespace GhostFriendClient.Model
         public static string JOIN_NEW_PLAYER = "JoinNewPlayer";
         public static string EXIT_PLAYER = "ExitPlayer";
         public static string ALL_PLAYERS_ENTERED = "AllPlayersJoin";
+        public static string REPLY_DEAL_MISS = "ReplyDealMiss";        
 
         // Receive Parameters
         public static string JOIN_SUCCESS = "JoinSuccess";
         public static string JOIN_FAIL = "JoinFail";
         public static string DISTRIBUTE_CARDS = "DistributesCard";
+        public static string CHECK_DEAL_MISS = "CheckDealMiss";
+        public static string RESTART_GAME = "RestartGame";
     }
 }

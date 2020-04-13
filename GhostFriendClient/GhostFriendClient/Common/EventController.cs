@@ -11,6 +11,11 @@ namespace GhostFriendClient.Common
         public String param { get; set; }
     }
 
+    public class BoolEventArgs: EventArgs
+    {
+        public bool param { get; set; }
+    }
+
     class EventController
     {
         private static EventController instance;
@@ -45,6 +50,20 @@ namespace GhostFriendClient.Common
         public void OnCardDistributed(StringEventArgs e)
         {
             EventHandler<StringEventArgs> handler = CardDistributed;
+            handler?.Invoke(this, e);
+        }
+
+        public event EventHandler<BoolEventArgs> DealMissChecking;
+        public void OnDealMissChecking(BoolEventArgs e)
+        {
+            EventHandler<BoolEventArgs> handler = DealMissChecking;
+            handler?.Invoke(this, e);
+        }
+
+        public event EventHandler GameRestarted;
+        public void OnGameRestarted(EventArgs e)
+        {
+            EventHandler handler = GameRestarted;
             handler?.Invoke(this, e);
         }
     }

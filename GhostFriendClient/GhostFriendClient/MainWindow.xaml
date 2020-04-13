@@ -67,6 +67,12 @@
             <Grid Grid.Row="0" Visibility="{Binding DeclareGiruVisible, Converter={StaticResource WindowPropertyConverter}}">
                 <Button Style="{StaticResource defaultButtonStyle}" Content="Declare Giru"></Button>
             </Grid>
+            <Grid Grid.Row="0" Visibility="{Binding DeclareDealMissVisible, Converter={StaticResource WindowPropertyConverter}}">
+                <Button Style="{StaticResource defaultButtonStyle}" Content="DealMiss!" Margin="267,220,475,219"
+                        Command="{Binding DeclareDealMissCommand}"></Button>
+                <Button Style="{StaticResource defaultButtonStyle}" Content="OK!" Margin="476,220,266,219"
+                        Command="{Binding DoNotDeclareDealMissCommand}"></Button>
+            </Grid>
             <Grid Grid.Row="1">
                 <ListBox ItemsSource="{Binding Path=CardList}">
                     <ItemsControl.Resources>

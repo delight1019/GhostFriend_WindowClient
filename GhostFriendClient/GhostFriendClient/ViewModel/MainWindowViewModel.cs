@@ -18,6 +18,7 @@ namespace GhostFriendClient.ViewModel
     {
         INVISIBLE,
         JOIN_GAME,
+        DECLARE_DEAL_MISS,
         DECLARE_GIRU
     }
 
@@ -121,6 +122,17 @@ namespace GhostFriendClient.ViewModel
                 NotifyPropertyChanged("DeclareGiruVisible");
             }
         }
+
+        private Boolean declareDealMissVisible;
+        public Boolean DeclareDealMissVisible
+        {
+            get { return declareDealMissVisible; }
+            set
+            {
+                declareDealMissVisible = value;
+                NotifyPropertyChanged("DeclareDealMissVisible");
+            }
+        }
         #endregion
 
         public ObservableCollection<Card> CardList
@@ -135,19 +147,29 @@ namespace GhostFriendClient.ViewModel
                 case MainGridStatus.INVISIBLE:
                     {
                         JoinGameVisible = false;
+                        DeclareDealMissVisible = false;
                         DeclareGiruVisible = false;
                         break;
                     }
                 case MainGridStatus.JOIN_GAME:
                     {
                         JoinGameVisible = true;
+                        DeclareDealMissVisible = false;
                         DeclareGiruVisible = false;
+                        break;
+                    }
+                case MainGridStatus.DECLARE_DEAL_MISS:
+                    {
+                        JoinGameVisible = false;
+                        DeclareDealMissVisible = true;
+                        DeclareGiruVisible = false;                        
                         break;
                     }
                 case MainGridStatus.DECLARE_GIRU:
                     {
                         JoinGameVisible = false;
-                        DeclareGiruVisible = true;
+                        DeclareDealMissVisible = false;
+                        DeclareGiruVisible = true;                        
                         break;
                     }
             }
@@ -166,6 +188,28 @@ namespace GhostFriendClient.ViewModel
             GameControl.Instance.Join(PlayerName);
 
             SetMainGridStatus(MainGridStatus.INVISIBLE);
+        }
+
+        private ICommand declareDealMissCommand;
+        public ICommand DeclareDealMissCommand
+        {
+            get { return (this.declareDealMissCommand) ?? (this.declareDealMissCommand = new DelegateCommand(() => ThreadPool.QueueUserWorkItem(DeclareDealMiss))); }
+        }
+
+        private void DeclareDealMiss(object state)
+        {
+            GameControl.Instance.ReplyDealMiss(true);
+        }
+
+        private ICommand doNotDeclareDealMissCommand;
+        public ICommand DoNotDeclareDealMissCommand
+        {
+            get { return (this.doNotDeclareDealMissCommand) ?? (this.doNotDeclareDealMissCommand = new DelegateCommand(() => ThreadPool.QueueUserWorkItem(DoNotDeclareDealMiss))); }
+        }
+
+        private void DoNotDeclareDealMiss(object state)
+        {
+            GameControl.Instance.ReplyDealMiss(false);
         }
 
         private ICommand closeWindowCommand;
@@ -238,6 +282,28 @@ namespace GhostFriendClient.ViewModel
             }
         }
 
+        private void _GameRestartedHandler(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+            {
+                CardList.Clear();
+            }
+            ));
+        }
+
+        private void _DealMissCheckingHandler(object sender, BoolEventArgs e)
+        {
+            AnnounceMessage("Checking DealMiss..");
+
+            if (e.param)
+            {
+                SetMainGridStatus(MainGridStatus.DECLARE_DEAL_MISS);
+            } else
+            {
+                GameControl.Instance.ReplyDealMiss(false);
+            }
+        }
+
         private void AddCard(String cardData)
         {
             Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
@@ -254,6 +320,8 @@ namespace GhostFriendClient.ViewModel
             EventController.Instance.JoiningGameFailed += _JoiningGameFailedHandler;
             EventController.Instance.PlayerUpdated += _PlayerUpdatedHandler;
             EventController.Instance.CardDistributed += _CardDistributedHandler;
+            EventController.Instance.DealMissChecking += _DealMissCheckingHandler;
+            EventController.Instance.GameRestarted += _GameRestartedHandler;
 
             SetMainGridStatus(MainGridStatus.JOIN_GAME);
         }
