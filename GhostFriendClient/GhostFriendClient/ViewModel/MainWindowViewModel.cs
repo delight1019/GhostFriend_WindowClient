@@ -306,6 +306,16 @@ namespace GhostFriendClient.ViewModel
             }
         }
 
+        private void _GiruAskedHandler(object sender, StringEventArgs e)
+        {
+            String[] contractInfo = e.param.Split(GameParams.DATA_DELIMITER);
+            String messageToAnnounce = "현재 공약은 " + contractInfo[1] + "\n" +
+                                        "최소 점수는 " + contractInfo[0] + "입니다.";
+
+            AnnounceMessage(messageToAnnounce);
+            
+        }
+
         private void AddCard(String cardData)
         {
             Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
@@ -324,6 +334,7 @@ namespace GhostFriendClient.ViewModel
             EventController.Instance.CardDistributed += _CardDistributedHandler;
             EventController.Instance.DealMissChecking += _DealMissCheckingHandler;
             EventController.Instance.GameRestarted += _GameRestartedHandler;
+            EventController.Instance.GiruAsked += _GiruAskedHandler;
 
             SetMainGridStatus(MainGridStatus.JOIN_GAME);
         }

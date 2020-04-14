@@ -66,5 +66,12 @@ namespace GhostFriendClient.Common
             EventHandler handler = GameRestarted;
             handler?.Invoke(this, e);
         }
+
+        public event EventHandler<StringEventArgs> GiruAsked;
+        public void OnGiruAsked(StringEventArgs e)
+        {
+            EventHandler<StringEventArgs> handler = GiruAsked;
+            handler?.Invoke(this, e);
+        }
     }
 }

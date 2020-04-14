@@ -27,5 +27,6 @@ namespace GhostFriendClient.Model
         public static string DISTRIBUTE_CARDS = "DistributesCard";
         public static string CHECK_DEAL_MISS = "CheckDealMiss";
         public static string RESTART_GAME = "RestartGame";
+        public static string ASK_GIRU = "AskGiru";
     }
 }

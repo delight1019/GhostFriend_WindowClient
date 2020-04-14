@@ -102,6 +102,13 @@ namespace GhostFriendClient.Model
             {
                 EventController.Instance.OnGameRestarted(new EventArgs());
             }
+            else if (command.Equals(GameParams.ASK_GIRU))
+            {
+                StringEventArgs eventArgs = new StringEventArgs();
+                eventArgs.param = data;
+
+                EventController.Instance.OnGiruAsked(eventArgs);
+            }
         }
 
         public static GameControl Instance
