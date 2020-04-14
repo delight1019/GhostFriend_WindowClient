@@ -284,6 +284,8 @@ namespace GhostFriendClient.ViewModel
 
         private void _GameRestartedHandler(object sender, EventArgs e)
         {
+            AnnounceMessage("Restart game...");
+
             Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
             {
                 CardList.Clear();
