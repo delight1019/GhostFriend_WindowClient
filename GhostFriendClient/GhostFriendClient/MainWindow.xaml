@@ -62,7 +62,7 @@
             <Grid Grid.Row="0">
                 <userControl:JoinGameGrid></userControl:JoinGameGrid>
                 <userControl:DealMissGrid></userControl:DealMissGrid>
-                <userControl:AskGiruGrid></userControl:AskGiruGrid>
+                <userControl:ContractGrid></userControl:ContractGrid>
             </Grid>
             <Grid Grid.Row="1">
                 <ListBox ItemsSource="{Binding Path=CardList}">

@@ -64,8 +64,8 @@
     <Compile Include="Model\GameControl.cs" />
     <Compile Include="Model\GameParams.cs" />
     <Compile Include="SocketClient.cs" />
-    <Compile Include="UserControls\AskGiruGrid.xaml.cs">
-      <DependentUpon>AskGiruGrid.xaml</DependentUpon>
+    <Compile Include="UserControls\ContractGrid.xaml.cs">
+      <DependentUpon>ContractGrid.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\DealMissGrid.xaml.cs">
       <DependentUpon>DealMissGrid.xaml</DependentUpon>
@@ -93,7 +93,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\AskGiruGrid.xaml">
+    <Page Include="UserControls\ContractGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

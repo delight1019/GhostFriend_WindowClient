@@ -18,9 +18,9 @@ namespace GhostFriendClient.UserControls
     /// <summary>
     /// AskGiruGrid.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class AskGiruGrid : UserControl
+    public partial class ContractGrid : UserControl
     {
-        public AskGiruGrid()
+        public ContractGrid()
         {
             InitializeComponent();
         }
