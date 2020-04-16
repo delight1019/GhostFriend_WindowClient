@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="GhostFriendClient.UserControls.DealMissGrid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GhostFriendClient.UserControls"
+             xmlns:cvts="clr-namespace:GhostFriendClient.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.Resources>
+            <cvts:WindowPropertyConverter x:Key="WindowPropertyConverter" />
+        </Grid.Resources>
+        <Grid Visibility="{Binding DeclareDealMissVisible, Converter={StaticResource WindowPropertyConverter}}">
+            <Button Style="{StaticResource defaultButtonStyle}" Content="DealMiss!"
+                        Command="{Binding DeclareDealMissCommand}" Margin="196,210,504,210"></Button>
+            <Button Style="{StaticResource defaultButtonStyle}" Content="OK!"
+                        Command="{Binding DoNotDeclareDealMissCommand}" Margin="518,210,182,210"></Button>
+        </Grid>
+    </Grid>
+</UserControl>

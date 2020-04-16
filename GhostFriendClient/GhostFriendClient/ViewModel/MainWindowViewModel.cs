@@ -19,7 +19,7 @@ namespace GhostFriendClient.ViewModel
         INVISIBLE,
         JOIN_GAME,
         DECLARE_DEAL_MISS,
-        DECLARE_GIRU
+        ASK_GIRU
     }
 
     class MainWindowViewModel : INotifyPropertyChanged
@@ -112,14 +112,14 @@ namespace GhostFriendClient.ViewModel
             }
         }
 
-        private Boolean declareGiruVisible;
-        public Boolean DeclareGiruVisible
+        private Boolean askGiruVisible;
+        public Boolean AskGiruVisible
         {
-            get { return declareGiruVisible; }
+            get { return askGiruVisible; }
             set
             {
-                declareGiruVisible = value;
-                NotifyPropertyChanged("DeclareGiruVisible");
+                askGiruVisible = value;
+                NotifyPropertyChanged("AskGiruVisible");
             }
         }
 
@@ -148,28 +148,28 @@ namespace GhostFriendClient.ViewModel
                     {
                         JoinGameVisible = false;
                         DeclareDealMissVisible = false;
-                        DeclareGiruVisible = false;
+                        AskGiruVisible = false;
                         break;
                     }
                 case MainGridStatus.JOIN_GAME:
                     {
                         JoinGameVisible = true;
                         DeclareDealMissVisible = false;
-                        DeclareGiruVisible = false;
+                        AskGiruVisible = false;
                         break;
                     }
                 case MainGridStatus.DECLARE_DEAL_MISS:
                     {
                         JoinGameVisible = false;
                         DeclareDealMissVisible = true;
-                        DeclareGiruVisible = false;                        
+                        AskGiruVisible = false;                        
                         break;
                     }
-                case MainGridStatus.DECLARE_GIRU:
+                case MainGridStatus.ASK_GIRU:
                     {
                         JoinGameVisible = false;
                         DeclareDealMissVisible = false;
-                        DeclareGiruVisible = true;                        
+                        AskGiruVisible = true;                        
                         break;
                     }
             }
@@ -309,10 +309,10 @@ namespace GhostFriendClient.ViewModel
         private void _GiruAskedHandler(object sender, StringEventArgs e)
         {
             String[] contractInfo = e.param.Split(GameParams.DATA_DELIMITER);
-            String messageToAnnounce = "현재 공약은 " + contractInfo[1] + "\n" +
-                                        "최소 점수는 " + contractInfo[0] + "입니다.";
+            //String messageToAnnounce = "현재 공약은 " + contractInfo[1] + "\n" +
+                                        //"최소 점수는 " + contractInfo[0] + "입니다.";
 
-            AnnounceMessage(messageToAnnounce);
+            //AnnounceMessage(messageToAnnounce);
             
         }
 

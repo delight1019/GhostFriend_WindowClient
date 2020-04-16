@@ -59,26 +59,10 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="200" />
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Visibility="{Binding JoinGameVisible, Converter={StaticResource WindowPropertyConverter}}">
-                <TextBox Width="400" Height="30" Margin="131,220,311,219" Text="{Binding PlayerName}"></TextBox>
-                <Button Style="{StaticResource defaultButtonStyle}" Content="Join Game" Margin="560,220,182,219"
-                        Command="{Binding JoinGameCommand}"></Button>
-            </Grid>
-            <Grid Grid.Row="0" Visibility="{Binding DeclareGiruVisible, Converter={StaticResource WindowPropertyConverter}}">
-                <Button Style="{StaticResource defaultButtonStyle}" Content="Declare Giru"></Button>
-            </Grid>
-            <Grid Grid.Row="0" Visibility="{Binding DeclareDealMissVisible, Converter={StaticResource WindowPropertyConverter}}">
-                <Button Style="{StaticResource defaultButtonStyle}" Content="DealMiss!" Margin="267,220,475,219"
-                        Command="{Binding DeclareDealMissCommand}"></Button>
-                <Button Style="{StaticResource defaultButtonStyle}" Content="OK!" Margin="476,220,266,219"
-                        Command="{Binding DoNotDeclareDealMissCommand}"></Button>
-            </Grid>
-            <Grid Grid.Row="0" Visibility="{Binding AskGiruVisible, Converter={StaticResource WindowPropertyConverter}}">
-                <TextBox Height="30" Margin="133,220,475,219" Text="{Binding Giru}"/>
-                <Button Style="{StaticResource defaultButtonStyle}" Content="PASS!"
-                        Command="{Binding PassGiruCommand}" Margin="561,220,181,219"></Button>
-                <Button Style="{StaticResource defaultButtonStyle}" Content="Declare Giru"
-                        Command="{Binding DeclareGiruCommand}" Margin="417,220,325,219"></Button>
+            <Grid Grid.Row="0">
+                <userControl:JoinGameGrid></userControl:JoinGameGrid>
+                <userControl:DealMissGrid></userControl:DealMissGrid>
+                <userControl:AskGiruGrid></userControl:AskGiruGrid>
             </Grid>
             <Grid Grid.Row="1">
                 <ListBox ItemsSource="{Binding Path=CardList}">
