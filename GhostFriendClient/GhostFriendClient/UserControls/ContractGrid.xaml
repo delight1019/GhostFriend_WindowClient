@@ -12,11 +12,39 @@
             <cvts:WindowPropertyConverter x:Key="WindowPropertyConverter" />
         </Grid.Resources>
         <Grid Visibility="{Binding DeclareContractVisible, Converter={StaticResource WindowPropertyConverter}}">
-            <TextBox Height="30" Width="200" Text="{Binding Giru}" Margin="164,210,436,210"/>
+            <ListBox Height="30" Width="300" Margin="57,175,443,175">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5" >
+                            <WrapPanel.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform Angle="-0.34"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </WrapPanel.RenderTransform>
+                        </WrapPanel>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBoxItem>
+                    <Label>Diamond</Label>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <Label>Spade</Label>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <Label>Club</Label>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <Label>Heart</Label>
+                </ListBoxItem>
+            </ListBox>
+            <TextBox Width="50" Height="30"></TextBox>
             <Button Style="{StaticResource defaultButtonStyle}" Content="PASS!"
                         Command="{Binding PassGiruCommand}" Margin="607,210,93,210"></Button>
             <Button Style="{StaticResource defaultButtonStyle}" Content="Declare Contract"
-                        Command="{Binding DeclareGiruCommand}" Margin="400,210,300,210"></Button>
+                        Command="{Binding DeclareGiruCommand}" Margin="463,210,237,210"></Button>
         </Grid>
     </Grid>
 </UserControl>
