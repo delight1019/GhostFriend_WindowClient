@@ -12,19 +12,10 @@
             <cvts:WindowPropertyConverter x:Key="WindowPropertyConverter" />
         </Grid.Resources>
         <Grid Visibility="{Binding DeclareContractVisible, Converter={StaticResource WindowPropertyConverter}}">
-            <ListBox Height="30" Width="300" Margin="57,175,443,175">
+            <ListBox Height="35" Width="300" Margin="57,175,443,175">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5" >
-                            <WrapPanel.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform/>
-                                    <SkewTransform/>
-                                    <RotateTransform Angle="-0.34"/>
-                                    <TranslateTransform/>
-                                </TransformGroup>
-                            </WrapPanel.RenderTransform>
-                        </WrapPanel>
+                        <WrapPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Center"></WrapPanel>
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
                 <ListBoxItem>
