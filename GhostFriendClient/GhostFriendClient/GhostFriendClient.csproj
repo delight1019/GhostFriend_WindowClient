@@ -139,5 +139,17 @@
   <ItemGroup>
     <Folder Include="View\" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Spade.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Heart.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Diamond.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Club.PNG" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
