@@ -10,7 +10,9 @@ using System.Threading.Tasks;
 namespace GhostFriendClient.Model
 {
     public class GameControl
-    {        
+    {
+        public const int MAX_CONTRACT_SCORE = 21;
+
         private static GameControl instance;
 
         public void Start()
@@ -102,7 +104,7 @@ namespace GhostFriendClient.Model
             {
                 EventController.Instance.OnGameRestarted(new EventArgs());
             }
-            else if (command.Equals(GameParams.ASK_GIRU))
+            else if (command.Equals(GameParams.DECLARE_CONTRACT))
             {
                 StringEventArgs eventArgs = new StringEventArgs();
                 eventArgs.param = data;

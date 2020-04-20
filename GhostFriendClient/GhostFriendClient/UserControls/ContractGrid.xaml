@@ -31,9 +31,7 @@
                     <Image Source="/Resources/Heart.png" />
                 </ListBoxItem>
             </ListBox>
-            <ComboBox Height="30" Margin="676,177,21,243">
-                
-            </ComboBox>
+            <ComboBox Height="30" Margin="676,177,21,243" ItemsSource="{Binding Path=ContractList}" SelectedItem="{Binding Path=Contract}" DisplayMemberPath="Score" />
             <Button Style="{StaticResource defaultButtonStyle}" Content="PASS!"
                         Command="{Binding PassGiruCommand}" Margin="446,378,49,42" Width="305"></Button>
             <Button Style="{StaticResource defaultButtonStyle}" Content="Declare Contract"

@@ -61,6 +61,7 @@
     <Compile Include="Converters\CardConverter.cs" />
     <Compile Include="Converters\WindowPropertyConverter.cs" />
     <Compile Include="Model\Card.cs" />
+    <Compile Include="Model\Contract.cs" />
     <Compile Include="Model\GameControl.cs" />
     <Compile Include="Model\GameParams.cs" />
     <Compile Include="SocketClient.cs" />

@@ -133,9 +133,25 @@ namespace GhostFriendClient.ViewModel
                 NotifyPropertyChanged("DeclareDealMissVisible");
             }
         }
+
+        private Contract contract;
+        public Contract Contract
+        {
+            get { return contract; }
+            set
+            {
+                contract = value;
+                NotifyPropertyChanged("Contract");
+            }
+        }
         #endregion
 
         public ObservableCollection<Card> CardList
+        {
+            get; set;
+        }
+
+        public ObservableCollection<Contract> ContractList
         {
             get; set;
         }
@@ -314,7 +330,23 @@ namespace GhostFriendClient.ViewModel
 
             AnnounceMessage(messageToAnnounce);
 
+            SetContractScoreList(Convert.ToInt32(contractInfo[0]));
+
             SetMainGridStatus(MainGridStatus.DECLARE_CONTRACT);
+        }
+
+        private void SetContractScoreList(int minScore)
+        {
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+            {
+                ContractList.Clear();
+
+                for (int i = minScore; i <= GameControl.MAX_CONTRACT_SCORE; i++)
+                {
+                    ContractList.Add(new Contract(CardSuit.INVALID, i));
+                }
+            }
+            ));
         }
 
         private void AddCard(String cardData)
@@ -329,6 +361,7 @@ namespace GhostFriendClient.ViewModel
         public MainWindowViewModel()
         {
             CardList = new ObservableCollection<Card>();
+            ContractList = new ObservableCollection<Contract>();
 
             EventController.Instance.JoiningGameFailed += _JoiningGameFailedHandler;
             EventController.Instance.PlayerUpdated += _PlayerUpdatedHandler;
