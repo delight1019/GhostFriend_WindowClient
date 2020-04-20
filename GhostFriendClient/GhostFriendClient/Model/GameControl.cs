@@ -114,7 +114,7 @@ namespace GhostFriendClient.Model
             {
                 EventController.Instance.OnGameRestarted(new EventArgs());
             }
-            else if (command.Equals(GameParams.DECLARE_CONTRACT))
+            else if (command.Equals(GameParams.ASK_CONTRACT))
             {
                 StringEventArgs eventArgs = new StringEventArgs();
                 eventArgs.param = data;
