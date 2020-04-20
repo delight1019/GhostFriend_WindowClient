@@ -252,7 +252,7 @@ namespace GhostFriendClient.ViewModel
         private ICommand passContractDeclerationCommand;
         public ICommand PassContractDeclerationCommand
         {
-            get { return (this.declareContractCommand) ?? (this.declareContractCommand = new DelegateCommand(() => ThreadPool.QueueUserWorkItem(PassContractDecleration))); }
+            get { return (this.passContractDeclerationCommand) ?? (this.passContractDeclerationCommand = new DelegateCommand(() => ThreadPool.QueueUserWorkItem(PassContractDecleration))); }
         }
         private void PassContractDecleration(object state)
         {
@@ -409,9 +409,9 @@ namespace GhostFriendClient.ViewModel
             EventController.Instance.GameRestarted += _GameRestartedHandler;
             EventController.Instance.ContractAsked += _ContractAskedHandler;
             
-            SetMainGridStatus(MainGridStatus.DECLARE_CONTRACT);
-            SetContractSuitList();
-            SetContractScoreList(13);
+            SetMainGridStatus(MainGridStatus.JOIN_GAME);
+            //SetContractSuitList();
+            //SetContractScoreList(13);
         }
 
         #region NotifyPropertyChanged
