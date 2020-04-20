@@ -23,7 +23,7 @@ namespace GhostFriendClient.ViewModel
     }
 
     class MainWindowViewModel : INotifyPropertyChanged
-    {
+    {      
         #region Proeprties
         private string player1Name;
         public string Player1Name {
@@ -134,14 +134,25 @@ namespace GhostFriendClient.ViewModel
             }
         }
 
-        private Contract contract;
-        public Contract Contract
+        private Contract selectedContractScore;
+        public Contract SelectedContractScore
         {
-            get { return contract; }
+            get { return selectedContractScore; }
             set
             {
-                contract = value;
-                NotifyPropertyChanged("Contract");
+                selectedContractScore = value;
+                NotifyPropertyChanged("SelectedContractScore");
+            }
+        }
+
+        private CardSuit selectedContractSuit;
+        public CardSuit SelectedContractSuit
+        {
+            get { return selectedContractSuit; }
+            set
+            {
+                selectedContractSuit = value;
+                NotifyPropertyChanged("SelectedContractSuit");
             }
         }
         #endregion
@@ -150,8 +161,11 @@ namespace GhostFriendClient.ViewModel
         {
             get; set;
         }
-
-        public ObservableCollection<Contract> ContractList
+        public ObservableCollection<Contract> ContractScoreList
+        {
+            get; set;
+        }
+        public ObservableCollection<Contract> ContractSuitList
         {
             get; set;
         }
@@ -330,6 +344,7 @@ namespace GhostFriendClient.ViewModel
 
             AnnounceMessage(messageToAnnounce);
 
+            SetContractSuitList();
             SetContractScoreList(Convert.ToInt32(contractInfo[0]));
 
             SetMainGridStatus(MainGridStatus.DECLARE_CONTRACT);
@@ -339,12 +354,26 @@ namespace GhostFriendClient.ViewModel
         {
             Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
             {
-                ContractList.Clear();
+                ContractScoreList.Clear();
 
                 for (int i = minScore; i <= GameControl.MAX_CONTRACT_SCORE; i++)
                 {
-                    ContractList.Add(new Contract(CardSuit.INVALID, i));
+                    ContractScoreList.Add(new Contract(CardSuit.INVALID, i));
                 }
+            }
+            ));
+        }
+
+        private void SetContractSuitList()
+        {
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+            {
+                ContractSuitList.Clear();
+
+                ContractSuitList.Add(new Contract(CardSuit.DIAMOND, -1));
+                ContractSuitList.Add(new Contract(CardSuit.HEART, -1));
+                ContractSuitList.Add(new Contract(CardSuit.SPADE, -1));
+                ContractSuitList.Add(new Contract(CardSuit.CLUB, -1));
             }
             ));
         }
@@ -361,7 +390,8 @@ namespace GhostFriendClient.ViewModel
         public MainWindowViewModel()
         {
             CardList = new ObservableCollection<Card>();
-            ContractList = new ObservableCollection<Contract>();
+            ContractScoreList = new ObservableCollection<Contract>();
+            ContractSuitList = new ObservableCollection<Contract>();
 
             EventController.Instance.JoiningGameFailed += _JoiningGameFailedHandler;
             EventController.Instance.PlayerUpdated += _PlayerUpdatedHandler;
@@ -369,8 +399,10 @@ namespace GhostFriendClient.ViewModel
             EventController.Instance.DealMissChecking += _DealMissCheckingHandler;
             EventController.Instance.GameRestarted += _GameRestartedHandler;
             EventController.Instance.GiruAsked += _GiruAskedHandler;
-
-            SetMainGridStatus(MainGridStatus.JOIN_GAME);
+            
+            SetMainGridStatus(MainGridStatus.DECLARE_CONTRACT);
+            SetContractSuitList();
+            SetContractScoreList(13);
         }
 
         #region NotifyPropertyChanged

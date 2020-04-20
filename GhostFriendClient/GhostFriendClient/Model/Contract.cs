@@ -14,11 +14,19 @@ namespace GhostFriendClient.Model
             get { return score; }
             set { score = value; }
         }
-        private CardSuit suit;
-
-        public Contract(CardSuit suit, int score)
+        private CardSuit contractSuit;
+        public CardSuit ContractSuit
         {
-            this.suit = suit;
+            get { return contractSuit; }
+            set
+            {
+                contractSuit = value;
+            }
+        }
+
+        public Contract(CardSuit contractSuit, int score)
+        {
+            this.contractSuit = contractSuit;
             this.score = score;
         }
     }
