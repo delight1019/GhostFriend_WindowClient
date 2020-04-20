@@ -32,12 +32,12 @@ namespace GhostFriendClient.Model
 
         public void DelcareContract(Contract contract)
         {
-            
+            SendCommand(GameParams.DECLARE_CONTRACT, Card.getCardSuitString(contract.ContractSuit) + GameParams.DATA_DELIMITER + contract.Score.ToString());
         }
 
         public void PassContractDelceration()
         {
-
+            SendCommand(GameParams.PASS_CONTRACT_DECLERATION);
         }
 
         private void SendCommand(string command, string data)
