@@ -9,7 +9,7 @@ using System.Windows.Data;
 
 namespace GhostFriendClient.Converters
 {
-    public class ContractConverter: IValueConverter
+    public class ContractSuitConverter: IValueConverter
     {
         private const string DIAMOND_IMAGE_PATH = "/Resources/Diamond.png";
         private const string HEART_IMAGE_PATH = "/Resources/Heart.png";
@@ -18,6 +18,11 @@ namespace GhostFriendClient.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null)
+            {
+                return "";
+            }
+
             CardSuit cardSuit = (CardSuit)value;
 
             if (cardSuit == CardSuit.DIAMOND)
@@ -44,7 +49,7 @@ namespace GhostFriendClient.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (Contract)value;            
+            return (CardSuit)value;            
         }
-    }
+    }    
 }

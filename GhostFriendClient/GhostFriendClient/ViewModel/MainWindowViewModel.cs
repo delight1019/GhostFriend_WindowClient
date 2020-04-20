@@ -145,8 +145,8 @@ namespace GhostFriendClient.ViewModel
             }
         }
 
-        private CardSuit selectedContractSuit;
-        public CardSuit SelectedContractSuit
+        private Contract selectedContractSuit;
+        public Contract SelectedContractSuit
         {
             get { return selectedContractSuit; }
             set
@@ -210,7 +210,6 @@ namespace GhostFriendClient.ViewModel
         {
             get { return (this.joinGameCommand) ?? (this.joinGameCommand = new DelegateCommand(() => ThreadPool.QueueUserWorkItem(JoinGame))); }
         }
-
         private void JoinGame(object state)
         {
             SocketClient.Instance.StartConnection();
@@ -225,7 +224,6 @@ namespace GhostFriendClient.ViewModel
         {
             get { return (this.declareDealMissCommand) ?? (this.declareDealMissCommand = new DelegateCommand(() => ThreadPool.QueueUserWorkItem(DeclareDealMiss))); }
         }
-
         private void DeclareDealMiss(object state)
         {
             GameControl.Instance.ReplyDealMiss(true);
@@ -236,10 +234,29 @@ namespace GhostFriendClient.ViewModel
         {
             get { return (this.doNotDeclareDealMissCommand) ?? (this.doNotDeclareDealMissCommand = new DelegateCommand(() => ThreadPool.QueueUserWorkItem(DoNotDeclareDealMiss))); }
         }
-
         private void DoNotDeclareDealMiss(object state)
         {
             GameControl.Instance.ReplyDealMiss(false);
+        }
+        
+        private ICommand declareContractCommand;
+        public ICommand DeclareContractCommand
+        {
+            get { return (this.declareContractCommand) ?? (this.declareContractCommand = new DelegateCommand(() => ThreadPool.QueueUserWorkItem(DeclareContract))); }
+        }
+        private void DeclareContract(object state)
+        {
+            Contract declaredContract = new Contract(SelectedContractSuit.ContractSuit, selectedContractScore.Score);
+            GameControl.Instance.DelcareContract(declaredContract);
+        }        
+        private ICommand passContractDeclerationCommand;
+        public ICommand PassContractDeclerationCommand
+        {
+            get { return (this.declareContractCommand) ?? (this.declareContractCommand = new DelegateCommand(() => ThreadPool.QueueUserWorkItem(PassContractDecleration))); }
+        }
+        private void PassContractDecleration(object state)
+        {
+            GameControl.Instance.PassContractDelceration();
         }
 
         private ICommand closeWindowCommand;
@@ -247,7 +264,6 @@ namespace GhostFriendClient.ViewModel
         {
             get { return (this.closeWindowCommand) ?? (this.closeWindowCommand = new DelegateCommand(CloseWindow)); }
         }
-
         private void CloseWindow()
         {
             SocketClient.Instance.CloseConnection(false);
@@ -286,7 +302,6 @@ namespace GhostFriendClient.ViewModel
         {
             AnnounceMessage("You cannot join the game");
         }
-
         private void _PlayerUpdatedHandler(object sender, StringEventArgs e)
         {
             String[] playersInfo = e.param.Split(GameParams.DATA_DELIMITER);
@@ -296,7 +311,6 @@ namespace GhostFriendClient.ViewModel
                 SetPlayerName(i + 1, playersInfo[i]);
             }
         }
-
         private void _CardDistributedHandler(object sender, StringEventArgs e)
         {
             AnnounceMessage("Distribute cards...");
@@ -311,7 +325,6 @@ namespace GhostFriendClient.ViewModel
                 }                
             }
         }
-
         private void _GameRestartedHandler(object sender, EventArgs e)
         {
             AnnounceMessage("Restart game...");
@@ -322,7 +335,6 @@ namespace GhostFriendClient.ViewModel
             }
             ));
         }
-
         private void _DealMissCheckingHandler(object sender, BoolEventArgs e)
         {
             AnnounceMessage("Checking DealMiss..");
@@ -335,7 +347,6 @@ namespace GhostFriendClient.ViewModel
                 GameControl.Instance.ReplyDealMiss(false);
             }
         }
-
         private void _GiruAskedHandler(object sender, StringEventArgs e)
         {
             String[] contractInfo = e.param.Split(GameParams.DATA_DELIMITER);
@@ -363,7 +374,6 @@ namespace GhostFriendClient.ViewModel
             }
             ));
         }
-
         private void SetContractSuitList()
         {
             Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
@@ -377,7 +387,6 @@ namespace GhostFriendClient.ViewModel
             }
             ));
         }
-
         private void AddCard(String cardData)
         {
             Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>

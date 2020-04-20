@@ -30,6 +30,16 @@ namespace GhostFriendClient.Model
             SendCommand(GameParams.REPLY_DEAL_MISS, reply.ToString());
         }
 
+        public void DelcareContract(Contract contract)
+        {
+            
+        }
+
+        public void PassContractDelceration()
+        {
+
+        }
+
         private void SendCommand(string command, string data)
         {
             SocketClient.Instance.SendData(command + GameParams.COMMAND_DATA_DELIMITER + data + GameParams.COMMAND_DELIMITER);
