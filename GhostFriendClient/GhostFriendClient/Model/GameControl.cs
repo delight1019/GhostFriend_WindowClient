@@ -119,7 +119,7 @@ namespace GhostFriendClient.Model
                 StringEventArgs eventArgs = new StringEventArgs();
                 eventArgs.param = data;
 
-                EventController.Instance.OnGiruAsked(eventArgs);
+                EventController.Instance.OnContractAsked(eventArgs);
             }
         }
 

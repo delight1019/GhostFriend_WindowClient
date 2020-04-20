@@ -67,10 +67,10 @@ namespace GhostFriendClient.Common
             handler?.Invoke(this, e);
         }
 
-        public event EventHandler<StringEventArgs> GiruAsked;
-        public void OnGiruAsked(StringEventArgs e)
+        public event EventHandler<StringEventArgs> ContractAsked;
+        public void OnContractAsked(StringEventArgs e)
         {
-            EventHandler<StringEventArgs> handler = GiruAsked;
+            EventHandler<StringEventArgs> handler = ContractAsked;
             handler?.Invoke(this, e);
         }
     }

@@ -347,7 +347,7 @@ namespace GhostFriendClient.ViewModel
                 GameControl.Instance.ReplyDealMiss(false);
             }
         }
-        private void _GiruAskedHandler(object sender, StringEventArgs e)
+        private void _ContractAskedHandler(object sender, StringEventArgs e)
         {
             String[] contractInfo = e.param.Split(GameParams.DATA_DELIMITER);
             String messageToAnnounce = "현재 공약은 " + contractInfo[1] + "\n" +
@@ -407,7 +407,7 @@ namespace GhostFriendClient.ViewModel
             EventController.Instance.CardDistributed += _CardDistributedHandler;
             EventController.Instance.DealMissChecking += _DealMissCheckingHandler;
             EventController.Instance.GameRestarted += _GameRestartedHandler;
-            EventController.Instance.GiruAsked += _GiruAskedHandler;
+            EventController.Instance.ContractAsked += _ContractAskedHandler;
             
             SetMainGridStatus(MainGridStatus.DECLARE_CONTRACT);
             SetContractSuitList();
