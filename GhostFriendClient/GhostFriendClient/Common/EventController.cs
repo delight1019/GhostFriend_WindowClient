@@ -73,5 +73,12 @@ namespace GhostFriendClient.Common
             EventHandler<StringEventArgs> handler = ContractAsked;
             handler?.Invoke(this, e);
         }
+
+        public event EventHandler<StringEventArgs> OtherPlayerDeclaringContract;
+        public void OnOtherPlayerDeclaringContract(StringEventArgs e)
+        {
+            EventHandler<StringEventArgs> handler = OtherPlayerDeclaringContract;
+            handler?.Invoke(this, e);
+        }
     }
 }

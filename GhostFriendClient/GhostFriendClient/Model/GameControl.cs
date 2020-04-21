@@ -121,6 +121,13 @@ namespace GhostFriendClient.Model
 
                 EventController.Instance.OnContractAsked(eventArgs);
             }
+            else if (command.Equals(GameParams.OTHER_PLAYER_ASKING_CONTRACT))
+            {
+                StringEventArgs eventArgs = new StringEventArgs();
+                eventArgs.param = data;
+
+                EventController.Instance.OnOtherPlayerDeclaringContract(eventArgs);
+            }
         }
 
         public static GameControl Instance

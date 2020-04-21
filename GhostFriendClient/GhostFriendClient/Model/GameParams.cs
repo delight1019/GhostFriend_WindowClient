@@ -30,5 +30,6 @@ namespace GhostFriendClient.Model
         public static string CHECK_DEAL_MISS = "CheckDealMiss";
         public static string RESTART_GAME = "RestartGame";
         public static string ASK_CONTRACT = "AskContract";
+        public static string OTHER_PLAYER_ASKING_CONTRACT = "OtherPlayerAskingContract";
     }
 }

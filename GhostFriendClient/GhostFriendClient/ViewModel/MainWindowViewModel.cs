@@ -360,6 +360,13 @@ namespace GhostFriendClient.ViewModel
 
             SetMainGridStatus(MainGridStatus.DECLARE_CONTRACT);
         }
+        private void _OtherPlayerDeclaringContractHandler(object sender, StringEventArgs e)
+        {
+            String currentDeclarer = e.param;
+
+            AnnounceMessage(currentDeclarer + "님이(가) 공약 선언 중입니다.");
+            SetMainGridStatus(MainGridStatus.INVISIBLE);
+        }
 
         private void SetContractScoreList(int minScore)
         {
@@ -408,6 +415,7 @@ namespace GhostFriendClient.ViewModel
             EventController.Instance.DealMissChecking += _DealMissCheckingHandler;
             EventController.Instance.GameRestarted += _GameRestartedHandler;
             EventController.Instance.ContractAsked += _ContractAskedHandler;
+            EventController.Instance.OtherPlayerDeclaringContract += _OtherPlayerDeclaringContractHandler;
             
             SetMainGridStatus(MainGridStatus.JOIN_GAME);
             //SetContractSuitList();
