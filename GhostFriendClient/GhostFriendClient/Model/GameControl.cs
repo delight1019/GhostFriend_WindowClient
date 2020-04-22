@@ -128,6 +128,13 @@ namespace GhostFriendClient.Model
 
                 EventController.Instance.OnOtherPlayerDeclaringContract(eventArgs);
             }
+            else if (command.Equals(GameParams.CASTER_DECLARED))
+            {
+                StringEventArgs eventArgs = new StringEventArgs();
+                eventArgs.param = data;
+
+                EventController.Instance.OnCasterDeclared(eventArgs);
+            }
         }
 
         public static GameControl Instance

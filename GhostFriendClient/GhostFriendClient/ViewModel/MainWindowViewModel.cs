@@ -367,6 +367,15 @@ namespace GhostFriendClient.ViewModel
             AnnounceMessage(currentDeclarer + "님이(가) 공약 선언 중입니다.");
             SetMainGridStatus(MainGridStatus.INVISIBLE);
         }
+        private void _CasterDeclaredEventHandler(object sender, StringEventArgs e)
+        {
+            String[] contractInfo = e.param.Split(GameParams.DATA_DELIMITER);
+            String messageToAnnounce = "공약이 선언되었습니다.\n"
+                                        + "기루는 " + contractInfo[0] + ", " + "목표 점수는 " + contractInfo[1] + "입니다.";
+
+            AnnounceMessage(messageToAnnounce);
+            SetMainGridStatus(MainGridStatus.INVISIBLE);
+        }
 
         private void SetContractScoreList(int minScore)
         {
@@ -416,7 +425,9 @@ namespace GhostFriendClient.ViewModel
             EventController.Instance.GameRestarted += _GameRestartedHandler;
             EventController.Instance.ContractAsked += _ContractAskedHandler;
             EventController.Instance.OtherPlayerDeclaringContract += _OtherPlayerDeclaringContractHandler;
-            
+            EventController.Instance.CasterDeclared += _CasterDeclaredEventHandler;
+
+
             SetMainGridStatus(MainGridStatus.JOIN_GAME);
             //SetContractSuitList();
             //SetContractScoreList(13);
