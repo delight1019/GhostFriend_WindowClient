@@ -350,13 +350,13 @@ namespace GhostFriendClient.ViewModel
         private void _ContractAskedHandler(object sender, StringEventArgs e)
         {
             String[] contractInfo = e.param.Split(GameParams.DATA_DELIMITER);
-            String messageToAnnounce = "현재 공약은 " + contractInfo[1] + "\n" +
-                                        "최소 점수는 " + contractInfo[0] + "입니다.";
+            String messageToAnnounce = contractInfo[0] + "\n" +
+                                        "최소 점수는 " + contractInfo[1] + "입니다.";
 
             AnnounceMessage(messageToAnnounce);
 
             SetContractSuitList();
-            SetContractScoreList(Convert.ToInt32(contractInfo[0]));
+            SetContractScoreList(Convert.ToInt32(contractInfo[1]));
 
             SetMainGridStatus(MainGridStatus.DECLARE_CONTRACT);
         }
