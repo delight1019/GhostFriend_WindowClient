@@ -32,5 +32,7 @@ namespace GhostFriendClient.Model
         public static string ASK_CONTRACT = "AskContract";
         public static string OTHER_PLAYER_ASKING_CONTRACT = "OtherPlayerAskingContract";
         public static string CASTER_DECLARED = "CasterDeclared";
+        public static string START_DECLARER_CARD_SELECTION = "StartDeclarerCardSelection";
+        public static string SELECT_CARDS_TO_DISCARD = "SelectCardsToDiscard";
     }
 }

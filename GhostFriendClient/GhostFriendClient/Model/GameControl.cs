@@ -24,17 +24,14 @@ namespace GhostFriendClient.Model
         {
             SendCommand(GameParams.JOIN_GAME, playerName);
         }
-
         public void ReplyDealMiss(Boolean reply)
         {
             SendCommand(GameParams.REPLY_DEAL_MISS, reply.ToString());
         }
-
         public void DelcareContract(Contract contract)
         {
             SendCommand(GameParams.DECLARE_CONTRACT, Card.getCardSuitString(contract.ContractSuit) + GameParams.DATA_DELIMITER + contract.Score.ToString());
         }
-
         public void PassContractDelceration()
         {
             SendCommand(GameParams.PASS_CONTRACT_DECLERATION);
@@ -44,12 +41,10 @@ namespace GhostFriendClient.Model
         {
             SocketClient.Instance.SendData(command + GameParams.COMMAND_DATA_DELIMITER + data + GameParams.COMMAND_DELIMITER);
         }
-
         private void SendCommand(string command)
         {
             SocketClient.Instance.SendData(command + GameParams.COMMAND_DELIMITER);
         }
-
         private void ListenToServer(object state)
         {
             while (SocketClient.Instance.IsConnected)
@@ -63,7 +58,6 @@ namespace GhostFriendClient.Model
                 }
             }
         }
-
         private void HandleCommand(String inputCommand)
         {
             String[] commandStructure = inputCommand.Split(GameParams.COMMAND_DATA_DELIMITER);
@@ -134,6 +128,17 @@ namespace GhostFriendClient.Model
                 eventArgs.param = data;
 
                 EventController.Instance.OnCasterDeclared(eventArgs);
+            }
+            else if (command.Equals(GameParams.START_DECLARER_CARD_SELECTION))
+            {
+                EventController.Instance.OnDeclarerCardSelectionStarted(new EventArgs());
+            }
+            else if (command.Equals(GameParams.SELECT_CARDS_TO_DISCARD))
+            {
+                StringEventArgs eventArgs = new StringEventArgs();
+                eventArgs.param = data;
+
+                EventController.Instance.OnCardSelectionAsked(eventArgs);
             }
         }
 

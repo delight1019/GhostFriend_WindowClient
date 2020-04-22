@@ -87,5 +87,19 @@ namespace GhostFriendClient.Common
             EventHandler<StringEventArgs> handler = CasterDeclared;
             handler?.Invoke(this, e);
         }
+
+        public event EventHandler DeclarerCardSelectionStarted;
+        public void OnDeclarerCardSelectionStarted(EventArgs e)
+        {
+            EventHandler handler = DeclarerCardSelectionStarted;
+            handler?.Invoke(this, e);
+        }
+
+        public event EventHandler<StringEventArgs> CardSelectionAsked;
+        public void OnCardSelectionAsked(StringEventArgs e)
+        {
+            EventHandler<StringEventArgs> handler = CardSelectionAsked;
+            handler?.Invoke(this, e);
+        }
     }
 }

@@ -376,7 +376,28 @@ namespace GhostFriendClient.ViewModel
             AnnounceMessage(messageToAnnounce);
             SetMainGridStatus(MainGridStatus.INVISIBLE);
         }
+        private void _DeclarerCardSelectionStartedEventHandler(object sender, EventArgs e)
+        {
+            AnnounceMessage("주공이 버릴 카드를 선택중입니다.");
+            SetMainGridStatus(MainGridStatus.INVISIBLE);
+        }
+        private void _CardSelectionAsked(object sender, StringEventArgs e)
+        {
+            AnnounceMessage("버릴 카드를 3장 선택하세요.");
+            
+            ClearCardList();
 
+            String[] cardInfoList = e.param.Split(GameParams.DATA_DELIMITER);
+
+            foreach (String cardInfo in cardInfoList)
+            {
+                if (Card.IsValidCard(cardInfo))
+                {
+                    AddCard(cardInfo);
+                }
+            }
+        }
+            
         private void SetContractScoreList(int minScore)
         {
             Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
@@ -411,6 +432,14 @@ namespace GhostFriendClient.ViewModel
             }
             ));
         }
+        private void ClearCardList()
+        {
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+            {
+                CardList.Clear();
+            }
+            ));
+        }
 
         public MainWindowViewModel()
         {
@@ -426,7 +455,8 @@ namespace GhostFriendClient.ViewModel
             EventController.Instance.ContractAsked += _ContractAskedHandler;
             EventController.Instance.OtherPlayerDeclaringContract += _OtherPlayerDeclaringContractHandler;
             EventController.Instance.CasterDeclared += _CasterDeclaredEventHandler;
-
+            EventController.Instance.DeclarerCardSelectionStarted += _DeclarerCardSelectionStartedEventHandler;
+            EventController.Instance.CardSelectionAsked += _CardSelectionAsked;
 
             SetMainGridStatus(MainGridStatus.JOIN_GAME);
             //SetContractSuitList();
