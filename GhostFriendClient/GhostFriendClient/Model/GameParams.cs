@@ -12,7 +12,10 @@ namespace GhostFriendClient.Model
         public static char COMMAND_DELIMITER = '-';
         public static char COMMAND_DATA_DELIMITER = '_';
 
-        // Send Parameters
+        // Parameters
+        public static string NO_CONTRACT = "NoContract";
+
+        // Send Commands
         public static string COMPLETE_REQUEST = "CompleteRequest";
         public static string JOIN_GAME = "JoinGame";
         public static string ASK_PLAYERS_INFO = "AskPlayersInfo";
@@ -23,7 +26,7 @@ namespace GhostFriendClient.Model
         public static string DECLARE_CONTRACT = "DeclareContract";
         public static string PASS_CONTRACT_DECLERATION = "PassContractDecleration";
 
-        // Receive Parameters
+        // Receive Commands
         public static string JOIN_SUCCESS = "JoinSuccess";
         public static string JOIN_FAIL = "JoinFail";
         public static string DISTRIBUTE_CARDS = "DistributesCard";

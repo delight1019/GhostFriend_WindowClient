@@ -112,6 +112,17 @@ namespace GhostFriendClient.ViewModel
                 NotifyPropertyChanged("GamePhase");
             }
         }
+
+        private Contract currentContract;
+        public Contract CurrentContract
+        {
+            get { return currentContract; }
+            set
+            {
+                currentContract = value;
+                NotifyPropertyChanged("CurrentContract");
+            }
+        }
         #endregion
 
         public ObservableCollection<Player> PlayerList
@@ -300,13 +311,21 @@ namespace GhostFriendClient.ViewModel
             SetGamePhase(GamePhase.CONTRACT_DECLARATION);
 
             String[] contractInfo = e.param.Split(GameParams.DATA_DELIMITER);
-            String messageToAnnounce = contractInfo[0] + "\n" +
-                                        "최소 점수는 " + contractInfo[1] + "입니다.";
 
-            AnnounceMessage(messageToAnnounce);
+            int minScore = -1;
+
+            if (contractInfo[0].Equals(GameParams.NO_CONTRACT))
+            {
+                SetCurrentContract(CardSuit.INVALID, -1);
+                minScore = Convert.ToInt32(contractInfo[1]);
+            } else
+            {
+                SetCurrentContract(Card.ConvertCardSuit(contractInfo[0]), Convert.ToInt32(contractInfo[1]));
+                minScore = Convert.ToInt32(contractInfo[2]);
+            }
 
             SetContractSuitList();
-            SetContractScoreList(Convert.ToInt32(contractInfo[1]));
+            SetContractScoreList(minScore);
 
             SetMainGridStatus(MainGridStatus.DECLARE_CONTRACT);
         }
@@ -406,6 +425,10 @@ namespace GhostFriendClient.ViewModel
                 CardList.Clear();
             }
             ));
+        }
+        private void SetCurrentContract(CardSuit suit, int score)
+        {
+            CurrentContract = new Contract(suit, score);
         }
 
         public MainWindowViewModel()

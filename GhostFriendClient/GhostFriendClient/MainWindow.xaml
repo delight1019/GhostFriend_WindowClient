@@ -17,6 +17,7 @@
         <Grid.Resources>
             <cvts:WindowPropertyConverter x:Key="WindowPropertyConverter" />
             <cvts:GamePhaseConverter x:Key="GamePhaseConverter" />
+            <cvts:ContractConverter x:Key="ContractConverter" />
         </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
@@ -75,7 +76,7 @@
                     <Label Content="{Binding GamePhase, Converter={StaticResource GamePhaseConverter}}" />
                 </Grid>
                 <Grid Grid.Column="2">
-                    <Label Content="{Binding CurrentContract}" />
+                    <Label Content="{Binding CurrentContract, Converter={StaticResource ContractConverter}}" />
                 </Grid>
             </Grid>
             <Grid Grid.Row="1">
