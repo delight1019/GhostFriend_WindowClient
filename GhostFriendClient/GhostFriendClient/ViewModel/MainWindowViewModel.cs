@@ -331,9 +331,25 @@ namespace GhostFriendClient.ViewModel
         }
         private void _OtherPlayerDeclaringContractHandler(object sender, StringEventArgs e)
         {
-            SetGamePhase(GamePhase.CONTRACT_DECLARATION);
+            SetGamePhase(GamePhase.CONTRACT_DECLARATION);            
 
-            String currentDeclarer = e.param;
+            String[] contractInfo = e.param.Split(GameParams.DATA_DELIMITER);
+
+            String currentDeclarer = "";
+            int minScore = -1;
+
+            if (contractInfo[0].Equals(GameParams.NO_CONTRACT))
+            {
+                SetCurrentContract(CardSuit.INVALID, -1);
+                minScore = Convert.ToInt32(contractInfo[1]);
+                currentDeclarer = contractInfo[2];
+            }
+            else
+            {
+                SetCurrentContract(Card.ConvertCardSuit(contractInfo[0]), Convert.ToInt32(contractInfo[1]));
+                minScore = Convert.ToInt32(contractInfo[2]);
+                currentDeclarer = contractInfo[3];
+            }
 
             AnnounceMessage(currentDeclarer + "님이(가) 공약 선언 중입니다.");
             SetMainGridStatus(MainGridStatus.INVISIBLE);
