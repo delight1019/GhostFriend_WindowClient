@@ -60,11 +60,13 @@
     <Compile Include="Common\EventController.cs" />
     <Compile Include="Converters\CardConverter.cs" />
     <Compile Include="Converters\ContractConverter.cs" />
+    <Compile Include="Converters\PlayerConverter.cs" />
     <Compile Include="Converters\WindowPropertyConverter.cs" />
     <Compile Include="Model\Card.cs" />
     <Compile Include="Model\Contract.cs" />
     <Compile Include="Model\GameControl.cs" />
     <Compile Include="Model\GameParams.cs" />
+    <Compile Include="Model\Player.cs" />
     <Compile Include="SocketClient.cs" />
     <Compile Include="UserControls\ContractGrid.xaml.cs">
       <DependentUpon>ContractGrid.xaml</DependentUpon>

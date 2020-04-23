@@ -24,61 +24,7 @@ namespace GhostFriendClient.ViewModel
 
     class MainWindowViewModel : INotifyPropertyChanged
     {      
-        #region Proeprties
-        private string player1Name;
-        public string Player1Name {
-            get { return player1Name; }
-            set
-            {
-                player1Name = value;
-                NotifyPropertyChanged("Player1Name");
-            }
-        }
-
-        private string player2Name;
-        public string Player2Name
-        {
-            get { return player2Name; }
-            set
-            {
-                player2Name = value;
-                NotifyPropertyChanged("Player2Name");
-            }
-        }
-
-        private string player3Name;
-        public string Player3Name
-        {
-            get { return player3Name; }
-            set
-            {
-                player3Name = value;
-                NotifyPropertyChanged("Player3Name");
-            }
-        }
-
-        private string player4Name;
-        public string Player4Name
-        {
-            get { return player4Name; }
-            set
-            {
-                player4Name = value;
-                NotifyPropertyChanged("Player4Name");
-            }
-        }
-
-        private string player5Name;
-        public string Player5Name
-        {
-            get { return player5Name; }
-            set
-            {
-                player5Name = value;
-                NotifyPropertyChanged("Player5Name");
-            }
-        }
-
+        #region Proeprties       
         private string playerName;
         public string PlayerName
         {
@@ -157,6 +103,10 @@ namespace GhostFriendClient.ViewModel
         }
         #endregion
 
+        public ObservableCollection<Player> PlayerList
+        {
+            get; set;
+        }
         public ObservableCollection<Card> CardList
         {
             get; set;
@@ -269,30 +219,6 @@ namespace GhostFriendClient.ViewModel
             SocketClient.Instance.CloseConnection(false);
         }        
 
-        private void SetPlayerName(int index, String name)
-        {
-            if (index == 1)
-            {
-                Player1Name = name;
-            }
-            else if (index == 2)
-            {
-                Player2Name = name;
-            }
-            else if (index == 3)
-            {
-                Player3Name = name;
-            }
-            else if (index == 4)
-            {
-                Player4Name = name;
-            }
-            else if (index == 5)
-            {
-                Player5Name = name;
-            }
-        }
-
         private void AnnounceMessage(string text)
         {
             MessageAnnounced = text;
@@ -306,10 +232,15 @@ namespace GhostFriendClient.ViewModel
         {
             String[] playersInfo = e.param.Split(GameParams.DATA_DELIMITER);
 
+            ClearPlayerList();
+
             for (int i = 0; i < playersInfo.Length; i++)
             {
-                SetPlayerName(i + 1, playersInfo[i]);
-            }
+                if (playersInfo[i] != "")
+                {
+                    AddPlayer(i + 1, playersInfo[i]);
+                }                
+            }            
         }
         private void _CardDistributedHandler(object sender, StringEventArgs e)
         {
@@ -398,6 +329,21 @@ namespace GhostFriendClient.ViewModel
             }
         }
             
+        private void AddPlayer(int index, String name)
+        {
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+            {
+                PlayerList.Add(new Player(index, name));
+            }));
+        }
+        private void ClearPlayerList()
+        {
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+            {
+                PlayerList.Clear();
+            }
+            ));
+        }
         private void SetContractScoreList(int minScore)
         {
             Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
@@ -443,6 +389,7 @@ namespace GhostFriendClient.ViewModel
 
         public MainWindowViewModel()
         {
+            PlayerList = new ObservableCollection<Player>();
             CardList = new ObservableCollection<Card>();
             ContractScoreList = new ObservableCollection<Contract>();
             ContractSuitList = new ObservableCollection<Contract>();
