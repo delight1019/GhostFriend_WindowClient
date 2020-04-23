@@ -101,6 +101,17 @@ namespace GhostFriendClient.ViewModel
                 NotifyPropertyChanged("SelectedContractSuit");
             }
         }
+
+        private GamePhase gamePhase;
+        public GamePhase GamePhase
+        {
+            get { return gamePhase; }
+            set
+            {
+                gamePhase = value;
+                NotifyPropertyChanged("GamePhase");
+            }
+        }
         #endregion
 
         public ObservableCollection<Player> PlayerList
@@ -118,42 +129,7 @@ namespace GhostFriendClient.ViewModel
         public ObservableCollection<Contract> ContractSuitList
         {
             get; set;
-        }
-
-        private void SetMainGridStatus(MainGridStatus gridStatus)
-        {
-            switch (gridStatus)
-            {
-                case MainGridStatus.INVISIBLE:
-                    {
-                        JoinGameVisible = false;
-                        DeclareDealMissVisible = false;
-                        DeclareContractVisible = false;
-                        break;
-                    }
-                case MainGridStatus.JOIN_GAME:
-                    {
-                        JoinGameVisible = true;
-                        DeclareDealMissVisible = false;
-                        DeclareContractVisible = false;
-                        break;
-                    }
-                case MainGridStatus.DECLARE_DEAL_MISS:
-                    {
-                        JoinGameVisible = false;
-                        DeclareDealMissVisible = true;
-                        DeclareContractVisible = false;                        
-                        break;
-                    }
-                case MainGridStatus.DECLARE_CONTRACT:
-                    {
-                        JoinGameVisible = false;
-                        DeclareDealMissVisible = false;
-                        DeclareContractVisible = true;                        
-                        break;
-                    }
-            }
-        }
+        }        
 
         private ICommand joinGameCommand;
         public ICommand JoinGameCommand
@@ -199,6 +175,7 @@ namespace GhostFriendClient.ViewModel
             Contract declaredContract = new Contract(SelectedContractSuit.ContractSuit, selectedContractScore.Score);
             GameControl.Instance.DelcareContract(declaredContract);
         }        
+
         private ICommand passContractDeclerationCommand;
         public ICommand PassContractDeclerationCommand
         {
@@ -217,11 +194,49 @@ namespace GhostFriendClient.ViewModel
         private void CloseWindow()
         {
             SocketClient.Instance.CloseConnection(false);
-        }        
+        }
 
+        private void SetMainGridStatus(MainGridStatus gridStatus)
+        {
+            switch (gridStatus)
+            {
+                case MainGridStatus.INVISIBLE:
+                    {
+                        JoinGameVisible = false;
+                        DeclareDealMissVisible = false;
+                        DeclareContractVisible = false;
+                        break;
+                    }
+                case MainGridStatus.JOIN_GAME:
+                    {
+                        JoinGameVisible = true;
+                        DeclareDealMissVisible = false;
+                        DeclareContractVisible = false;
+                        break;
+                    }
+                case MainGridStatus.DECLARE_DEAL_MISS:
+                    {
+                        JoinGameVisible = false;
+                        DeclareDealMissVisible = true;
+                        DeclareContractVisible = false;
+                        break;
+                    }
+                case MainGridStatus.DECLARE_CONTRACT:
+                    {
+                        JoinGameVisible = false;
+                        DeclareDealMissVisible = false;
+                        DeclareContractVisible = true;
+                        break;
+                    }
+            }
+        }
         private void AnnounceMessage(string text)
         {
             MessageAnnounced = text;
+        }
+        private void SetGamePhase(GamePhase phase)
+        {
+            GamePhase = phase;
         }
 
         private void _JoiningGameFailedHandler(object sender, EventArgs e)
@@ -230,6 +245,8 @@ namespace GhostFriendClient.ViewModel
         }
         private void _PlayerUpdatedHandler(object sender, StringEventArgs e)
         {
+            SetGamePhase(GamePhase.JOIN);
+
             String[] playersInfo = e.param.Split(GameParams.DATA_DELIMITER);
 
             ClearPlayerList();
@@ -244,7 +261,7 @@ namespace GhostFriendClient.ViewModel
         }
         private void _CardDistributedHandler(object sender, StringEventArgs e)
         {
-            AnnounceMessage("Distribute cards...");
+            SetGamePhase(GamePhase.CARD_DISTRIBUTION);
 
             String[] cardInfoList = e.param.Split(GameParams.DATA_DELIMITER);
 
@@ -268,7 +285,7 @@ namespace GhostFriendClient.ViewModel
         }
         private void _DealMissCheckingHandler(object sender, BoolEventArgs e)
         {
-            AnnounceMessage("Checking DealMiss..");
+            SetGamePhase(GamePhase.DEAL_MISS_CHECK);
 
             if (e.param)
             {
@@ -280,6 +297,8 @@ namespace GhostFriendClient.ViewModel
         }
         private void _ContractAskedHandler(object sender, StringEventArgs e)
         {
+            SetGamePhase(GamePhase.CONTRACT_DECLARATION);
+
             String[] contractInfo = e.param.Split(GameParams.DATA_DELIMITER);
             String messageToAnnounce = contractInfo[0] + "\n" +
                                         "최소 점수는 " + contractInfo[1] + "입니다.";
@@ -293,6 +312,8 @@ namespace GhostFriendClient.ViewModel
         }
         private void _OtherPlayerDeclaringContractHandler(object sender, StringEventArgs e)
         {
+            SetGamePhase(GamePhase.CONTRACT_DECLARATION);
+
             String currentDeclarer = e.param;
 
             AnnounceMessage(currentDeclarer + "님이(가) 공약 선언 중입니다.");

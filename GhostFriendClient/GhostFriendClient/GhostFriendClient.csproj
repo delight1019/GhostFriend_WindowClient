@@ -60,6 +60,7 @@
     <Compile Include="Common\EventController.cs" />
     <Compile Include="Converters\CardConverter.cs" />
     <Compile Include="Converters\ContractConverter.cs" />
+    <Compile Include="Converters\GameConverter.cs" />
     <Compile Include="Converters\PlayerConverter.cs" />
     <Compile Include="Converters\WindowPropertyConverter.cs" />
     <Compile Include="Model\Card.cs" />

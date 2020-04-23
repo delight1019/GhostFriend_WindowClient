@@ -16,6 +16,7 @@
     <Grid>
         <Grid.Resources>
             <cvts:WindowPropertyConverter x:Key="WindowPropertyConverter" />
+            <cvts:GamePhaseConverter x:Key="GamePhaseConverter" />
         </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
@@ -60,15 +61,29 @@
         </Grid>
         <Grid Grid.Column="1" Background="{StaticResource deepGreenBrush}">
             <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="200" />
+                <RowDefinition Height="170" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="200" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Label Content="{Binding GamePhase, Converter={StaticResource GamePhaseConverter}}" />
+                </Grid>
+                <Grid Grid.Column="2">
+                    <Label Content="{Binding CurrentContract}" />
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="1">
                 <userControl:JoinGameGrid></userControl:JoinGameGrid>
                 <userControl:DealMissGrid></userControl:DealMissGrid>
                 <userControl:ContractGrid></userControl:ContractGrid>
             </Grid>
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="2">
                 <ListBox ItemsSource="{Binding Path=CardList}">
                     <ItemsControl.Resources>
                         <cvts:CardValueConverter x:Key="CardValueConverter" />

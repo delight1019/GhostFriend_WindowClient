@@ -9,11 +9,53 @@ using System.Threading.Tasks;
 
 namespace GhostFriendClient.Model
 {
+    public enum GamePhase
+    {
+        JOIN,
+        CARD_DISTRIBUTION,
+        DEAL_MISS_CHECK,
+        CONTRACT_DECLARATION,
+        INVALID
+    }
+
     public class GameControl
     {
         public const int MAX_CONTRACT_SCORE = 21;
 
         private static GameControl instance;
+
+        static public String getGamePhase(GamePhase phase)
+        {
+            switch (phase)
+            {
+                case GamePhase.JOIN:
+                    return "게임 참여중";
+                case GamePhase.CARD_DISTRIBUTION:
+                    return "카드 분배중";
+                case GamePhase.DEAL_MISS_CHECK:
+                    return "딜미스 체크중";
+                case GamePhase.CONTRACT_DECLARATION:
+                    return "공약 선언중";
+                default:
+                    return "";
+            }
+        }
+        static public GamePhase convertGamePhase(string phaseStatement)
+        {
+            switch (phaseStatement)
+            {
+                case "게임 참여중":
+                    return GamePhase.JOIN;
+                case "카드 분배중":
+                    return GamePhase.CARD_DISTRIBUTION;
+                case "딜미스 체크중":
+                    return GamePhase.DEAL_MISS_CHECK;
+                case "공약 선언중":
+                    return GamePhase.CONTRACT_DECLARATION;
+                default:
+                    return GamePhase.INVALID;
+            }
+        }
 
         public void Start()
         {
