@@ -18,16 +18,13 @@ namespace GhostFriendClient.Model
         // Send Commands
         public static string COMPLETE_REQUEST = "CompleteRequest";
         public static string JOIN_GAME = "JoinGame";
-        public static string ASK_PLAYERS_INFO = "AskPlayersInfo";
         public static string JOIN_NEW_PLAYER = "JoinNewPlayer";
         public static string EXIT_PLAYER = "ExitPlayer";
-        public static string ALL_PLAYERS_ENTERED = "AllPlayersJoin";
         public static string REPLY_DEAL_MISS = "ReplyDealMiss";
         public static string DECLARE_CONTRACT = "DeclareContract";
         public static string PASS_CONTRACT_DECLERATION = "PassContractDecleration";
 
         // Receive Commands
-        public static string JOIN_SUCCESS = "JoinSuccess";
         public static string JOIN_FAIL = "JoinFail";
         public static string DISTRIBUTE_CARDS = "DistributesCard";
         public static string CHECK_DEAL_MISS = "CheckDealMiss";
