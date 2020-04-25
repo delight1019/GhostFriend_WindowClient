@@ -15,6 +15,7 @@ namespace GhostFriendClient.Model
         CARD_DISTRIBUTION,
         DEAL_MISS_CHECK,
         CONTRACT_DECLARATION,
+        DISCARD_CARD,
         INVALID
     }
 
@@ -23,6 +24,14 @@ namespace GhostFriendClient.Model
         public const int MAX_CONTRACT_SCORE = 21;
 
         private static GameControl instance;
+        private String name;
+        private Boolean isDeclarer;
+
+        private GameControl()
+        {
+            name = "";
+            isDeclarer = false;
+        }
 
         static public String getGamePhase(GamePhase phase)
         {
@@ -36,6 +45,8 @@ namespace GhostFriendClient.Model
                     return "딜미스 체크중";
                 case GamePhase.CONTRACT_DECLARATION:
                     return "공약 선언중";
+                case GamePhase.DISCARD_CARD:
+                    return "버릴 카드 선택중";
                 default:
                     return "";
             }
@@ -52,6 +63,8 @@ namespace GhostFriendClient.Model
                     return GamePhase.DEAL_MISS_CHECK;
                 case "공약 선언중":
                     return GamePhase.CONTRACT_DECLARATION;
+                case "버릴 카드 선택중":
+                    return GamePhase.DISCARD_CARD;
                 default:
                     return GamePhase.INVALID;
             }
@@ -64,6 +77,7 @@ namespace GhostFriendClient.Model
 
         public void Join(string playerName)
         {
+            name = playerName;
             SendCommand(GameParams.JOIN_GAME, playerName);
         }
         public void ReplyDealMiss(Boolean reply)
@@ -77,6 +91,21 @@ namespace GhostFriendClient.Model
         public void PassContractDelceration()
         {
             SendCommand(GameParams.PASS_CONTRACT_DECLERATION);
+        }
+        public void DiscardCard(Card card)
+        {
+            SendCommand(GameParams.DISCARD_CARD, card.GetString(GameParams.DATA_DELIMITER));
+        }
+        public void SetDeclarar(String name)
+        {
+            if (this.name == name)
+            {
+                isDeclarer = true;
+            }
+        }
+        public Boolean IsDeclarer()
+        {
+            return isDeclarer;
         }
 
         private void SendCommand(string command, string data)

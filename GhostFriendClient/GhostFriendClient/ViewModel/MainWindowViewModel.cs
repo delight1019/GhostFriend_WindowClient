@@ -13,13 +13,14 @@ using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace GhostFriendClient.ViewModel
-{
+{ 
     enum MainGridStatus
     {
         INVISIBLE,
         JOIN_GAME,
         DECLARE_DEAL_MISS,
-        DECLARE_CONTRACT
+        DECLARE_CONTRACT,
+        SELECT_CARD
     }
 
     class MainWindowViewModel : INotifyPropertyChanged
@@ -80,6 +81,17 @@ namespace GhostFriendClient.ViewModel
             }
         }
 
+        private Boolean selectCardVisible;
+        public Boolean SelectCardVisible
+        {
+            get { return selectCardVisible; }
+            set
+            {
+                selectCardVisible = value;
+                NotifyPropertyChanged("SelectCardVisible");
+            }
+        }
+
         private Contract selectedContractScore;
         public Contract SelectedContractScore
         {
@@ -121,6 +133,17 @@ namespace GhostFriendClient.ViewModel
             {
                 currentContract = value;
                 NotifyPropertyChanged("CurrentContract");
+            }
+        }
+
+        private Card selectedCard;
+        public Card SelectedCard
+        {
+            get { return selectedCard; }
+            set
+            {
+                selectedCard = value;
+                NotifyPropertyChanged("SelectedCard");
             }
         }
         #endregion
@@ -197,6 +220,16 @@ namespace GhostFriendClient.ViewModel
             GameControl.Instance.PassContractDelceration();
         }
 
+        private ICommand discardCardCommand;
+        public ICommand DiscardCardCommand
+        {
+            get { return (this.discardCardCommand) ?? (this.discardCardCommand = new DelegateCommand(() => ThreadPool.QueueUserWorkItem(DiscardCard))); }
+        }
+        private void DiscardCard(object state)
+        {
+            GameControl.Instance.DiscardCard(SelectedCard);
+        }
+
         private ICommand closeWindowCommand;
         public ICommand CloseWindowCommand
         {
@@ -216,6 +249,7 @@ namespace GhostFriendClient.ViewModel
                         JoinGameVisible = false;
                         DeclareDealMissVisible = false;
                         DeclareContractVisible = false;
+                        SelectCardVisible = false;
                         break;
                     }
                 case MainGridStatus.JOIN_GAME:
@@ -223,6 +257,7 @@ namespace GhostFriendClient.ViewModel
                         JoinGameVisible = true;
                         DeclareDealMissVisible = false;
                         DeclareContractVisible = false;
+                        SelectCardVisible = false;
                         break;
                     }
                 case MainGridStatus.DECLARE_DEAL_MISS:
@@ -230,6 +265,7 @@ namespace GhostFriendClient.ViewModel
                         JoinGameVisible = false;
                         DeclareDealMissVisible = true;
                         DeclareContractVisible = false;
+                        SelectCardVisible = false;
                         break;
                     }
                 case MainGridStatus.DECLARE_CONTRACT:
@@ -237,6 +273,15 @@ namespace GhostFriendClient.ViewModel
                         JoinGameVisible = false;
                         DeclareDealMissVisible = false;
                         DeclareContractVisible = true;
+                        SelectCardVisible = false;
+                        break;
+                    }
+                case MainGridStatus.SELECT_CARD:
+                    {
+                        JoinGameVisible = false;
+                        DeclareDealMissVisible = false;
+                        DeclareContractVisible = false;
+                        SelectCardVisible = true;
                         break;
                     }
             }
@@ -357,20 +402,28 @@ namespace GhostFriendClient.ViewModel
         private void _CasterDeclaredEventHandler(object sender, StringEventArgs e)
         {
             String[] contractInfo = e.param.Split(GameParams.DATA_DELIMITER);
+
+            GameControl.Instance.SetDeclarar(contractInfo[0]);
+
             String messageToAnnounce = "공약이 선언되었습니다.\n"
-                                        + "기루는 " + contractInfo[0] + ", " + "목표 점수는 " + contractInfo[1] + "입니다.";
+                                        + "기루는 " + contractInfo[1] + ", " + "목표 점수는 " + contractInfo[2] + "입니다.";
 
             AnnounceMessage(messageToAnnounce);
-            SetMainGridStatus(MainGridStatus.INVISIBLE);
+
+            if (!GameControl.Instance.IsDeclarer())
+            {
+                SetMainGridStatus(MainGridStatus.INVISIBLE);
+            }            
         }
         private void _DeclarerCardSelectionStartedEventHandler(object sender, EventArgs e)
         {
             AnnounceMessage("주공이 버릴 카드를 선택중입니다.");
+            SetGamePhase(GamePhase.DISCARD_CARD);
             SetMainGridStatus(MainGridStatus.INVISIBLE);
         }
         private void _CardSelectionAsked(object sender, StringEventArgs e)
         {
-            AnnounceMessage("버릴 카드를 3장 선택하세요.");
+            AnnounceMessage("버릴 카드를 1장 선택하세요.");
             
             ClearCardList();
 
@@ -383,6 +436,9 @@ namespace GhostFriendClient.ViewModel
                     AddCard(cardInfo);
                 }
             }
+            
+            SetGamePhase(GamePhase.DISCARD_CARD);
+            SetMainGridStatus(MainGridStatus.SELECT_CARD);            
         }
             
         private void AddPlayer(int index, String name)
@@ -463,7 +519,7 @@ namespace GhostFriendClient.ViewModel
             EventController.Instance.OtherPlayerDeclaringContract += _OtherPlayerDeclaringContractHandler;
             EventController.Instance.CasterDeclared += _CasterDeclaredEventHandler;
             EventController.Instance.DeclarerCardSelectionStarted += _DeclarerCardSelectionStartedEventHandler;
-            EventController.Instance.CardSelectionAsked += _CardSelectionAsked;
+            EventController.Instance.CardSelectionAsked += _CardSelectionAsked;            
 
             SetMainGridStatus(MainGridStatus.JOIN_GAME);
             //SetContractSuitList();

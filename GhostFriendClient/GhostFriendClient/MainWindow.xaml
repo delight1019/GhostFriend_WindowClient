@@ -83,9 +83,10 @@
                 <userControl:JoinGameGrid></userControl:JoinGameGrid>
                 <userControl:DealMissGrid></userControl:DealMissGrid>
                 <userControl:ContractGrid></userControl:ContractGrid>
+                <userControl:CardSelectionGrid></userControl:CardSelectionGrid>
             </Grid>
             <Grid Grid.Row="2">
-                <ListBox ItemsSource="{Binding Path=CardList}">
+                <ListBox ItemsSource="{Binding Path=CardList}" SelectedItem="{Binding SelectedCard}">
                     <ItemsControl.Resources>
                         <cvts:CardValueConverter x:Key="CardValueConverter" />
                         <cvts:CardSuitConverter x:Key="CardSuitConverter" />

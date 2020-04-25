@@ -184,6 +184,11 @@ namespace GhostFriendClient.Model
             }
         }
 
+        public string GetString(char delimiter)
+        {
+            return Card.getCardSuitString(CardSuit) + delimiter + Card.getCardValueString(CardValue);
+        }
+
         public Card(String cardData)
         {
             String[] cardInfo = cardData.Split(' ');

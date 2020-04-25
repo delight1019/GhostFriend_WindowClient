@@ -23,6 +23,7 @@ namespace GhostFriendClient.Model
         public static string REPLY_DEAL_MISS = "ReplyDealMiss";
         public static string DECLARE_CONTRACT = "DeclareContract";
         public static string PASS_CONTRACT_DECLERATION = "PassContractDecleration";
+        public static string DISCARD_CARD = "DiscardCard";
 
         // Receive Commands
         public static string JOIN_FAIL = "JoinFail";
