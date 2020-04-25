@@ -38,5 +38,6 @@ namespace GhostFriendClient.Model
         public static string START_DECLARER_CARD_SELECTION = "StartDeclarerCardSelection";
         public static string SELECT_CARDS_TO_DISCARD = "SelectCardsToDiscard";
         public static string ASK_GIRU_CHANGE = "AskGiruChange";
+        public static string CONFIRM_CONTRACT = "ConfirmContract";
     }
 }

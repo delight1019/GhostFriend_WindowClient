@@ -481,7 +481,7 @@ namespace GhostFriendClient.ViewModel
             SetGamePhase(GamePhase.DISCARD_CARD);
             SetMainGridStatus(MainGridStatus.INVISIBLE);
         }
-        private void _CardSelectionAsked(object sender, StringEventArgs e)
+        private void _CardSelectionAskedHandler(object sender, StringEventArgs e)
         {
             AnnounceMessage("버릴 카드를 1장 선택하세요.");
             
@@ -500,11 +500,17 @@ namespace GhostFriendClient.ViewModel
             SetGamePhase(GamePhase.DISCARD_CARD);
             SetMainGridStatus(MainGridStatus.SELECT_CARD);            
         }
-        private void _GiruChangeAsked(object sender, StringEventArgs e)
+        private void _GiruChangeAskedHandler(object sender, StringEventArgs e)
         {
             SetContractSuitList();
             SetGamePhase(GamePhase.CHANGE_GIRU);
             SetMainGridStatus(MainGridStatus.CHANGE_GIRU);
+        }
+        private void _ContractConfirmedHandler(object sender, StringEventArgs e)
+        {
+            String[] contractInfo = e.param.Split(GameParams.DATA_DELIMITER);
+
+            SetCurrentContract(Card.ConvertCardSuit(contractInfo[0]), Convert.ToInt32(contractInfo[1]));
         }
             
         private void AddPlayer(int index, String name)
@@ -585,8 +591,9 @@ namespace GhostFriendClient.ViewModel
             EventController.Instance.OtherPlayerDeclaringContract += _OtherPlayerDeclaringContractHandler;
             EventController.Instance.CasterDeclared += _CasterDeclaredEventHandler;
             EventController.Instance.DeclarerCardSelectionStarted += _DeclarerCardSelectionStartedEventHandler;
-            EventController.Instance.CardSelectionAsked += _CardSelectionAsked;
-            EventController.Instance.GiruChangeAsked += _GiruChangeAsked;
+            EventController.Instance.CardSelectionAsked += _CardSelectionAskedHandler;
+            EventController.Instance.GiruChangeAsked += _GiruChangeAskedHandler;
+            EventController.Instance.ContractConfirmed += _ContractConfirmedHandler;
 
             SetMainGridStatus(MainGridStatus.JOIN_GAME);
             //SetContractSuitList();

@@ -108,5 +108,12 @@ namespace GhostFriendClient.Common
             EventHandler<StringEventArgs> handler = GiruChangeAsked;
             handler?.Invoke(this, e);
         }
+
+        public event EventHandler<StringEventArgs> ContractConfirmed;
+        public void OnContractConfirmed(StringEventArgs e)
+        {
+            EventHandler<StringEventArgs> handler = ContractConfirmed;
+            handler?.Invoke(this, e);
+        }
     }
 }

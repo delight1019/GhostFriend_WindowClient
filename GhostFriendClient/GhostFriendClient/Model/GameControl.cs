@@ -233,6 +233,15 @@ namespace GhostFriendClient.Model
 
                 EventController.Instance.OnGiruChangeAsked(eventArgs);
             }
+            else if (command.Equals(GameParams.CONFIRM_CONTRACT))
+            {
+                StringEventArgs eventArgs = new StringEventArgs
+                {
+                    param = data
+                };
+
+                EventController.Instance.OnContractConfirmed(eventArgs);
+            }
         }
 
         public static GameControl Instance
