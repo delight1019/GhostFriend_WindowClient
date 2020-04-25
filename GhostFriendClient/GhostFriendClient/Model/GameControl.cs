@@ -17,6 +17,7 @@ namespace GhostFriendClient.Model
         CONTRACT_DECLARATION,
         DISCARD_CARD,
         CHANGE_GIRU,
+        FRIEND_SELECTION,
         INVALID
     }
 
@@ -50,6 +51,8 @@ namespace GhostFriendClient.Model
                     return "버릴 카드 선택중";
                 case GamePhase.CHANGE_GIRU:
                     return "기루 선택중";
+                case GamePhase.FRIEND_SELECTION:
+                    return "친구 선택중";
                 default:
                     return "";
             }
@@ -70,6 +73,8 @@ namespace GhostFriendClient.Model
                     return GamePhase.DISCARD_CARD;
                 case "기루 선택중":
                     return GamePhase.CHANGE_GIRU;
+                case "친구 선택중":
+                    return GamePhase.FRIEND_SELECTION;
                 default:
                     return GamePhase.INVALID;
             }
@@ -119,6 +124,10 @@ namespace GhostFriendClient.Model
         public void ChangeGiru(CardSuit giru)
         {
             SendCommand(GameParams.CHANGE_GIRU, Card.getCardSuitString(giru));
+        }
+        public void DetermineFriend(Card card)
+        {
+            SendCommand(GameParams.DETERMINE_FRIEND, card.GetString(GameParams.DATA_DELIMITER));
         }
 
         private void SendCommand(string command, string data)
@@ -241,6 +250,28 @@ namespace GhostFriendClient.Model
                 };
 
                 EventController.Instance.OnContractConfirmed(eventArgs);
+            }
+            else if (command.Equals(GameParams.ASK_FRIEND_CARD))
+            {
+                StringEventArgs eventArgs = new StringEventArgs
+                {
+                    param = data
+                };
+
+                EventController.Instance.OnFriendCardAsked(eventArgs);
+            }
+            else if (command.Equals(GameParams.CONFIRM_FRIEND))
+            {
+                StringEventArgs eventArgs = new StringEventArgs
+                {
+                    param = data
+                };
+
+                EventController.Instance.OnFriendConfirmed(eventArgs);
+            }
+            else if (command.Equals(GameParams.NOTIFY_FRIEND))
+            {
+                EventController.Instance.OnFriendNotified(new EventArgs());
             }
         }
 

@@ -21,7 +21,8 @@ namespace GhostFriendClient.ViewModel
         DECLARE_DEAL_MISS,
         DECLARE_CONTRACT,
         SELECT_CARD,
-        CHANGE_GIRU
+        CHANGE_GIRU,
+        SELECT_FRIEND
     }
 
     class MainWindowViewModel : INotifyPropertyChanged
@@ -104,6 +105,17 @@ namespace GhostFriendClient.ViewModel
             }
         }
 
+        private Boolean friendSelectionVisible;
+        public Boolean FriendSelectionVisible
+        {
+            get { return friendSelectionVisible; }
+            set
+            {
+                friendSelectionVisible = value;
+                NotifyPropertyChanged("FriendSelectionVisible");
+            }
+        }
+
         private Contract selectedContractScore;
         public Contract SelectedContractScore
         {
@@ -169,6 +181,39 @@ namespace GhostFriendClient.ViewModel
                 NotifyPropertyChanged("SelectedGiru");
             }
         }
+
+        private Card selectedFriendCardSuit;
+        public Card SelectedFriendCardSuit
+        {
+            get { return selectedFriendCardSuit; }
+            set
+            {
+                selectedFriendCardSuit = value;
+                NotifyPropertyChanged("SelectedFriendCardSuit");
+            }
+        }
+
+        private Card selectedFriendCardValue;
+        public Card SelectedFriendCardValue
+        {
+            get { return selectedFriendCardValue; }
+            set
+            {
+                selectedFriendCardValue = value;
+                NotifyPropertyChanged("SelectedFriendCardValue");
+            }
+        }
+
+        private Card friendCard;
+        public Card FriendCard
+        {
+            get { return friendCard; }
+            set
+            {
+                friendCard = value;
+                NotifyPropertyChanged("FriendCard");
+            }
+        }
         #endregion
 
         public ObservableCollection<Player> PlayerList
@@ -187,6 +232,14 @@ namespace GhostFriendClient.ViewModel
         {
             get; set;
         }        
+        public ObservableCollection<Card> FriendCardSuitList
+        {
+            get; set;
+        }
+        public ObservableCollection<Card> FriendCardValueList
+        {
+            get; set;
+        }
 
         private ICommand joinGameCommand;
         public ICommand JoinGameCommand
@@ -276,6 +329,19 @@ namespace GhostFriendClient.ViewModel
             }            
         }
 
+        private ICommand determineFriendCommand;
+        public ICommand DetermineFriendCommand
+        {
+            get { return (this.determineFriendCommand) ?? (this.determineFriendCommand = new DelegateCommand(() => ThreadPool.QueueUserWorkItem(DetermineFriend))); }
+        }
+        private void DetermineFriend(object state)
+        {
+            if ((SelectedFriendCardSuit != null) && (SelectedFriendCardValue != null))
+            {
+                GameControl.Instance.DetermineFriend(new Card(SelectedFriendCardSuit.CardSuit, SelectedFriendCardValue.CardValue));
+            }
+        }
+
         private ICommand closeWindowCommand;
         public ICommand CloseWindowCommand
         {
@@ -297,6 +363,7 @@ namespace GhostFriendClient.ViewModel
                         DeclareContractVisible = false;
                         SelectCardVisible = false;
                         GiruChangeVisible = false;
+                        FriendSelectionVisible = false;
                         break;
                     }
                 case MainGridStatus.JOIN_GAME:
@@ -306,6 +373,7 @@ namespace GhostFriendClient.ViewModel
                         DeclareContractVisible = false;
                         SelectCardVisible = false;
                         GiruChangeVisible = false;
+                        FriendSelectionVisible = false;
                         break;
                     }
                 case MainGridStatus.DECLARE_DEAL_MISS:
@@ -315,6 +383,7 @@ namespace GhostFriendClient.ViewModel
                         DeclareContractVisible = false;
                         SelectCardVisible = false;
                         GiruChangeVisible = false;
+                        FriendSelectionVisible = false;
                         break;
                     }
                 case MainGridStatus.DECLARE_CONTRACT:
@@ -324,6 +393,7 @@ namespace GhostFriendClient.ViewModel
                         DeclareContractVisible = true;
                         SelectCardVisible = false;
                         GiruChangeVisible = false;
+                        FriendSelectionVisible = false;
                         break;
                     }
                 case MainGridStatus.SELECT_CARD:
@@ -333,6 +403,7 @@ namespace GhostFriendClient.ViewModel
                         DeclareContractVisible = false;
                         SelectCardVisible = true;
                         GiruChangeVisible = false;
+                        FriendSelectionVisible = false;
                         break;
                     }
                 case MainGridStatus.CHANGE_GIRU:
@@ -342,6 +413,17 @@ namespace GhostFriendClient.ViewModel
                         DeclareContractVisible = false;
                         SelectCardVisible = false;
                         GiruChangeVisible = true;
+                        FriendSelectionVisible = false;
+                        break;
+                    }
+                case MainGridStatus.SELECT_FRIEND:
+                    {
+                        JoinGameVisible = false;
+                        DeclareDealMissVisible = false;
+                        DeclareContractVisible = false;
+                        SelectCardVisible = false;
+                        GiruChangeVisible = false;
+                        FriendSelectionVisible = true;
                         break;
                     }
             }
@@ -512,6 +594,26 @@ namespace GhostFriendClient.ViewModel
 
             SetCurrentContract(Card.ConvertCardSuit(contractInfo[0]), Convert.ToInt32(contractInfo[1]));
         }
+        private void _FriendCardAsekdHandler(object sender, StringEventArgs e)
+        {
+            String[] currentRuleInfo = e.param.Split(GameParams.DATA_DELIMITER);
+
+            SetFriendCardSuitList();
+            SetFriendCardValueList();
+
+            SetGamePhase(GamePhase.FRIEND_SELECTION);
+            SetMainGridStatus(MainGridStatus.SELECT_FRIEND);
+        }
+        private void _FriendConfirmedHandler(object sender, StringEventArgs e)
+        {
+            String[] cardInfo = e.param.Split(' ');
+
+            FriendCard = new Card(Card.ConvertCardSuit(cardInfo[0]), Card.ConvertCardValue(cardInfo[1]));            
+        }
+        private void _FriendNotifiedHandler(object sender, EventArgs e)
+        {
+            AnnounceMessage("친구로 선언되었습니다.");
+        }
             
         private void AddPlayer(int index, String name)
         {
@@ -573,7 +675,40 @@ namespace GhostFriendClient.ViewModel
         private void SetCurrentContract(CardSuit suit, int score)
         {
             CurrentContract = new Contract(suit, score);
+        }        
+        private void SetFriendCardSuitList()
+        {
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+            {
+                FriendCardSuitList.Clear();
+
+                FriendCardSuitList.Add(new Card(CardSuit.CLUB, CardValue.ACE));
+                FriendCardSuitList.Add(new Card(CardSuit.DIAMOND, CardValue.ACE));
+                FriendCardSuitList.Add(new Card(CardSuit.SPADE, CardValue.ACE));
+                FriendCardSuitList.Add(new Card(CardSuit.HEART, CardValue.ACE));
+            }));
         }
+        private void SetFriendCardValueList()
+        {
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+            {
+                FriendCardValueList.Clear();
+
+                FriendCardValueList.Add(new Card(CardSuit.SPADE, CardValue.ACE));
+                FriendCardValueList.Add(new Card(CardSuit.SPADE, CardValue.TWO));
+                FriendCardValueList.Add(new Card(CardSuit.SPADE, CardValue.THREE));
+                FriendCardValueList.Add(new Card(CardSuit.SPADE, CardValue.FOUR));
+                FriendCardValueList.Add(new Card(CardSuit.SPADE, CardValue.FIVE));
+                FriendCardValueList.Add(new Card(CardSuit.SPADE, CardValue.SIX));
+                FriendCardValueList.Add(new Card(CardSuit.SPADE, CardValue.SEVEN));
+                FriendCardValueList.Add(new Card(CardSuit.SPADE, CardValue.EIGHT));
+                FriendCardValueList.Add(new Card(CardSuit.SPADE, CardValue.NINE));
+                FriendCardValueList.Add(new Card(CardSuit.SPADE, CardValue.TEN));
+                FriendCardValueList.Add(new Card(CardSuit.SPADE, CardValue.JACK));
+                FriendCardValueList.Add(new Card(CardSuit.SPADE, CardValue.QUEEN));
+                FriendCardValueList.Add(new Card(CardSuit.SPADE, CardValue.KING));
+            }));
+        }        
 
         public MainWindowViewModel()
         {
@@ -581,6 +716,8 @@ namespace GhostFriendClient.ViewModel
             CardList = new ObservableCollection<Card>();
             ContractScoreList = new ObservableCollection<Contract>();
             ContractSuitList = new ObservableCollection<Contract>();
+            FriendCardSuitList = new ObservableCollection<Card>();
+            FriendCardValueList = new ObservableCollection<Card>();
 
             EventController.Instance.JoiningGameFailed += _JoiningGameFailedHandler;
             EventController.Instance.PlayerUpdated += _PlayerUpdatedHandler;
@@ -594,10 +731,16 @@ namespace GhostFriendClient.ViewModel
             EventController.Instance.CardSelectionAsked += _CardSelectionAskedHandler;
             EventController.Instance.GiruChangeAsked += _GiruChangeAskedHandler;
             EventController.Instance.ContractConfirmed += _ContractConfirmedHandler;
+            EventController.Instance.FriendCardAsked += _FriendCardAsekdHandler;
+            EventController.Instance.FriendConfirmed += _FriendConfirmedHandler;
+            EventController.Instance.FriendNotified += _FriendNotifiedHandler;
 
             SetMainGridStatus(MainGridStatus.JOIN_GAME);
-            //SetContractSuitList();
-            //SetContractScoreList(13);
+
+            //SetFriendCardSuitList();
+            //SetFriendCardValueList();
+
+            //SetMainGridStatus(MainGridStatus.SELECT_FRIEND);
         }
 
         #region NotifyPropertyChanged

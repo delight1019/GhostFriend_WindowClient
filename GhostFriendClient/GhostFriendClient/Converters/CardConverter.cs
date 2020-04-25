@@ -36,4 +36,26 @@ namespace GhostFriendClient.Converters
             return Card.ConvertCardSuit(value as string);
         }
     }
+
+    public class CardConverter: IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            Card card = (Card)value;
+
+            if (card == null)
+            {
+                return "";
+            }
+
+            return card.GetString(' ');
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            String[] cardInfo = (value as string).Split(' ');
+
+            return new Card(Card.ConvertCardSuit(cardInfo[0]), Card.ConvertCardValue(cardInfo[1]));
+        }
+    }
 }

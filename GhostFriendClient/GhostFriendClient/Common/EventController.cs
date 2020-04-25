@@ -115,5 +115,26 @@ namespace GhostFriendClient.Common
             EventHandler<StringEventArgs> handler = ContractConfirmed;
             handler?.Invoke(this, e);
         }
+
+        public event EventHandler<StringEventArgs> FriendCardAsked;
+        public void OnFriendCardAsked(StringEventArgs e)
+        {
+            EventHandler<StringEventArgs> handler = FriendCardAsked;
+            handler?.Invoke(this, e);
+        }
+
+        public event EventHandler<StringEventArgs> FriendConfirmed;
+        public void OnFriendConfirmed(StringEventArgs e)
+        {
+            EventHandler<StringEventArgs> handler = FriendConfirmed;
+            handler?.Invoke(this, e);
+        }
+
+        public event EventHandler FriendNotified;
+        public void OnFriendNotified(EventArgs e)
+        {
+            EventHandler handler = FriendNotified;
+            handler?.Invoke(this, e);
+        }
     }
 }
