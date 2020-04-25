@@ -84,6 +84,7 @@
                 <userControl:DealMissGrid></userControl:DealMissGrid>
                 <userControl:ContractGrid></userControl:ContractGrid>
                 <userControl:CardSelectionGrid></userControl:CardSelectionGrid>
+                <userControl:GiruChangeGrid></userControl:GiruChangeGrid>
             </Grid>
             <Grid Grid.Row="2">
                 <ListBox ItemsSource="{Binding Path=CardList}" SelectedItem="{Binding SelectedCard}">

@@ -16,6 +16,7 @@ namespace GhostFriendClient.Model
         DEAL_MISS_CHECK,
         CONTRACT_DECLARATION,
         DISCARD_CARD,
+        CHANGE_GIRU,
         INVALID
     }
 
@@ -47,6 +48,8 @@ namespace GhostFriendClient.Model
                     return "공약 선언중";
                 case GamePhase.DISCARD_CARD:
                     return "버릴 카드 선택중";
+                case GamePhase.CHANGE_GIRU:
+                    return "기루 선택중";
                 default:
                     return "";
             }
@@ -65,6 +68,8 @@ namespace GhostFriendClient.Model
                     return GamePhase.CONTRACT_DECLARATION;
                 case "버릴 카드 선택중":
                     return GamePhase.DISCARD_CARD;
+                case "기루 선택중":
+                    return GamePhase.CHANGE_GIRU;
                 default:
                     return GamePhase.INVALID;
             }
@@ -106,6 +111,14 @@ namespace GhostFriendClient.Model
         public Boolean IsDeclarer()
         {
             return isDeclarer;
+        }
+        public void PassGiruChange()
+        {
+            SendCommand(GameParams.PASS_GIRU_CHANGE);
+        }
+        public void ChangeGiru(CardSuit giru)
+        {
+            SendCommand(GameParams.CHANGE_GIRU, Card.getCardSuitString(giru));
         }
 
         private void SendCommand(string command, string data)
@@ -210,6 +223,15 @@ namespace GhostFriendClient.Model
                 eventArgs.param = data;
 
                 EventController.Instance.OnCardSelectionAsked(eventArgs);
+            }
+            else if (command.Equals(GameParams.ASK_GIRU_CHANGE))
+            {
+                StringEventArgs eventArgs = new StringEventArgs
+                {
+                    param = data
+                };
+
+                EventController.Instance.OnGiruChangeAsked(eventArgs);
             }
         }
 

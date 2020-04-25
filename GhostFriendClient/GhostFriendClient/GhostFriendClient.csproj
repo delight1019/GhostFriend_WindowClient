@@ -78,6 +78,9 @@
     <Compile Include="UserControls\DealMissGrid.xaml.cs">
       <DependentUpon>DealMissGrid.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\GiruChangeGrid.xaml.cs">
+      <DependentUpon>GiruChangeGrid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\JoinGameGrid.xaml.cs">
       <DependentUpon>JoinGameGrid.xaml</DependentUpon>
     </Compile>
@@ -110,6 +113,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\DealMissGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\GiruChangeGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

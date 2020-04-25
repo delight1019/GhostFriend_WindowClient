@@ -20,7 +20,8 @@ namespace GhostFriendClient.ViewModel
         JOIN_GAME,
         DECLARE_DEAL_MISS,
         DECLARE_CONTRACT,
-        SELECT_CARD
+        SELECT_CARD,
+        CHANGE_GIRU
     }
 
     class MainWindowViewModel : INotifyPropertyChanged
@@ -92,6 +93,17 @@ namespace GhostFriendClient.ViewModel
             }
         }
 
+        private Boolean giruChangeVisible;
+        public Boolean GiruChangeVisible
+        {
+            get { return giruChangeVisible; }
+            set
+            {
+                giruChangeVisible = value;
+                NotifyPropertyChanged("GiruChangeVisible");
+            }
+        }
+
         private Contract selectedContractScore;
         public Contract SelectedContractScore
         {
@@ -144,6 +156,17 @@ namespace GhostFriendClient.ViewModel
             {
                 selectedCard = value;
                 NotifyPropertyChanged("SelectedCard");
+            }
+        }
+
+        private Contract selectedGiru;
+        public Contract SelectedGiru
+        {
+            get { return selectedGiru; }
+            set
+            {
+                selectedGiru = value;
+                NotifyPropertyChanged("SelectedGiru");
             }
         }
         #endregion
@@ -230,6 +253,29 @@ namespace GhostFriendClient.ViewModel
             GameControl.Instance.DiscardCard(SelectedCard);
         }
 
+        private ICommand passGiruChangeCommand;
+        public ICommand PassGiruChangeCommand
+        {
+            get { return (this.passGiruChangeCommand) ?? (this.passGiruChangeCommand = new DelegateCommand(() => ThreadPool.QueueUserWorkItem(PassGiruChange))); }
+        }
+        private void PassGiruChange(object state)
+        {
+            GameControl.Instance.PassGiruChange();
+        }
+
+        private ICommand changeGiruCommand;
+        public ICommand ChangeGiruCommand
+        {
+            get { return (this.changeGiruCommand) ?? (this.changeGiruCommand = new DelegateCommand(() => ThreadPool.QueueUserWorkItem(ChangeGiru))); }
+        }
+        private void ChangeGiru(object state)
+        {
+            if (SelectedGiru != null)
+            {
+                GameControl.Instance.ChangeGiru(SelectedGiru.ContractSuit);
+            }            
+        }
+
         private ICommand closeWindowCommand;
         public ICommand CloseWindowCommand
         {
@@ -250,6 +296,7 @@ namespace GhostFriendClient.ViewModel
                         DeclareDealMissVisible = false;
                         DeclareContractVisible = false;
                         SelectCardVisible = false;
+                        GiruChangeVisible = false;
                         break;
                     }
                 case MainGridStatus.JOIN_GAME:
@@ -258,6 +305,7 @@ namespace GhostFriendClient.ViewModel
                         DeclareDealMissVisible = false;
                         DeclareContractVisible = false;
                         SelectCardVisible = false;
+                        GiruChangeVisible = false;
                         break;
                     }
                 case MainGridStatus.DECLARE_DEAL_MISS:
@@ -266,6 +314,7 @@ namespace GhostFriendClient.ViewModel
                         DeclareDealMissVisible = true;
                         DeclareContractVisible = false;
                         SelectCardVisible = false;
+                        GiruChangeVisible = false;
                         break;
                     }
                 case MainGridStatus.DECLARE_CONTRACT:
@@ -274,6 +323,7 @@ namespace GhostFriendClient.ViewModel
                         DeclareDealMissVisible = false;
                         DeclareContractVisible = true;
                         SelectCardVisible = false;
+                        GiruChangeVisible = false;
                         break;
                     }
                 case MainGridStatus.SELECT_CARD:
@@ -282,6 +332,16 @@ namespace GhostFriendClient.ViewModel
                         DeclareDealMissVisible = false;
                         DeclareContractVisible = false;
                         SelectCardVisible = true;
+                        GiruChangeVisible = false;
+                        break;
+                    }
+                case MainGridStatus.CHANGE_GIRU:
+                    {
+                        JoinGameVisible = false;
+                        DeclareDealMissVisible = false;
+                        DeclareContractVisible = false;
+                        SelectCardVisible = false;
+                        GiruChangeVisible = true;
                         break;
                     }
             }
@@ -440,6 +500,12 @@ namespace GhostFriendClient.ViewModel
             SetGamePhase(GamePhase.DISCARD_CARD);
             SetMainGridStatus(MainGridStatus.SELECT_CARD);            
         }
+        private void _GiruChangeAsked(object sender, StringEventArgs e)
+        {
+            SetContractSuitList();
+            SetGamePhase(GamePhase.CHANGE_GIRU);
+            SetMainGridStatus(MainGridStatus.CHANGE_GIRU);
+        }
             
         private void AddPlayer(int index, String name)
         {
@@ -519,7 +585,8 @@ namespace GhostFriendClient.ViewModel
             EventController.Instance.OtherPlayerDeclaringContract += _OtherPlayerDeclaringContractHandler;
             EventController.Instance.CasterDeclared += _CasterDeclaredEventHandler;
             EventController.Instance.DeclarerCardSelectionStarted += _DeclarerCardSelectionStartedEventHandler;
-            EventController.Instance.CardSelectionAsked += _CardSelectionAsked;            
+            EventController.Instance.CardSelectionAsked += _CardSelectionAsked;
+            EventController.Instance.GiruChangeAsked += _GiruChangeAsked;
 
             SetMainGridStatus(MainGridStatus.JOIN_GAME);
             //SetContractSuitList();
