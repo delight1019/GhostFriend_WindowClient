@@ -699,6 +699,7 @@ namespace GhostFriendClient.ViewModel
             String[] winnerInfo = e.param.Split(GameParams.DATA_DELIMITER);
 
             SetWinnerScore(winnerInfo[0], Convert.ToInt32(winnerInfo[1]));
+            ClearGameBoard();
         }
         private void _CardListUpdatedHandler(object sender, StringEventArgs e)
         {
@@ -844,6 +845,16 @@ namespace GhostFriendClient.ViewModel
                         player.Score += score;
                         break;
                     }
+                }
+            }));
+        }
+        private void ClearGameBoard()
+        {
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+            {
+                foreach (Player player in PlayerList)
+                {
+                    player.ClearSubmittedCard();
                 }
             }));
         }

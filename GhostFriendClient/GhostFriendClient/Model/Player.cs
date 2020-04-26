@@ -67,6 +67,11 @@ namespace GhostFriendClient.Model
             this.CardSuit = card.CardSuit;
             this.CardValue = card.CardValue;
         }
+        public void ClearSubmittedCard()
+        {
+            this.CardSuit = CardSuit.INVALID;
+            this.CardValue = CardValue.INVALID;
+        }
 
         public Player(int index, String name)
         {
