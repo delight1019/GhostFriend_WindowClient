@@ -22,7 +22,8 @@ namespace GhostFriendClient.ViewModel
         DECLARE_CONTRACT,
         SELECT_CARD,
         CHANGE_GIRU,
-        SELECT_FRIEND
+        SELECT_FRIEND,
+        PLAY_GAME
     }
 
     class MainWindowViewModel : INotifyPropertyChanged
@@ -113,6 +114,28 @@ namespace GhostFriendClient.ViewModel
             {
                 friendSelectionVisible = value;
                 NotifyPropertyChanged("FriendSelectionVisible");
+            }
+        }
+
+        private Boolean gameBoardVisible;
+        public Boolean GameBoardVisible
+        {
+            get { return gameBoardVisible; }
+            set
+            {
+                gameBoardVisible = value;
+                NotifyPropertyChanged("GameBoardVisible");
+            }
+        }
+
+        private String submitButtonVisible;
+        public String SubmitButtonVisible
+        {
+            get { return submitButtonVisible; }
+            set
+            {
+                submitButtonVisible = value;
+                NotifyPropertyChanged("SubmitButtonVisible");
             }
         }
 
@@ -342,6 +365,20 @@ namespace GhostFriendClient.ViewModel
             }
         }
 
+        private ICommand submitCardCommand;
+        public ICommand SubmitCardCommand
+        {
+            get { return (this.submitCardCommand) ?? (this.submitCardCommand = new DelegateCommand(() => ThreadPool.QueueUserWorkItem(SubmitCard))); }
+        }
+        private void SubmitCard(object state)
+        {
+            if (SelectedCard != null)
+            {
+                GameControl.Instance.SubmitCard(SelectedCard);
+                SetSubmitButtonVisible(false);
+            }
+        }
+
         private ICommand closeWindowCommand;
         public ICommand CloseWindowCommand
         {
@@ -364,6 +401,7 @@ namespace GhostFriendClient.ViewModel
                         SelectCardVisible = false;
                         GiruChangeVisible = false;
                         FriendSelectionVisible = false;
+                        GameBoardVisible = false;
                         break;
                     }
                 case MainGridStatus.JOIN_GAME:
@@ -374,6 +412,7 @@ namespace GhostFriendClient.ViewModel
                         SelectCardVisible = false;
                         GiruChangeVisible = false;
                         FriendSelectionVisible = false;
+                        GameBoardVisible = false;
                         break;
                     }
                 case MainGridStatus.DECLARE_DEAL_MISS:
@@ -384,6 +423,7 @@ namespace GhostFriendClient.ViewModel
                         SelectCardVisible = false;
                         GiruChangeVisible = false;
                         FriendSelectionVisible = false;
+                        GameBoardVisible = false;
                         break;
                     }
                 case MainGridStatus.DECLARE_CONTRACT:
@@ -394,6 +434,7 @@ namespace GhostFriendClient.ViewModel
                         SelectCardVisible = false;
                         GiruChangeVisible = false;
                         FriendSelectionVisible = false;
+                        GameBoardVisible = false;
                         break;
                     }
                 case MainGridStatus.SELECT_CARD:
@@ -404,6 +445,7 @@ namespace GhostFriendClient.ViewModel
                         SelectCardVisible = true;
                         GiruChangeVisible = false;
                         FriendSelectionVisible = false;
+                        GameBoardVisible = false;
                         break;
                     }
                 case MainGridStatus.CHANGE_GIRU:
@@ -414,6 +456,7 @@ namespace GhostFriendClient.ViewModel
                         SelectCardVisible = false;
                         GiruChangeVisible = true;
                         FriendSelectionVisible = false;
+                        GameBoardVisible = false;
                         break;
                     }
                 case MainGridStatus.SELECT_FRIEND:
@@ -424,6 +467,18 @@ namespace GhostFriendClient.ViewModel
                         SelectCardVisible = false;
                         GiruChangeVisible = false;
                         FriendSelectionVisible = true;
+                        GameBoardVisible = false;
+                        break;
+                    }
+                case MainGridStatus.PLAY_GAME:
+                    {
+                        JoinGameVisible = false;
+                        DeclareDealMissVisible = false;
+                        DeclareContractVisible = false;
+                        SelectCardVisible = false;
+                        GiruChangeVisible = false;
+                        FriendSelectionVisible = false;
+                        GameBoardVisible = true;
                         break;
                     }
             }
@@ -614,6 +669,28 @@ namespace GhostFriendClient.ViewModel
         {
             AnnounceMessage("친구로 선언되었습니다.");
         }
+        private void _GameStartedHandler(object sender, EventArgs e)
+        {
+            AnnounceMessage("게임을 시작합니다.");
+
+            SetGamePhase(GamePhase.PLAY_GAME);
+            SetMainGridStatus(MainGridStatus.PLAY_GAME);
+        }
+        private void _CardAskedHandler(object sender, EventArgs e)
+        {
+            AnnounceMessage("제출할 카드를 선택하세요.");
+
+            SetSubmitButtonVisible(true);
+        }
+        private void _CardSubmissionNotifiedHandler(object sender, StringEventArgs e)
+        {
+            String[] submissionInfo = e.param.Split(GameParams.DATA_DELIMITER);
+            String[] cardInfo = submissionInfo[1].Split(' ');
+
+            Card card = new Card(Card.ConvertCardSuit(cardInfo[0]), Card.ConvertCardValue(cardInfo[1]));
+
+            SetPlayerSubmittedCard(submissionInfo[0], card);
+        }
             
         private void AddPlayer(int index, String name)
         {
@@ -709,6 +786,30 @@ namespace GhostFriendClient.ViewModel
                 FriendCardValueList.Add(new Card(CardSuit.SPADE, CardValue.KING));
             }));
         }        
+        private void SetSubmitButtonVisible(Boolean value)
+        {
+            if (value)
+            {
+                SubmitButtonVisible = "100";
+            } else
+            {
+                SubmitButtonVisible = "0";
+            }
+        }
+        private void SetPlayerSubmittedCard(String playerName, Card card)
+        {
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+            {
+                foreach (Player player in PlayerList)
+                {
+                    if (player.Name == playerName)
+                    {
+                        player.SubmitCard(card);
+                        break;
+                    }
+                }
+            }));            
+        }
 
         public MainWindowViewModel()
         {
@@ -734,8 +835,11 @@ namespace GhostFriendClient.ViewModel
             EventController.Instance.FriendCardAsked += _FriendCardAsekdHandler;
             EventController.Instance.FriendConfirmed += _FriendConfirmedHandler;
             EventController.Instance.FriendNotified += _FriendNotifiedHandler;
+            EventController.Instance.GameStarted += _GameStartedHandler;
+            EventController.Instance.CardAsked += _CardAskedHandler;
 
             SetMainGridStatus(MainGridStatus.JOIN_GAME);
+            SetSubmitButtonVisible(false);
 
             //SetFriendCardSuitList();
             //SetFriendCardValueList();

@@ -18,6 +18,7 @@ namespace GhostFriendClient.Model
         DISCARD_CARD,
         CHANGE_GIRU,
         FRIEND_SELECTION,
+        PLAY_GAME,
         INVALID
     }
 
@@ -53,6 +54,8 @@ namespace GhostFriendClient.Model
                     return "기루 선택중";
                 case GamePhase.FRIEND_SELECTION:
                     return "친구 선택중";
+                case GamePhase.PLAY_GAME:
+                    return "게임 진행중";
                 default:
                     return "";
             }
@@ -75,6 +78,8 @@ namespace GhostFriendClient.Model
                     return GamePhase.CHANGE_GIRU;
                 case "친구 선택중":
                     return GamePhase.FRIEND_SELECTION;
+                case "게임 진행중":
+                    return GamePhase.PLAY_GAME;
                 default:
                     return GamePhase.INVALID;
             }
@@ -128,6 +133,10 @@ namespace GhostFriendClient.Model
         public void DetermineFriend(Card card)
         {
             SendCommand(GameParams.DETERMINE_FRIEND, card.GetString(GameParams.DATA_DELIMITER));
+        }
+        public void SubmitCard(Card card)
+        {
+            SendCommand(GameParams.SUBMIT_CARD, card.GetString(GameParams.DATA_DELIMITER));
         }
 
         private void SendCommand(string command, string data)
@@ -272,6 +281,23 @@ namespace GhostFriendClient.Model
             else if (command.Equals(GameParams.NOTIFY_FRIEND))
             {
                 EventController.Instance.OnFriendNotified(new EventArgs());
+            }
+            else if (command.Equals(GameParams.START_PLAYING))
+            {
+                EventController.Instance.OnGameStarted(new EventArgs());
+            }
+            else if (command.Equals(GameParams.ASK_CARD))
+            {
+                EventController.Instance.OnCardAsked(new EventArgs());
+            }
+            else if (command.Equals(GameParams.NOTIFY_CARD_SUBMISSION))
+            {
+                StringEventArgs eventArgs = new StringEventArgs
+                {
+                    param = data
+                };
+
+                EventController.Instance.OnCardSubmissionNotified(eventArgs);
             }
         }
 

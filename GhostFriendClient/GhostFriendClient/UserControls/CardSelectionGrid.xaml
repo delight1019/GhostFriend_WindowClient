@@ -9,9 +9,9 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.Resources>
-            <cvts:WindowPropertyConverter x:Key="WindowPropertyConverter" />
+            <cvts:VisibleConverter x:Key="VisibleConverter" />
         </Grid.Resources>
-        <Grid Visibility="{Binding SelectCardVisible, Converter={StaticResource WindowPropertyConverter}}">
+        <Grid Visibility="{Binding SelectCardVisible, Converter={StaticResource VisibleConverter}}">
             <Button Style="{StaticResource defaultButtonStyle}" Content="Discard" Command="{Binding DiscardCardCommand}"></Button>
         </Grid>
     </Grid>

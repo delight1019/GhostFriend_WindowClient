@@ -15,7 +15,7 @@
 
     <Grid>
         <Grid.Resources>
-            <cvts:WindowPropertyConverter x:Key="WindowPropertyConverter" />
+            <cvts:VisibleConverter x:Key="VisibleConverter" />
             <cvts:GamePhaseConverter x:Key="GamePhaseConverter" />
             <cvts:ContractConverter x:Key="ContractConverter" />
             <cvts:CardConverter x:Key="CardConverter" />
@@ -98,34 +98,44 @@
                 <userControl:FriendSelectionGrid></userControl:FriendSelectionGrid>
             </Grid>
             <Grid Grid.Row="2">
-                <ListBox ItemsSource="{Binding Path=CardList}" SelectedItem="{Binding SelectedCard}">
-                    <ItemsControl.Resources>
-                        <cvts:CardValueConverter x:Key="CardValueConverter" />
-                        <cvts:CardSuitConverter x:Key="CardSuitConverter" />
-                    </ItemsControl.Resources>
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                <Grid Grid.Row="0" Margin="5">
-                                    <TextBlock Text="{Binding CardSuit, Converter={StaticResource CardSuitConverter}}" HorizontalAlignment="Center"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="{Binding SubmitButtonVisible}" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <ListBox ItemsSource="{Binding Path=CardList}" SelectedItem="{Binding SelectedCard}">
+                        <ItemsControl.Resources>
+                            <cvts:CardValueConverter x:Key="CardValueConverter" />
+                            <cvts:CardSuitConverter x:Key="CardSuitConverter" />
+                        </ItemsControl.Resources>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0" Margin="5">
+                                        <TextBlock Text="{Binding CardSuit, Converter={StaticResource CardSuitConverter}}" HorizontalAlignment="Center"/>
+                                    </Grid>
+                                    <Grid Grid.Row="1" Margin="5">
+                                        <TextBlock Text="{Binding CardValue, Converter={StaticResource CardValueConverter}}" HorizontalAlignment="Center"/>
+                                    </Grid>
+                                    <!--<userControl:TrumpCard CardValue="{Binding CardValue, Converter={StaticResource CardSuitConverter}}"></userCon>-->
                                 </Grid>
-                                <Grid Grid.Row="1" Margin="5">
-                                    <TextBlock Text="{Binding CardValue, Converter={StaticResource CardValueConverter}}" HorizontalAlignment="Center"/>
-                                </Grid>
-                                <!--<userControl:TrumpCard CardValue="{Binding CardValue, Converter={StaticResource CardSuitConverter}}"></userCon>-->
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ListBox>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ListBox>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Button Style="{StaticResource defaultButtonStyle}" Content="Submit" 
+                        Command="{Binding SubmitCardCommand}"></Button>
+                </Grid>                
             </Grid>
         </Grid>
     </Grid>

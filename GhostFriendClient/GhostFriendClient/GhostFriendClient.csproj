@@ -81,6 +81,9 @@
     <Compile Include="UserControls\FriendSelectionGrid.xaml.cs">
       <DependentUpon>FriendSelectionGrid.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\GameBoardGrid.xaml.cs">
+      <DependentUpon>GameBoardGrid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\GiruChangeGrid.xaml.cs">
       <DependentUpon>GiruChangeGrid.xaml</DependentUpon>
     </Compile>
@@ -120,6 +123,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\FriendSelectionGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\GameBoardGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

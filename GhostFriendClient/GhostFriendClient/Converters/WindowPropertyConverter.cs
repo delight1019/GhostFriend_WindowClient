@@ -9,7 +9,7 @@ using System.Windows.Data;
 
 namespace GhostFriendClient.Converters
 { 
-    public class WindowPropertyConverter: IValueConverter
+    public class VisibleConverter: IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -38,5 +38,5 @@ namespace GhostFriendClient.Converters
                 return false;
             }
         }
-    }
+    }    
 }

@@ -27,6 +27,7 @@ namespace GhostFriendClient.Model
         public static string PASS_GIRU_CHANGE = "PassGiruChange";
         public static string CHANGE_GIRU = "ChangeGiru";
         public static string DETERMINE_FRIEND = "DetermineFriend";
+        public static string SUBMIT_CARD = "SubmitCard";
 
         // Receive Commands
         public static string JOIN_FAIL = "JoinFail";
@@ -43,5 +44,8 @@ namespace GhostFriendClient.Model
         public static string ASK_FRIEND_CARD = "AskFriendCard";
         public static string CONFIRM_FRIEND = "ConfirmFriend";
         public static string NOTIFY_FRIEND = "NotifyFriend";
+        public static string START_PLAYING = "StartPlaying";
+        public static string ASK_CARD = "AskCard";
+        public static string NOTIFY_CARD_SUBMISSION = "NotifyCardSubmission";
     }
 }

@@ -9,9 +9,9 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.Resources>
-            <cvts:WindowPropertyConverter x:Key="WindowPropertyConverter" />
+            <cvts:VisibleConverter x:Key="VisibleConverter" />
         </Grid.Resources>
-        <Grid Visibility="{Binding DeclareDealMissVisible, Converter={StaticResource WindowPropertyConverter}}">
+        <Grid Visibility="{Binding DeclareDealMissVisible, Converter={StaticResource VisibleConverter}}">
             <Button Style="{StaticResource defaultButtonStyle}" Content="DealMiss!"
                         Command="{Binding DeclareDealMissCommand}" Margin="196,210,504,210"></Button>
             <Button Style="{StaticResource defaultButtonStyle}" Content="OK!"

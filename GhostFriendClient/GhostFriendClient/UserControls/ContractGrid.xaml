@@ -9,10 +9,10 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.Resources>
-            <cvts:WindowPropertyConverter x:Key="WindowPropertyConverter" />
+            <cvts:VisibleConverter x:Key="VisibleConverter" />
             <cvts:ContractSuitConverter x:Key="ContractSuitConverter" />
         </Grid.Resources>
-        <Grid Visibility="{Binding DeclareContractVisible, Converter={StaticResource WindowPropertyConverter}}">
+        <Grid Visibility="{Binding DeclareContractVisible, Converter={StaticResource VisibleConverter}}">
             <ListBox Margin="57,117,149,175" BorderThickness="0" Background="{StaticResource deepGreenBrush}"
                      ItemsSource="{Binding ContractSuitList}"
                      SelectedItem="{Binding SelectedContractSuit}">

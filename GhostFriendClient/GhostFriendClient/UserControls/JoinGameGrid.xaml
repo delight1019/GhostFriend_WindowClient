@@ -9,9 +9,9 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.Resources>
-            <cvts:WindowPropertyConverter x:Key="WindowPropertyConverter" />
+            <cvts:VisibleConverter x:Key="VisibleConverter" />
         </Grid.Resources>
-        <Grid Visibility="{Binding JoinGameVisible, Converter={StaticResource WindowPropertyConverter}}">
+        <Grid Visibility="{Binding JoinGameVisible, Converter={StaticResource VisibleConverter}}">
             <TextBox Width="400" Height="30" VerticalContentAlignment="Center" Text="{Binding PlayerName}" Margin="143,210,257,210"></TextBox>
             <Button Style="{StaticResource defaultButtonStyle}" Content="Join Game" 
                         Command="{Binding JoinGameCommand}" Margin="582,210,118,210"></Button>
