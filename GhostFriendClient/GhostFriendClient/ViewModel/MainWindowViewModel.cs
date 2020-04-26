@@ -637,7 +637,7 @@ namespace GhostFriendClient.ViewModel
             SetGamePhase(GamePhase.DISCARD_CARD);
             SetMainGridStatus(MainGridStatus.SELECT_CARD);            
         }
-        private void _GiruChangeAskedHandler(object sender, StringEventArgs e)
+        private void _GiruChangeAskedHandler(object sender, EventArgs e)
         {
             SetContractSuitList();
             SetGamePhase(GamePhase.CHANGE_GIRU);

@@ -102,10 +102,10 @@ namespace GhostFriendClient.Common
             handler?.Invoke(this, e);
         }
 
-        public event EventHandler<StringEventArgs> GiruChangeAsked;
-        public void OnGiruChangeAsked(StringEventArgs e)
+        public event EventHandler<EventArgs> GiruChangeAsked;
+        public void OnGiruChangeAsked(EventArgs e)
         {
-            EventHandler<StringEventArgs> handler = GiruChangeAsked;
+            EventHandler<EventArgs> handler = GiruChangeAsked;
             handler?.Invoke(this, e);
         }
 

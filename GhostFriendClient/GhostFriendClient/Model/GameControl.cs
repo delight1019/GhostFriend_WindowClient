@@ -243,13 +243,8 @@ namespace GhostFriendClient.Model
                 EventController.Instance.OnCardSelectionAsked(eventArgs);
             }
             else if (command.Equals(GameParams.ASK_GIRU_CHANGE))
-            {
-                StringEventArgs eventArgs = new StringEventArgs
-                {
-                    param = data
-                };
-
-                EventController.Instance.OnGiruChangeAsked(eventArgs);
+            {             
+                EventController.Instance.OnGiruChangeAsked(new EventArgs());
             }
             else if (command.Equals(GameParams.CONFIRM_CONTRACT))
             {
