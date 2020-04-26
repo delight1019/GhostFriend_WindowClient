@@ -239,7 +239,7 @@ namespace GhostFriendClient.ViewModel
         }
         #endregion
 
-        public ObservableCollection<Player> PlayerList
+        public ItemObservableCollection<Player> PlayerList
         {
             get; set;
         }
@@ -326,7 +326,10 @@ namespace GhostFriendClient.ViewModel
         }
         private void DiscardCard(object state)
         {
-            GameControl.Instance.DiscardCard(SelectedCard);
+            if (SelectedCard != null)
+            {
+                GameControl.Instance.DiscardCard(SelectedCard);
+            }            
         }
 
         private ICommand passGiruChangeCommand;
@@ -847,7 +850,7 @@ namespace GhostFriendClient.ViewModel
 
         public MainWindowViewModel()
         {
-            PlayerList = new ObservableCollection<Player>();
+            PlayerList = new ItemObservableCollection<Player>();
             CardList = new ObservableCollection<Card>();
             ContractScoreList = new ObservableCollection<Contract>();
             ContractSuitList = new ObservableCollection<Contract>();

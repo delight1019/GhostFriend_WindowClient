@@ -108,7 +108,7 @@ namespace GhostFriendClient.Model
             SendCommand(GameParams.PASS_CONTRACT_DECLERATION);
         }
         public void DiscardCard(Card card)
-        {
+        {            
             SendCommand(GameParams.DISCARD_CARD, card.GetString(GameParams.DATA_DELIMITER));
         }
         public void SetDeclarar(String name)

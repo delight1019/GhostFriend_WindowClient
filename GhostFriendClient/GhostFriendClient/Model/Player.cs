@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace GhostFriendClient.Model
 {
-    public class Player
+    public class Player : INotifyPropertyChanged
     {
         private int index;
         public int Index
@@ -35,6 +36,7 @@ namespace GhostFriendClient.Model
             set
             {
                 cardSuit = value;
+                NotifyPropertyChanged("CardSuit");
             }
         }
 
@@ -45,16 +47,18 @@ namespace GhostFriendClient.Model
             set
             {
                 cardValue = value;
+                NotifyPropertyChanged("CardValue");
             }
         }
 
-        private int score;
+        private int score;        
         public int Score
         {
             get { return score; }
             set
             {
                 score = value;
+                NotifyPropertyChanged("Score");
             }
         }
 
@@ -72,5 +76,17 @@ namespace GhostFriendClient.Model
             this.CardValue = CardValue.INVALID;
             this.Score = 0;
         }
+
+        #region NotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+        #endregion
     }
 }

@@ -58,6 +58,7 @@
     </ApplicationDefinition>
     <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Common\EventController.cs" />
+    <Compile Include="Common\ItemObservableCollection.cs" />
     <Compile Include="Converters\CardConverter.cs" />
     <Compile Include="Converters\ContractConverter.cs" />
     <Compile Include="Converters\GameConverter.cs" />
