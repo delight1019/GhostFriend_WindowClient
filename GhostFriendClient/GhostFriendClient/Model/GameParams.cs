@@ -48,5 +48,6 @@ namespace GhostFriendClient.Model
         public static string ASK_CARD = "AskCard";
         public static string NOTIFY_CARD_SUBMISSION = "NotifyCardSubmission";
         public static string NOTIFY_PHASE_WINNER = "NotifyPhaseWinner";
+        public static string UPDATE_CARD_LIST = "UpdateCardList";
     }
 }

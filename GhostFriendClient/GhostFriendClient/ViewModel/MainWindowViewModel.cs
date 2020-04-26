@@ -697,6 +697,20 @@ namespace GhostFriendClient.ViewModel
 
             SetWinnerScore(winnerInfo[0], Convert.ToInt32(winnerInfo[1]));
         }
+        private void _CardListUpdatedHandler(object sender, StringEventArgs e)
+        {
+            String[] cardInfoList = e.param.Split(GameParams.DATA_DELIMITER);
+
+            ClearCardList();
+
+            foreach (String cardInfo in cardInfoList)
+            {
+                if (Card.IsValidCard(cardInfo))
+                {
+                    AddCard(cardInfo);
+                }
+            }
+        }
             
         private void AddPlayer(int index, String name)
         {
@@ -859,6 +873,7 @@ namespace GhostFriendClient.ViewModel
             EventController.Instance.CardAsked += _CardAskedHandler;
             EventController.Instance.CardSubmissionNotified += _CardSubmissionNotifiedHandler;
             EventController.Instance.PhaseWinnerNotified += _PhaseWinnerNotifiedHandler;
+            EventController.Instance.CardListUpdated += _CardListUpdatedHandler;
 
             SetMainGridStatus(MainGridStatus.JOIN_GAME);
             SetSubmitButtonVisible(false);

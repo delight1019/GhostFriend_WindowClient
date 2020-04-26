@@ -308,6 +308,15 @@ namespace GhostFriendClient.Model
 
                 EventController.Instance.OnPhaseWinnerNotified(eventArgs);
             }
+            else if (command.Equals(GameParams.UPDATE_CARD_LIST))
+            {
+                StringEventArgs eventArgs = new StringEventArgs
+                {
+                    param = data
+                };
+
+                EventController.Instance.OnCardListUpdated(eventArgs);
+            }
         }
 
         public static GameControl Instance
