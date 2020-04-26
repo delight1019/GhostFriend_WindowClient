@@ -47,5 +47,6 @@ namespace GhostFriendClient.Model
         public static string START_PLAYING = "StartPlaying";
         public static string ASK_CARD = "AskCard";
         public static string NOTIFY_CARD_SUBMISSION = "NotifyCardSubmission";
+        public static string NOTIFY_PHASE_WINNER = "NotifyPhaseWinner";
     }
 }

@@ -48,6 +48,16 @@ namespace GhostFriendClient.Model
             }
         }
 
+        private int score;
+        public int Score
+        {
+            get { return score; }
+            set
+            {
+                score = value;
+            }
+        }
+
         public void SubmitCard(Card card)
         {
             this.CardSuit = card.CardSuit;
@@ -60,6 +70,7 @@ namespace GhostFriendClient.Model
             this.Name = name;
             this.CardSuit = CardSuit.INVALID;
             this.CardValue = CardValue.INVALID;
+            this.Score = 0;
         }
     }
 }

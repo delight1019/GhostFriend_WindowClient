@@ -691,6 +691,12 @@ namespace GhostFriendClient.ViewModel
 
             SetPlayerSubmittedCard(submissionInfo[0], card);
         }
+        private void _PhaseWinnerNotifiedHandler(object sender, StringEventArgs e)
+        {
+            String[] winnerInfo = e.param.Split(GameParams.DATA_DELIMITER);
+
+            SetWinnerScore(winnerInfo[0], Convert.ToInt32(winnerInfo[1]));
+        }
             
         private void AddPlayer(int index, String name)
         {
@@ -810,6 +816,20 @@ namespace GhostFriendClient.ViewModel
                 }
             }));            
         }
+        private void SetWinnerScore(String playerName, int score)
+        {
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+            {
+                foreach (Player player in PlayerList)
+                {
+                    if (player.Name == playerName)
+                    {
+                        player.Score += score;
+                        break;
+                    }
+                }
+            }));
+        }
 
         public MainWindowViewModel()
         {
@@ -838,6 +858,7 @@ namespace GhostFriendClient.ViewModel
             EventController.Instance.GameStarted += _GameStartedHandler;
             EventController.Instance.CardAsked += _CardAskedHandler;
             EventController.Instance.CardSubmissionNotified += _CardSubmissionNotifiedHandler;
+            EventController.Instance.PhaseWinnerNotified += _PhaseWinnerNotifiedHandler;
 
             SetMainGridStatus(MainGridStatus.JOIN_GAME);
             SetSubmitButtonVisible(false);
