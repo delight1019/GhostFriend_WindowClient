@@ -62,6 +62,7 @@
     <Compile Include="Converters\CardConverter.cs" />
     <Compile Include="Converters\ContractConverter.cs" />
     <Compile Include="Converters\GameConverter.cs" />
+    <Compile Include="Converters\GameWinnerConverter.cs" />
     <Compile Include="Converters\PlayerConverter.cs" />
     <Compile Include="Converters\WindowPropertyConverter.cs" />
     <Compile Include="Model\Card.cs" />
@@ -93,6 +94,9 @@
     </Compile>
     <Compile Include="UserControls\TrumpCard.xaml.cs">
       <DependentUpon>TrumpCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\WinnerGrid.xaml.cs">
+      <DependentUpon>WinnerGrid.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Page Include="MainWindow.xaml">
@@ -140,6 +144,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\TrumpCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\WinnerGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

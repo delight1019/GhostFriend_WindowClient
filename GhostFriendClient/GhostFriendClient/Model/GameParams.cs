@@ -14,6 +14,8 @@ namespace GhostFriendClient.Model
 
         // Parameters
         public static string NO_CONTRACT = "NoContract";
+        public static string DECLARER_WIN = "DeclarerWin";
+        public static string DECLARER_LOSE = "DeclarerLose";
 
         // Send Commands
         public static string COMPLETE_REQUEST = "CompleteRequest";
@@ -49,5 +51,6 @@ namespace GhostFriendClient.Model
         public static string NOTIFY_CARD_SUBMISSION = "NotifyCardSubmission";
         public static string NOTIFY_PHASE_WINNER = "NotifyPhaseWinner";
         public static string UPDATE_CARD_LIST = "UpdateCardList";
+        public static string NOTIFY_GAME_WINNER = "NotifyGameWinner";
     }
 }

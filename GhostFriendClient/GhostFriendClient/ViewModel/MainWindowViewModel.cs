@@ -23,6 +23,7 @@ namespace GhostFriendClient.ViewModel
         SELECT_CARD,
         CHANGE_GIRU,
         SELECT_FRIEND,
+        GAME_WINNER,
         PLAY_GAME
     }
 
@@ -125,6 +126,17 @@ namespace GhostFriendClient.ViewModel
             {
                 gameBoardVisible = value;
                 NotifyPropertyChanged("GameBoardVisible");
+            }
+        }
+
+        private Boolean gameWinnerVisible;
+        public Boolean GameWinnerVisible
+        {
+            get { return gameWinnerVisible; }
+            set
+            {
+                gameWinnerVisible = value;
+                NotifyPropertyChanged("GameWinnerVisible");
             }
         }
 
@@ -235,6 +247,28 @@ namespace GhostFriendClient.ViewModel
             {
                 friendCard = value;
                 NotifyPropertyChanged("FriendCard");
+            }
+        }
+
+        private String winnerName;
+        public String WinnerName
+        {
+            get { return winnerName; }
+            set
+            {
+                winnerName = value;
+                NotifyPropertyChanged("WinnerName");
+            }
+        }
+
+        private String friendName;
+        public String FriendName
+        {
+            get { return friendName; }
+            set
+            {
+                friendName = value;
+                NotifyPropertyChanged("FriendName");
             }
         }
         #endregion
@@ -405,6 +439,7 @@ namespace GhostFriendClient.ViewModel
                         GiruChangeVisible = false;
                         FriendSelectionVisible = false;
                         GameBoardVisible = false;
+                        GameWinnerVisible = false;
                         break;
                     }
                 case MainGridStatus.JOIN_GAME:
@@ -416,6 +451,7 @@ namespace GhostFriendClient.ViewModel
                         GiruChangeVisible = false;
                         FriendSelectionVisible = false;
                         GameBoardVisible = false;
+                        GameWinnerVisible = false;
                         break;
                     }
                 case MainGridStatus.DECLARE_DEAL_MISS:
@@ -427,6 +463,7 @@ namespace GhostFriendClient.ViewModel
                         GiruChangeVisible = false;
                         FriendSelectionVisible = false;
                         GameBoardVisible = false;
+                        GameWinnerVisible = false;
                         break;
                     }
                 case MainGridStatus.DECLARE_CONTRACT:
@@ -438,6 +475,7 @@ namespace GhostFriendClient.ViewModel
                         GiruChangeVisible = false;
                         FriendSelectionVisible = false;
                         GameBoardVisible = false;
+                        GameWinnerVisible = false;
                         break;
                     }
                 case MainGridStatus.SELECT_CARD:
@@ -449,6 +487,7 @@ namespace GhostFriendClient.ViewModel
                         GiruChangeVisible = false;
                         FriendSelectionVisible = false;
                         GameBoardVisible = false;
+                        GameWinnerVisible = false;
                         break;
                     }
                 case MainGridStatus.CHANGE_GIRU:
@@ -460,6 +499,7 @@ namespace GhostFriendClient.ViewModel
                         GiruChangeVisible = true;
                         FriendSelectionVisible = false;
                         GameBoardVisible = false;
+                        GameWinnerVisible = false;
                         break;
                     }
                 case MainGridStatus.SELECT_FRIEND:
@@ -471,6 +511,7 @@ namespace GhostFriendClient.ViewModel
                         GiruChangeVisible = false;
                         FriendSelectionVisible = true;
                         GameBoardVisible = false;
+                        GameWinnerVisible = false;
                         break;
                     }
                 case MainGridStatus.PLAY_GAME:
@@ -482,6 +523,19 @@ namespace GhostFriendClient.ViewModel
                         GiruChangeVisible = false;
                         FriendSelectionVisible = false;
                         GameBoardVisible = true;
+                        GameWinnerVisible = false;
+                        break;
+                    }
+                case MainGridStatus.GAME_WINNER:
+                    {
+                        JoinGameVisible = false;
+                        DeclareDealMissVisible = false;
+                        DeclareContractVisible = false;
+                        SelectCardVisible = false;
+                        GiruChangeVisible = false;
+                        FriendSelectionVisible = false;
+                        GameBoardVisible = false;
+                        GameWinnerVisible = true;
                         break;
                     }
             }
@@ -715,6 +769,16 @@ namespace GhostFriendClient.ViewModel
                 }
             }
         }
+        private void _GameWinnerNotifiedHandler(object sender, StringEventArgs e)
+        {
+            String[] gameInfo = e.param.Split(GameParams.DATA_DELIMITER);
+
+            WinnerName = gameInfo[0];
+            FriendName = gameInfo[1];
+
+            SetGamePhase(GamePhase.GAME_WINNER);
+            SetMainGridStatus(MainGridStatus.GAME_WINNER);
+        }
             
         private void AddPlayer(int index, String name)
         {
@@ -888,6 +952,7 @@ namespace GhostFriendClient.ViewModel
             EventController.Instance.CardSubmissionNotified += _CardSubmissionNotifiedHandler;
             EventController.Instance.PhaseWinnerNotified += _PhaseWinnerNotifiedHandler;
             EventController.Instance.CardListUpdated += _CardListUpdatedHandler;
+            EventController.Instance.GameWinnerNotified += _GameWinnerNotifiedHandler;
 
             SetMainGridStatus(MainGridStatus.JOIN_GAME);
             SetSubmitButtonVisible(false);

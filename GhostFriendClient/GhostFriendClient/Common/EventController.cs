@@ -171,5 +171,12 @@ namespace GhostFriendClient.Common
             EventHandler<StringEventArgs> handler = CardListUpdated;
             handler?.Invoke(this, e);
         }
+
+        public event EventHandler<StringEventArgs> GameWinnerNotified;
+        public void OnGameWinnerNotified(StringEventArgs e)
+        {
+            EventHandler<StringEventArgs> handler = GameWinnerNotified;
+            handler?.Invoke(this, e);
+        }
     }
 }

@@ -19,6 +19,7 @@ namespace GhostFriendClient.Model
         CHANGE_GIRU,
         FRIEND_SELECTION,
         PLAY_GAME,
+        GAME_WINNER,
         INVALID
     }
 
@@ -56,6 +57,8 @@ namespace GhostFriendClient.Model
                     return "친구 선택중";
                 case GamePhase.PLAY_GAME:
                     return "게임 진행중";
+                case GamePhase.GAME_WINNER:
+                    return "게임 종료";
                 default:
                     return "";
             }
@@ -80,6 +83,8 @@ namespace GhostFriendClient.Model
                     return GamePhase.FRIEND_SELECTION;
                 case "게임 진행중":
                     return GamePhase.PLAY_GAME;
+                case "게임 종료":
+                    return GamePhase.GAME_WINNER;
                 default:
                     return GamePhase.INVALID;
             }
@@ -311,6 +316,15 @@ namespace GhostFriendClient.Model
                 };
 
                 EventController.Instance.OnCardListUpdated(eventArgs);
+            }
+            else if (command.Equals(GameParams.NOTIFY_GAME_WINNER))
+            {
+                StringEventArgs eventArgs = new StringEventArgs
+                {
+                    param = data
+                };
+
+                EventController.Instance.OnGameWinnerNotified(eventArgs);
             }
         }
 
