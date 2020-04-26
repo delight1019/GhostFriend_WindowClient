@@ -837,12 +837,10 @@ namespace GhostFriendClient.ViewModel
             EventController.Instance.FriendNotified += _FriendNotifiedHandler;
             EventController.Instance.GameStarted += _GameStartedHandler;
             EventController.Instance.CardAsked += _CardAskedHandler;
+            EventController.Instance.CardSubmissionNotified += _CardSubmissionNotifiedHandler;
 
             SetMainGridStatus(MainGridStatus.JOIN_GAME);
             SetSubmitButtonVisible(false);
-
-            //SetFriendCardSuitList();
-            //SetFriendCardValueList();
 
             //SetMainGridStatus(MainGridStatus.SELECT_FRIEND);
         }

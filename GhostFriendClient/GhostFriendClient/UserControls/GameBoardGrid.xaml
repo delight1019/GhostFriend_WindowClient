@@ -14,15 +14,15 @@
             <cvts:CardValueConverter x:Key="CardValueConverter" />
         </Grid.Resources>
         <Grid Visibility="{Binding GameBoardVisible, Converter={StaticResource VisibleConverter}}">
-            <ListBox ItemsSource="{Binding PlayerList}" Background="{StaticResource deepGreenBrush}">
-                <ListBox.ItemsPanel>
+            <ItemsControl ItemsSource="{Binding PlayerList}" Background="{StaticResource deepGreenBrush}">
+                <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <WrapPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
+                </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
+                        <Grid HorizontalAlignment="Center">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="4*" />
                                 <RowDefinition Height="1*" />
@@ -30,9 +30,9 @@
                                 <RowDefinition Height="4*" />
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="1">
-                                <Label Content="{Binding Name}"></Label>
+                                <Label Content="{Binding Name}" HorizontalAlignment="Center"></Label>
                             </Grid>
-                            <Grid Grid.Row="2">
+                            <Grid Grid.Row="2" Width="150">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="*" />
@@ -47,7 +47,7 @@
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
-            </ListBox>
+            </ItemsControl>
         </Grid>
     </Grid>
 </UserControl>

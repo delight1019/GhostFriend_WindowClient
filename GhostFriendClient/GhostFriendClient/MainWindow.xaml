@@ -96,6 +96,7 @@
                 <userControl:CardSelectionGrid></userControl:CardSelectionGrid>
                 <userControl:GiruChangeGrid></userControl:GiruChangeGrid>
                 <userControl:FriendSelectionGrid></userControl:FriendSelectionGrid>
+                <userControl:GameBoardGrid></userControl:GameBoardGrid>
             </Grid>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>

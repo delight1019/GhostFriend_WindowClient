@@ -14,6 +14,12 @@ namespace GhostFriendClient.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             CardValue cardValue = (CardValue)value;
+
+            if (cardValue == CardValue.INVALID)
+            {
+                return "";
+            }
+
             return Card.getCardValueString(cardValue);
         }
 
@@ -28,6 +34,12 @@ namespace GhostFriendClient.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             CardSuit cardSuit = (CardSuit)value;
+
+            if (cardSuit == CardSuit.INVALID)
+            {
+                return "";
+            }
+
             return Card.getCardSuitString(cardSuit);
         }
 
