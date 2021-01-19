@@ -11,16 +11,15 @@ namespace GhostFriendClient.Model
 {
     public enum GamePhase
     {
-        JOIN,
-        CARD_DISTRIBUTION,
-        DEAL_MISS_CHECK,
-        CONTRACT_DECLARATION,
-        DISCARD_CARD,
-        CHANGE_GIRU,
-        FRIEND_SELECTION,
-        PLAY_GAME,
-        GAME_WINNER,
-        INVALID
+        JOIN_GAME = 0,
+        DISTRIBUTE_CARD = 1,
+        DECLARE_CONTRACT = 2,
+        DECLARATOR_DISCARD_CARD = 3,
+        CHANGE_GIRU = 4,
+        SELECT_FRIEND = 5,
+        PLAY_GAME = 6,
+        END_GAME = 7,
+        INVALID = -1
     }
 
     public class GameControl
@@ -41,23 +40,21 @@ namespace GhostFriendClient.Model
         {
             switch (phase)
             {
-                case GamePhase.JOIN:
-                    return "게임 참여중";
-                case GamePhase.CARD_DISTRIBUTION:
-                    return "카드 분배중";
-                case GamePhase.DEAL_MISS_CHECK:
-                    return "딜미스 체크중";
-                case GamePhase.CONTRACT_DECLARATION:
+                case GamePhase.JOIN_GAME:
+                    return "플레이어 모집중";
+                case GamePhase.DISTRIBUTE_CARD:
+                    return "카드 확인중";
+                case GamePhase.DECLARE_CONTRACT:
                     return "공약 선언중";
-                case GamePhase.DISCARD_CARD:
+                case GamePhase.DECLARATOR_DISCARD_CARD:
                     return "버릴 카드 선택중";
                 case GamePhase.CHANGE_GIRU:
                     return "기루 선택중";
-                case GamePhase.FRIEND_SELECTION:
+                case GamePhase.SELECT_FRIEND:
                     return "친구 선택중";
                 case GamePhase.PLAY_GAME:
                     return "게임 진행중";
-                case GamePhase.GAME_WINNER:
+                case GamePhase.END_GAME:
                     return "게임 종료";
                 default:
                     return "";
@@ -67,24 +64,22 @@ namespace GhostFriendClient.Model
         {
             switch (phaseStatement)
             {
-                case "게임 참여중":
-                    return GamePhase.JOIN;
-                case "카드 분배중":
-                    return GamePhase.CARD_DISTRIBUTION;
-                case "딜미스 체크중":
-                    return GamePhase.DEAL_MISS_CHECK;
+                case "플레이어 모집중":
+                    return GamePhase.JOIN_GAME;
+                case "카드 확인중":
+                    return GamePhase.DISTRIBUTE_CARD;
                 case "공약 선언중":
-                    return GamePhase.CONTRACT_DECLARATION;
+                    return GamePhase.DECLARE_CONTRACT;
                 case "버릴 카드 선택중":
-                    return GamePhase.DISCARD_CARD;
+                    return GamePhase.DECLARATOR_DISCARD_CARD;
                 case "기루 선택중":
                     return GamePhase.CHANGE_GIRU;
                 case "친구 선택중":
-                    return GamePhase.FRIEND_SELECTION;
+                    return GamePhase.SELECT_FRIEND;
                 case "게임 진행중":
                     return GamePhase.PLAY_GAME;
                 case "게임 종료":
-                    return GamePhase.GAME_WINNER;
+                    return GamePhase.END_GAME;
                 default:
                     return GamePhase.INVALID;
             }
@@ -189,6 +184,13 @@ namespace GhostFriendClient.Model
             if (command.Equals(GameParams.JOIN_FAIL))
             {
                 EventController.Instance.OnJoiningGameFailed(new EventArgs());
+            }
+            else if (command.Equals(GameParams.PHASE_CHANGE))
+            {
+                IntegerEventArgs eventArgs = new IntegerEventArgs();
+                eventArgs.param = int.Parse(data);
+
+                EventController.Instance.OnPhaseChanged(eventArgs);
             }
             else if (command.Equals(GameParams.JOIN_NEW_PLAYER) || command.Equals(GameParams.EXIT_PLAYER))
             {

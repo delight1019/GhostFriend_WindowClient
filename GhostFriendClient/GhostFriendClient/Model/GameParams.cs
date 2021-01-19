@@ -32,6 +32,7 @@ namespace GhostFriendClient.Model
         public static string SUBMIT_CARD = "SubmitCard";
 
         // Receive Commands
+        public static string PHASE_CHANGE = "PhaseChange";
         public static string JOIN_FAIL = "JoinFail";
         public static string DISTRIBUTE_CARDS = "DistributesCard";
         public static string CHECK_DEAL_MISS = "CheckDealMiss";

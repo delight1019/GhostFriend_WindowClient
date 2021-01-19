@@ -16,6 +16,11 @@ namespace GhostFriendClient.Common
         public bool param { get; set; }
     }
 
+    public class IntegerEventArgs : EventArgs
+    {
+        public int param { get; set; }
+    }
+
     class EventController
     {
         private static EventController instance;
@@ -176,6 +181,13 @@ namespace GhostFriendClient.Common
         public void OnGameWinnerNotified(StringEventArgs e)
         {
             EventHandler<StringEventArgs> handler = GameWinnerNotified;
+            handler?.Invoke(this, e);
+        }
+
+        public event EventHandler<IntegerEventArgs> PhaseChanged;
+        public void OnPhaseChanged(IntegerEventArgs e)
+        {
+            EventHandler<IntegerEventArgs> handler = PhaseChanged;
             handler?.Invoke(this, e);
         }
     }

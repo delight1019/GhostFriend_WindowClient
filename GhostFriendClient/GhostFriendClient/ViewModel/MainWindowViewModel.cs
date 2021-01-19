@@ -555,8 +555,6 @@ namespace GhostFriendClient.ViewModel
         }
         private void _PlayerUpdatedHandler(object sender, StringEventArgs e)
         {
-            SetGamePhase(GamePhase.JOIN);
-
             String[] playersInfo = e.param.Split(GameParams.DATA_DELIMITER);
 
             ClearPlayerList();
@@ -571,8 +569,6 @@ namespace GhostFriendClient.ViewModel
         }
         private void _CardDistributedHandler(object sender, StringEventArgs e)
         {
-            SetGamePhase(GamePhase.CARD_DISTRIBUTION);
-
             String[] cardInfoList = e.param.Split(GameParams.DATA_DELIMITER);
 
             foreach (String cardInfo in cardInfoList)
@@ -595,8 +591,6 @@ namespace GhostFriendClient.ViewModel
         }
         private void _DealMissCheckingHandler(object sender, BoolEventArgs e)
         {
-            SetGamePhase(GamePhase.DEAL_MISS_CHECK);
-
             if (e.param)
             {
                 SetMainGridStatus(MainGridStatus.DECLARE_DEAL_MISS);
@@ -607,8 +601,6 @@ namespace GhostFriendClient.ViewModel
         }
         private void _ContractAskedHandler(object sender, StringEventArgs e)
         {
-            SetGamePhase(GamePhase.CONTRACT_DECLARATION);
-
             String[] contractInfo = e.param.Split(GameParams.DATA_DELIMITER);
 
             int minScore = -1;
@@ -630,8 +622,6 @@ namespace GhostFriendClient.ViewModel
         }
         private void _OtherPlayerDeclaringContractHandler(object sender, StringEventArgs e)
         {
-            SetGamePhase(GamePhase.CONTRACT_DECLARATION);            
-
             String[] contractInfo = e.param.Split(GameParams.DATA_DELIMITER);
 
             String currentDeclarer = "";
@@ -672,7 +662,6 @@ namespace GhostFriendClient.ViewModel
         private void _DeclarerCardSelectionStartedEventHandler(object sender, EventArgs e)
         {
             AnnounceMessage("주공이 버릴 카드를 선택중입니다.");
-            SetGamePhase(GamePhase.DISCARD_CARD);
             SetMainGridStatus(MainGridStatus.INVISIBLE);
         }
         private void _CardSelectionAskedHandler(object sender, StringEventArgs e)
@@ -691,13 +680,11 @@ namespace GhostFriendClient.ViewModel
                 }
             }
             
-            SetGamePhase(GamePhase.DISCARD_CARD);
             SetMainGridStatus(MainGridStatus.SELECT_CARD);            
         }
         private void _GiruChangeAskedHandler(object sender, EventArgs e)
         {
             SetContractSuitList();
-            SetGamePhase(GamePhase.CHANGE_GIRU);
             SetMainGridStatus(MainGridStatus.CHANGE_GIRU);
         }
         private void _ContractConfirmedHandler(object sender, StringEventArgs e)
@@ -713,7 +700,6 @@ namespace GhostFriendClient.ViewModel
             SetFriendCardSuitList();
             SetFriendCardValueList();
 
-            SetGamePhase(GamePhase.FRIEND_SELECTION);
             SetMainGridStatus(MainGridStatus.SELECT_FRIEND);
         }
         private void _FriendConfirmedHandler(object sender, StringEventArgs e)
@@ -730,7 +716,6 @@ namespace GhostFriendClient.ViewModel
         {
             AnnounceMessage("게임을 시작합니다.");
 
-            SetGamePhase(GamePhase.PLAY_GAME);
             SetMainGridStatus(MainGridStatus.PLAY_GAME);
         }
         private void _CardAskedHandler(object sender, EventArgs e)
@@ -776,8 +761,11 @@ namespace GhostFriendClient.ViewModel
             WinnerName = gameInfo[0];
             FriendName = gameInfo[1];
 
-            SetGamePhase(GamePhase.GAME_WINNER);
             SetMainGridStatus(MainGridStatus.GAME_WINNER);
+        }
+        private void _PhasedChangedHandler(object sender, IntegerEventArgs e)
+        {
+            SetGamePhase((GamePhase)e.param);
         }
             
         private void AddPlayer(int index, String name)
@@ -953,6 +941,7 @@ namespace GhostFriendClient.ViewModel
             EventController.Instance.PhaseWinnerNotified += _PhaseWinnerNotifiedHandler;
             EventController.Instance.CardListUpdated += _CardListUpdatedHandler;
             EventController.Instance.GameWinnerNotified += _GameWinnerNotifiedHandler;
+            EventController.Instance.PhaseChanged += _PhasedChangedHandler;
 
             SetMainGridStatus(MainGridStatus.JOIN_GAME);
             SetSubmitButtonVisible(false);
